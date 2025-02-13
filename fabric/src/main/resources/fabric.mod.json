@@ -24,9 +24,6 @@
   "entrypoints": {
     "main": [
       "tesseract.fabric.TesseractImpl"
-    ],
-    "preLaunch" : [
-      "tesseract.fabric.TesseractPreLoad"
     ]
   },
   "depends": {
