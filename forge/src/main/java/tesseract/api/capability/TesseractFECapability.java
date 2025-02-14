@@ -1,36 +1,35 @@
 package tesseract.api.capability;
 
-import earth.terrarium.botarium.common.energy.base.EnergySnapshot;
-import earth.terrarium.botarium.common.energy.util.EnergyHooks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import tesseract.TesseractGraphWrappers;
-import tesseract.api.rf.IRFCable;
-import tesseract.api.rf.IRFNode;
-import tesseract.api.rf.RFTransaction;
+import net.minecraftforge.energy.CapabilityEnergy;
+import tesseract.api.fe.IFECable;
+import tesseract.api.fe.IFENode;
+import tesseract.api.fe.FETransaction;
+import tesseract.forge.TesseractForgeGraphWrappers;
 import tesseract.graph.Graph;
 import tesseract.util.Pos;
 
-public class TesseractRFCapability<T extends BlockEntity & IRFCable> extends TesseractBaseCapability<T> implements IRFNode {
-    private RFTransaction old;
-    public TesseractRFCapability(T tile, Direction side, boolean isNode, ITransactionModifier callback) {
+public class TesseractFECapability<T extends BlockEntity & IFECable> extends TesseractBaseCapability<T> implements IFENode {
+    private FETransaction old;
+    public TesseractFECapability(T tile, Direction side, boolean isNode, ITransactionModifier callback) {
         super(tile, side, isNode, callback);
     }
 
     @Override
-    public boolean canInput(Direction direction) {
+    public boolean canReceive(Direction direction) {
         return true;
     }
 
     @Override
-    public boolean canOutput(Direction direction) {
+    public boolean canExtract(Direction direction) {
         return true;
     }
 
     @Override
-    public long insertEnergy(long maxAmount, boolean simulate) {
+    public int receiveEnergy(int maxAmount, boolean simulate) {
         if (this.isSending) return 0;
         this.isSending = true;
         if (!simulate) {
@@ -38,9 +37,9 @@ public class TesseractRFCapability<T extends BlockEntity & IRFCable> extends Tes
             old.commit();
         } else {
             long pos = tile.getBlockPos().asLong();
-            RFTransaction transaction = new RFTransaction(maxAmount, a -> {});
+            FETransaction transaction = new FETransaction(maxAmount, a -> {});
             if (!this.isNode) {
-                TesseractGraphWrappers.RF.getController(tile.getLevel(), pos).insert(pos, side, transaction, callback);
+                TesseractForgeGraphWrappers.RF.getController(tile.getLevel(), pos).insert(pos, side, transaction, callback);
             } else {
                 transferAroundPipe(transaction, pos);
             }
@@ -50,23 +49,23 @@ public class TesseractRFCapability<T extends BlockEntity & IRFCable> extends Tes
         return maxAmount - old.rf;
     }
 
-    private void transferAroundPipe(RFTransaction transaction, long pos) {
+    private void transferAroundPipe(FETransaction transaction, long pos) {
         for (Direction dir : Graph.DIRECTIONS) {
             if (dir == this.side || !this.tile.connects(dir)) continue;
             BlockEntity otherTile = tile.getLevel().getBlockEntity(BlockPos.of(Pos.offset(pos, dir)));
             if (otherTile != null) {
-                long rf = transaction.rf;
+                int rf = transaction.rf;
                 if (this.callback.modify(rf, dir, false, true) || this.callback.modify(rf, side, true, true)) continue;
                 //Check the handler.
-                var cap = EnergyHooks.safeGetBlockEnergyManager(otherTile, dir.getOpposite());
-                if (cap.isEmpty()) continue;
+                var cap = otherTile.getCapability(CapabilityEnergy.ENERGY, dir.getOpposite());
+                if (!cap.isPresent()) continue;
                 //Perform insertion, and add to the transaction.
-                var handler = cap.get();
-                long amount = handler.insert(rf,  true);
+                var handler = cap.resolve().get();
+                long amount = handler.receiveEnergy(rf,  true);
                 if (amount > 0) {
                     transaction.addData(rf, a -> {
                         if (this.callback.modify(a, dir, false, true) || this.callback.modify(a, side, true, true)) return;
-                        handler.insert(a, false);
+                        handler.receiveEnergy(a, false);
                     });
                 }
                 if (transaction.rf == 0) break;
@@ -75,62 +74,37 @@ public class TesseractRFCapability<T extends BlockEntity & IRFCable> extends Tes
     }
 
     @Override
-    public long extractEnergy(long maxAmount, boolean simulate) {
+    public int extractEnergy(int maxAmount, boolean simulate) {
         return 0;
     }
 
     @Override
-    public void setEnergy(long energy) {
-
-    }
-
-    @Override
-    public long getStoredEnergy() {
+    public int getEnergyStored() {
         return 0;
     }
 
     @Override
-    public long getMaxCapacity() {
+    public int getMaxEnergyStored() {
         return 0;
     }
 
     @Override
-    public long maxInsert() {
+    public int maxInsert() {
         return 0;
     }
 
     @Override
-    public long maxExtract() {
+    public int maxExtract() {
         return 0;
     }
 
     @Override
-    public boolean allowsInsertion() {
+    public boolean canReceive() {
         return true;
     }
 
     @Override
-    public boolean allowsExtraction() {
+    public boolean canExtract() {
         return true;
-    }
-
-    @Override
-    public EnergySnapshot createSnapshot() {
-        return null;
-    }
-
-    @Override
-    public void deserialize(CompoundTag nbt) {
-
-    }
-
-    @Override
-    public CompoundTag serialize(CompoundTag nbt) {
-        return null;
-    }
-
-    @Override
-    public void clearContent() {
-
     }
 }

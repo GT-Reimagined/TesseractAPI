@@ -2,8 +2,6 @@ package tesseract.fabric;
 
 import aztech.modern_industrialization.api.energy.EnergyApi;
 import aztech.modern_industrialization.api.energy.EnergyMoveable;
-import earth.terrarium.botarium.common.energy.base.PlatformItemEnergyManager;
-import earth.terrarium.botarium.common.energy.util.EnergyHooks;
 import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Direction;
@@ -35,9 +33,6 @@ public class TesseractCapUtilsImpl implements TesseractCapUtils {
             EnergyStorage storage = ContainerItemContext.withInitial(stack).find(EnergyStorage.ITEM);
             if (storage instanceof IEnergyHandlerItem e){
                 energyHandler = e;
-            } else if (EnergyHooks.isEnergyItem(stack)){
-                PlatformItemEnergyManager itemEnergyManager = EnergyHooks.getItemEnergyManager(stack);
-                energyHandler = new EnergyStackWrapper(stack, itemEnergyManager);
             }
         }
         return Optional.ofNullable(energyHandler);

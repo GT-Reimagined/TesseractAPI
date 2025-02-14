@@ -5,9 +5,6 @@ import aztech.modern_industrialization.api.energy.EnergyMoveable;
 import carbonconfiglib.CarbonConfig;
 import carbonconfiglib.config.Config;
 import carbonconfiglib.config.ConfigHandler;
-import earth.terrarium.botarium.common.energy.base.EnergyContainer;
-import earth.terrarium.botarium.fabric.energy.FabricBlockEnergyContainer;
-import earth.terrarium.botarium.util.Updatable;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -91,7 +88,7 @@ public class TesseractImpl extends Tesseract implements ModInitializer {
         EnergyApi.MOVEABLE.registerForBlockEntity((blockEntity, direction) -> (EnergyMoveable) function.apply(blockEntity, direction), type);
     }
 
-    public static <T extends BlockEntity> void registerTRETile(BiFunction<T, Direction, IEnergyHandler> euFunction, BiFunction<T, Direction, EnergyContainer> rfFunction, BlockEntityType<T> type){
+    /*public static <T extends BlockEntity> void registerTRETile(BiFunction<T, Direction, IEnergyHandler> euFunction, BiFunction<T, Direction, EnergyContainer> rfFunction, BlockEntityType<T> type){
         EnergyStorage.SIDED.registerForBlockEntity((blockEntity, direction) -> {
             IEnergyHandler handler = euFunction.apply(blockEntity, direction);
             if (handler != null) return (EnergyStorage) handler;
@@ -99,7 +96,7 @@ public class TesseractImpl extends Tesseract implements ModInitializer {
             if (node != null) return node instanceof EnergyStorage storage ? storage : new FabricBlockEnergyContainer(node, node instanceof Updatable<?> ? (Updatable<BlockEntity>) node : b -> {}, blockEntity);
             return null;
         }, type);
-    }
+    }*/
 
     public static void registerTREItem(BiFunction<ItemStack, ContainerItemContext, IEnergyHandler> function, Item type){
         EnergyStorage.ITEM.registerForItems((stack, context) -> (EnergyStorage) function.apply(stack, context), type);

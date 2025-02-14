@@ -3,8 +3,6 @@ package tesseract.forge;
 import carbonconfiglib.CarbonConfig;
 import carbonconfiglib.config.Config;
 import carbonconfiglib.config.ConfigHandler;
-import earth.terrarium.botarium.common.energy.base.EnergyContainer;
-import earth.terrarium.botarium.forge.energy.ForgeEnergyContainer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
@@ -15,15 +13,13 @@ import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import tesseract.TesseractCapUtils;
 import tesseract.TesseractPlatformUtils;
+import tesseract.api.fe.IFENode;
 import tesseract.api.forge.TesseractCaps;
-import tesseract.api.forge.wrapper.RFWrapper;
+import tesseract.api.forge.wrapper.FEWrapper;
 import tesseract.api.gt.IEnergyHandler;
 import tesseract.api.gt.IGTNode;
 import tesseract.api.heat.IHeatHandler;
 import tesseract.api.heat.IHeatNode;
-import tesseract.api.rf.IRFNode;
-
-import java.util.Optional;
 
 public class TesseractPlatformUtilsImpl implements TesseractPlatformUtils {
     @Override
@@ -37,8 +33,7 @@ public class TesseractPlatformUtilsImpl implements TesseractPlatformUtils {
         return null;
     }
 
-    @Override
-    public IRFNode getRFNode(Level level, long pos, Direction capSide, Runnable capCallback){
+    public static IFENode getRFNode(Level level, long pos, Direction capSide, Runnable capCallback){
         BlockEntity tile = level.getBlockEntity(BlockPos.of(pos));
         if (tile == null) {
             return null;
@@ -47,11 +42,7 @@ public class TesseractPlatformUtilsImpl implements TesseractPlatformUtils {
         if (capability.isPresent()) {
             if (capCallback != null) capability.addListener(o -> capCallback.run());
             IEnergyStorage handler = capability.map(f -> f).orElse(null);
-            if (handler instanceof ForgeEnergyContainer<?> container){
-                EnergyContainer container1 = container.container().getContainer(capSide);
-                if (container1 instanceof IRFNode node) return node;
-            }
-            return handler instanceof IRFNode node ? node : new RFWrapper(handler);
+            return handler instanceof IFENode node ? node : new FEWrapper(handler);
         } else {
             return null;
         }
