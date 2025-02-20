@@ -12,9 +12,7 @@ import tesseract.controller.Energy;
 
 public class TesseractGraphWrappers {
     public static final GraphWrapper<HeatTransaction, IHeatPipe, IHeatNode> HEAT_CONTROLLER = new GraphWrapper<>(HeatController::new, IHeatNode.GETTER);
-
-    public static long dropletMultiplier = TesseractPlatformUtils.INSTANCE.isForge() ? 1L : 81L;
-    public static GraphWrapper<GTTransaction, IGTCable, IGTNode> GT_ENERGY = new GraphWrapper<>(Energy::new, IGTNode.GT_GETTER);
+    public static final GraphWrapper<GTTransaction, IGTCable, IGTNode> GT_ENERGY = new GraphWrapper<>(Energy::new, IGTNode.GT_GETTER);
 
     public static void init(){}
 }
