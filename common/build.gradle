@@ -1,16 +1,17 @@
 plugins {
-    id "fabric-loom"
+    id "net.neoforged.moddev.legacyforge"
 }
 archivesBaseName = "${project.tesseract_archive_base_name}-common"
 
-dependencies{
-    minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings loom.layered() {
-        officialMojangMappings()
-        parchment("org.parchmentmc.data:parchment-${project.minecraft_version}:${project.mappings_version}@zip")
+legacyForge {
+    mcpVersion = "${project.minecraft_version}"
+    parchment {
+        minecraftVersion = project.minecraft_version
+        mappingsVersion = project.mappings_version
     }
-    //compileOnly("com.electronwill.night-config:toml:${rootProject.nightconfig_version}")
-    //compileOnly("com.electronwill.night-config:core:${rootProject.nightconfig_version}")
+}
+
+dependencies{
     implementation 'com.github.Carbon-Config-Project:CarbonConfigLib:1.3.0'
 }
 
