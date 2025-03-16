@@ -38,17 +38,7 @@ public class TesseractCapUtilsImpl implements TesseractCapUtils {
 
     @Override
     public Optional<IEnergyHandler> getEnergyHandler(BlockEntity entity, Direction side){
-        LazyOptional<IEnergyHandler> energyHandler = entity.getCapability(TesseractCaps.ENERGY_HANDLER_CAPABILITY, side);
-        if (energyHandler.isPresent()) return energyHandler.map(e -> e);
-        energyHandler = getWrappedHandler(entity, side);
-        return energyHandler.map(e -> e);
-    }
-
-    public LazyOptional<IEnergyHandler> getWrappedHandler(BlockEntity be, @Nullable Direction side){
-        IEnergyStorage storage = be.getCapability(CapabilityEnergy.ENERGY, side).map(i -> i).orElse(null);
-        if (storage == null) return LazyOptional.empty();
-        if (storage instanceof IEnergyHandlerStorage handlerStorage) return LazyOptional.of(handlerStorage::getEnergyHandler);
-        return LazyOptional.of(() -> new EnergyTileWrapper(be, storage));
+        return entity.getCapability(TesseractCaps.ENERGY_HANDLER_CAPABILITY, side).resolve();
     }
 
     @Override
