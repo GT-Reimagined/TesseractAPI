@@ -26,9 +26,6 @@ import tesseract.controller.Energy;
 
 @Mod(Tesseract.API_ID)
 public class TesseractImpl extends Tesseract {
-    //public static GraphWrapper<Integer, IFECable, IFENode> FE_ENERGY = new GraphWrapper<>(FEController::new);
-    public static GraphWrapper<GTTransaction, IGTCable, IGTNode> GT_ENERGY = new GraphWrapper<>(Energy::new, IGTNode.GT_GETTER);
-
     public TesseractImpl() {
 
         Tesseract.init();
@@ -43,10 +40,6 @@ public class TesseractImpl extends Tesseract {
             TesseractItemContext context = new ItemStackWrapper(event.getObject());
             event.addCapability(new ResourceLocation(Tesseract.API_ID, "energy_items"), new Provider<>(TesseractCaps.ENERGY_HANDLER_CAPABILITY_ITEM, energyItem.canCreate(context) ? () -> energyItem.createEnergyHandler(context) : null));
         }
-    }
-
-    public static GraphWrapper<GTTransaction, IGTCable, IGTNode> getGT_ENERGY(){
-        return GT_ENERGY;
     }
 
     public void serverStoppedEvent(ServerStoppedEvent e) {
