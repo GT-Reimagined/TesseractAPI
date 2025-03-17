@@ -1,4 +1,4 @@
-package tesseract.api.factory;
+package tesseract.factory;
 
 import it.unimi.dsi.fastutil.Pair;
 

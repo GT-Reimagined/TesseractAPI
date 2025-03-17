@@ -1,4 +1,4 @@
-package tesseract.api.factory;
+package tesseract.factory;
 
 /**
  * A factory grid is the global coordinator for your factory pipe system.

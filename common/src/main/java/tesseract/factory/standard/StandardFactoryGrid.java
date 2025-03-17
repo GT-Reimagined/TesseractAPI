@@ -1,13 +1,13 @@
-package tesseract.api.factory.standard;
+package tesseract.factory.standard;
 
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import tesseract.Tesseract;
-import tesseract.api.factory.IFactoryElement;
-import tesseract.api.factory.IFactoryGrid;
-import tesseract.api.factory.IFactoryNetwork;
+import tesseract.factory.IFactoryElement;
+import tesseract.factory.IFactoryGrid;
+import tesseract.factory.IFactoryNetwork;
 
 import java.util.ArrayList;
 import java.util.HashSet;

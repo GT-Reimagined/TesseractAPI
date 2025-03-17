@@ -1,8 +1,8 @@
-package tesseract.api.factory.standard;
+package tesseract.factory.standard;
 
-import tesseract.api.factory.IFactoryElement;
-import tesseract.api.factory.IFactoryGrid;
-import tesseract.api.factory.IFactoryNetwork;
+import tesseract.factory.IFactoryElement;
+import tesseract.factory.IFactoryGrid;
+import tesseract.factory.IFactoryNetwork;
 
 import java.util.Collection;
 import java.util.Collections;
