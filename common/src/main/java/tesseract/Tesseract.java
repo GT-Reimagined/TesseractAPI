@@ -13,9 +13,6 @@ public class Tesseract {
     protected final static Set<LevelAccessor> firstTick = new ObjectOpenHashSet<>();
 
     public static final String API_ID = "tesseractapi";
-    public static final String API_NAME = "Tesseract API";
-    public static final String VERSION = "0.0.1";
-    public static final String DEPENDS = "";
 
     public static boolean TEST = false;
 
