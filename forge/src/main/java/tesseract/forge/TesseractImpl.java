@@ -1,8 +1,5 @@
 package tesseract.forge;
 
-import carbonconfiglib.CarbonConfig;
-import carbonconfiglib.config.Config;
-import carbonconfiglib.config.ConfigHandler;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -18,11 +15,7 @@ import tesseract.api.context.TesseractItemContext;
 import tesseract.api.forge.Provider;
 import tesseract.api.forge.TesseractCaps;
 import tesseract.api.wrapper.ItemStackWrapper;
-import tesseract.api.gt.GTTransaction;
 import tesseract.api.gt.IEnergyItem;
-import tesseract.api.gt.IGTCable;
-import tesseract.api.gt.IGTNode;
-import tesseract.controller.Energy;
 
 @Mod(Tesseract.API_ID)
 public class TesseractImpl extends Tesseract {
