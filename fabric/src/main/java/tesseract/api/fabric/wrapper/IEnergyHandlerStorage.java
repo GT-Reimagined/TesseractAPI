@@ -50,7 +50,7 @@ public interface IEnergyHandlerStorage extends EnergyStorage {
 
     @Override
     default boolean supportsExtraction() {
-        return getEnergyHandler().canOutput();
+        return TesseractConfig.ENABLE_TRE_COMPAT.get() && getEnergyHandler().canOutput();
     }
 
     IEnergyHandler getEnergyHandler();

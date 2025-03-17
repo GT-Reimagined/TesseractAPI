@@ -71,6 +71,7 @@ public class TesseractImpl extends Tesseract implements ModInitializer {
     @Override
     public void onInitialize() {
         Tesseract.init();
+        TesseractConfig.createConfig();
         ServerLifecycleEvents.SERVER_STOPPING.register(TesseractImpl::onServerStopping);
         ServerTickEvents.START_WORLD_TICK.register(TesseractImpl::onStartTick);
         ServerTickEvents.END_WORLD_TICK.register(TesseractImpl::onEndTick);

@@ -1,5 +1,6 @@
 package tesseract;
 
+import carbonconfiglib.CarbonConfig;
 import carbonconfiglib.config.Config;
 import carbonconfiglib.config.ConfigEntry;
 import carbonconfiglib.config.ConfigHandler;
@@ -18,7 +19,7 @@ public class TesseractConfig {
         EU_TO_TRE_RATIO = section.addDouble("eu_to_tre_ratio", 1.0, "The ratio of the eu to the tre energy converting - Default: (1.0 EU = 1.0 TRE)").setMin(Double.MIN_VALUE);
         ENABLE_TRE_COMPAT = section.addBool("enable_tre_compat", true, "Enables EU cables using tesseract's system being able to input and output Tech Reborn Energy. - Default: true");
         ENABLE_MI_COMPAT = section.addBool("enabled_mi_compat", true, "Enables Tesseract EU having compat with MI energy. - Default: true");
-        CONFIG = TesseractPlatformUtils.INSTANCE.createConfig(config);
+        CONFIG = CarbonConfig.createConfig(Tesseract.API_ID, config);;
         CONFIG.register();
     }
 }

@@ -23,7 +23,5 @@ public interface TesseractPlatformUtils {
 
     boolean isForge();
 
-    ConfigHandler createConfig(Config config);
-
     boolean areCapsCompatible(ItemStack a, ItemStack b);
 }

@@ -94,7 +94,7 @@ public class EnergyTileWrapper implements IEnergyHandler {
 
     @Override
     public boolean canInput() {
-        return storage.supportsInsertion();
+        return TesseractConfig.ENABLE_TRE_COMPAT.get() && storage.supportsInsertion();
     }
 
     @Override

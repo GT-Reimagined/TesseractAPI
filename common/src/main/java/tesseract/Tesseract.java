@@ -27,7 +27,6 @@ public class Tesseract {
 
     public static void init() {
         TesseractGraphWrappers.init();
-        TesseractConfig.createConfig();
     }
 
     public Tesseract() {

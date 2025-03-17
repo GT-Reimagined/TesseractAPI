@@ -71,11 +71,6 @@ public class TesseractPlatformUtilsImpl implements TesseractPlatformUtils {
     }
 
     @Override
-    public ConfigHandler createConfig(Config config){
-        return CarbonConfig.CONFIGS.createConfig(config);
-    }
-
-    @Override
     public boolean areCapsCompatible(ItemStack a, ItemStack b){
         return a.areCapsCompatible(b);
     }
