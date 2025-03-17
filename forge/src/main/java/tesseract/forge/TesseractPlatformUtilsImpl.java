@@ -59,19 +59,4 @@ public class TesseractPlatformUtilsImpl implements TesseractPlatformUtils {
         }
         return null;
     }
-
-    @Override
-    public boolean isFeCap(Class<?> cap){
-        return cap == IEnergyStorage.class;
-    }
-
-    @Override
-    public boolean isForge(){
-        return true;
-    }
-
-    @Override
-    public boolean areCapsCompatible(ItemStack a, ItemStack b){
-        return a.areCapsCompatible(b);
-    }
 }

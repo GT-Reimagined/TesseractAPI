@@ -15,11 +15,4 @@ public interface TesseractPlatformUtils {
     IGTNode getGTNode(Level level, long pos, Direction direction, Runnable invalidate);
 
     IHeatNode getHeatNode(Level level, long pos, Direction direction, Runnable invalidate);
-
-    boolean isFeCap(Class<?> cap);
-
-
-    boolean isForge();
-
-    boolean areCapsCompatible(ItemStack a, ItemStack b);
 }

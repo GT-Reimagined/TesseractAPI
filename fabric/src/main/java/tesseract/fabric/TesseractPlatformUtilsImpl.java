@@ -45,19 +45,4 @@ public class TesseractPlatformUtilsImpl implements TesseractPlatformUtils {
         }
         return null;
     }
-
-    @Override
-    public boolean isFeCap(Class<?> cap){
-        return false;
-    }
-
-    @Override
-    public boolean isForge(){
-        return false;
-    }
-
-    @Override
-    public boolean areCapsCompatible(ItemStack a, ItemStack b){
-        return true;
-    }
 }
