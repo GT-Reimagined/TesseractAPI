@@ -2,8 +2,10 @@ package tesseract.graph;
 
 import net.minecraft.core.Direction;
 import tesseract.api.IConnectable;
+import tesseract.factory.IFactoryNetwork;
 import tesseract.graph.Graph.INodeGetter;
 
+import java.util.Collection;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -97,6 +99,21 @@ public class NodeCache<T> implements IConnectable {
     return false;
   }
 
-  public record CapabilityRecord(Direction direction, long position) {
+    @Override
+    public void getNeighbours(Collection neighbours) {
+
+    }
+
+    @Override
+    public IFactoryNetwork getNetwork() {
+        return null;
+    }
+
+    @Override
+    public void setNetwork(IFactoryNetwork network) {
+
+    }
+
+    public record CapabilityRecord(Direction direction, long position) {
   }
 }

@@ -4,11 +4,13 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import net.minecraft.core.Direction;
 import tesseract.api.IConnectable;
+import tesseract.factory.IFactoryNetwork;
 import tesseract.util.Node;
 import tesseract.util.Pos;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.Collection;
 
 import static tesseract.util.Pos.packAll;
 
@@ -143,6 +145,21 @@ class TestBench {
         @Override
         public boolean validate(Direction dir) {
             return true;
+        }
+
+        @Override
+        public void getNeighbours(Collection neighbours) {
+
+        }
+
+        @Override
+        public IFactoryNetwork getNetwork() {
+            return null;
+        }
+
+        @Override
+        public void setNetwork(IFactoryNetwork network) {
+
         }
     }
 
