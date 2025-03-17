@@ -25,14 +25,6 @@ public class TesseractCapUtilsImpl implements TesseractCapUtils {
     @Override
     public Optional<IEnergyHandlerItem> getWrappedEnergyHandlerItem(ItemStack stack){
         IEnergyHandlerItem energyHandler = stack.getCapability(TesseractCaps.ENERGY_HANDLER_CAPABILITY_ITEM).map(e -> e).orElse(null);
-        if (energyHandler == null){
-            IEnergyStorage storage = stack.getCapability(CapabilityEnergy.ENERGY).map(e -> e).orElse(null);
-            if (storage instanceof IEnergyHandlerItem e){
-                energyHandler = e;
-            } else if (storage != null){
-                energyHandler = new EnergyStackWrapper(stack, storage);
-            }
-        }
         return Optional.ofNullable(energyHandler);
     }
 
