@@ -21,6 +21,7 @@ public class TesseractPlatformUtilsImpl implements TesseractPlatformUtils {
     @Override
     public IGTNode getGTNode(Level level, long pos, Direction direction, Runnable invalidate){
         BlockEntity tile = level.getBlockEntity(BlockPos.of(pos));
+        if (tile == null) return null;
         LazyOptional<IEnergyHandler> capability = TesseractCapUtils.INSTANCE.getEnergyHandler(tile, direction).map(e -> LazyOptional.of(() -> e)).orElse(LazyOptional.empty());
         if (capability.isPresent()) {
             if (invalidate != null )capability.addListener(o -> invalidate.run());
