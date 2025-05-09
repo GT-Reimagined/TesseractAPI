@@ -22,11 +22,11 @@ public abstract class StandardFactoryRouteTracker<TRoutingInfo extends IRoutingI
 
     @Override
     public List<IFactoryPath<TRoutingInfo, TElement, TNetwork, TGrid>> getPaths(TElement source) {
-        if (!(source instanceof INotableFactoryElement<?,?,?,?,?>)){
+        if (!(source instanceof INotableFactoryElement<?,?,?,?>)){
             return List.of();
         }
         try {
-            return paths.get(source, () -> makePaths((INotableFactoryElement<?, TRoutingInfo, ?, TNetwork, TGrid>) source));
+            return paths.get(source, () -> makePaths((INotableFactoryElement<?, TRoutingInfo, TNetwork, TGrid>) source));
         } catch (ExecutionException e) {
             Tesseract.LOGGER.error(e);
             return List.of();
@@ -35,18 +35,18 @@ public abstract class StandardFactoryRouteTracker<TRoutingInfo extends IRoutingI
 
     @Override
     public void createPaths(TElement source) {
-        if (!(source instanceof INotableFactoryElement<?,?,?,?,?>)){
+        if (!(source instanceof INotableFactoryElement<?,?,?,?>)){
             return;
         }
         if (paths.size() == 0){
             paths.put(source, new ArrayList<>());
         }
-        paths.put(source, makePaths((INotableFactoryElement<?, TRoutingInfo, ?, TNetwork, TGrid>) source));
+        paths.put(source, makePaths((INotableFactoryElement<?, TRoutingInfo, TNetwork, TGrid>) source));
     }
 
     public abstract IFactoryPath<TRoutingInfo, TElement, TNetwork, TGrid> createPath(Pair<?, TRoutingInfo> pair);
 
-    private List<IFactoryPath<TRoutingInfo, TElement, TNetwork, TGrid>> makePaths(INotableFactoryElement<?, TRoutingInfo, ?, TNetwork, TGrid> source) {
+    private List<IFactoryPath<TRoutingInfo, TElement, TNetwork, TGrid>> makePaths(INotableFactoryElement<?, TRoutingInfo, TNetwork, TGrid> source) {
         List<IFactoryPath<TRoutingInfo, TElement, TNetwork, TGrid>> paths = new ArrayList<>();
         List<? extends Pair<?, TRoutingInfo>> sourcePaths = source.getRoutedNeighbours();
         sourcePaths.forEach(p -> paths.add(createPath(p)));
