@@ -1,5 +1,7 @@
 package tesseract.factory;
 
+import tesseract.factory.standard.StandardFactoryNetwork;
+
 import java.util.Collection;
 
 /**

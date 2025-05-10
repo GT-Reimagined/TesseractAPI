@@ -1,5 +1,7 @@
 package tesseract.factory;
 
+import tesseract.factory.standard.StandardFactoryGrid;
+
 /**
  * A factory grid is the global coordinator for your factory pipe system.
  * Grids will create and destroy networks as elements join or leave the world.

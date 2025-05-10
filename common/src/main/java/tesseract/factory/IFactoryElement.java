@@ -1,6 +1,7 @@
 package tesseract.factory;
 
 import it.unimi.dsi.fastutil.Pair;
+import tesseract.factory.standard.StandardFactoryNetwork;
 
 import java.util.Collection;
 import java.util.Collections;
