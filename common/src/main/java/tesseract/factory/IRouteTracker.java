@@ -6,4 +6,6 @@ public interface IRouteTracker<TRoutingInfo extends IRoutingInfo<TRoutingInfo>, 
     List<IFactoryPath<TRoutingInfo, TNotableElement, TElement, TNetwork, TGrid>> getPaths(TNotableElement source);
 
     void createPaths(TNotableElement source);
+
+    void removePaths(TNotableElement source);
 }

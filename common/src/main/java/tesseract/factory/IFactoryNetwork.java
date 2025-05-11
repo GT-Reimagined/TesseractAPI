@@ -19,4 +19,6 @@ public interface IFactoryNetwork<TSelf extends IFactoryNetwork<TSelf, TElement, 
     }
 
     public Collection<TElement> getElements();
+
+    IRouteTracker<TRoutingInfo, TNotableElement, TElement, TSelf, TGrid> getTracker();
 }

@@ -4,6 +4,7 @@ import tesseract.factory.IFactoryElement;
 import tesseract.factory.IFactoryGrid;
 import tesseract.factory.IFactoryNetwork;
 import tesseract.factory.INotableFactoryElement;
+import tesseract.factory.IRouteTracker;
 import tesseract.factory.IRoutingInfo;
 
 import java.util.Collection;
@@ -21,10 +22,15 @@ public class StandardFactoryNetwork<TSelf extends StandardFactoryNetwork<TSelf, 
     public final HashSet<TElement> elements = new HashSet<>();
     public final HashMap<Class<?>, Collection<Object>> components = new HashMap<>();
 
+    public IRouteTracker<TRoutingInfo, TNotableElement, TElement, TSelf, TGrid> routeTracker;
+
     @Override
     public void addElement(TElement element) {
         elements.add(element);
 
+        if (element instanceof INotableFactoryElement<?,?,?,?,?> factoryElement){
+            routeTracker.createPaths((TNotableElement) element);
+        }
         for (var component : element.getComponents()) {
             addComponentImpl(component.left(), component.right());
         }
@@ -34,6 +40,9 @@ public class StandardFactoryNetwork<TSelf extends StandardFactoryNetwork<TSelf, 
     public void removeElement(TElement element) {
         elements.remove(element);
 
+        if (element instanceof INotableFactoryElement<?,?,?,?,?>){
+            routeTracker.removePaths((TNotableElement) element);
+        }
         if (element != null && element.getNetwork() == this) {
             for (var component : element.getComponents()) {
                 removeComponentImpl(component.left(), component.right());
@@ -74,5 +83,10 @@ public class StandardFactoryNetwork<TSelf extends StandardFactoryNetwork<TSelf, 
     @Override
     public Collection<TElement> getElements() {
         return elements;
+    }
+
+    @Override
+    public IRouteTracker<TRoutingInfo, TNotableElement, TElement, TSelf, TGrid> getTracker() {
+        return routeTracker;
     }
 }
