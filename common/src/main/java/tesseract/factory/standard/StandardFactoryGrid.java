@@ -8,6 +8,8 @@ import tesseract.Tesseract;
 import tesseract.factory.IFactoryElement;
 import tesseract.factory.IFactoryGrid;
 import tesseract.factory.IFactoryNetwork;
+import tesseract.factory.INotableFactoryElement;
+import tesseract.factory.IRoutingInfo;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -19,8 +21,8 @@ import java.util.Set;
  * This handles all network topology updates, and should be compatible with most pipe systems.
  * A factory element should always register itself with this grid, even when it's not connected to anything.
  */
-public abstract class StandardFactoryGrid<TSelf extends StandardFactoryGrid<TSelf, TElement, TNetwork>, TElement extends IFactoryElement<TElement, TNetwork, TSelf>, TNetwork extends IFactoryNetwork<TNetwork, TElement, TSelf>>
-        implements IFactoryGrid<TSelf, TElement, TNetwork> {
+public abstract class StandardFactoryGrid<TSelf extends StandardFactoryGrid<TSelf, TElement, TNotableElement, TRoutingInfo, TNetwork>, TElement extends IFactoryElement<TElement, TNotableElement, TRoutingInfo, TNetwork, TSelf>, TNotableElement extends INotableFactoryElement<TNotableElement, TRoutingInfo, TElement, TNetwork, TSelf>, TRoutingInfo extends IRoutingInfo<TRoutingInfo>, TNetwork extends IFactoryNetwork<TNetwork, TElement, TNotableElement, TRoutingInfo, TSelf>>
+        implements IFactoryGrid<TSelf, TElement, TNotableElement, TRoutingInfo, TNetwork> {
 
     public static final Logger LOGGER = LogManager.getLogger("Standard Factory Network");
 

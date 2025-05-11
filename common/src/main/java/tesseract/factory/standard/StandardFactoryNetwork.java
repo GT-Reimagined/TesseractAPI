@@ -3,6 +3,8 @@ package tesseract.factory.standard;
 import tesseract.factory.IFactoryElement;
 import tesseract.factory.IFactoryGrid;
 import tesseract.factory.IFactoryNetwork;
+import tesseract.factory.INotableFactoryElement;
+import tesseract.factory.IRoutingInfo;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -13,8 +15,8 @@ import java.util.HashSet;
  * A pretty basic factory network.
  * This doesn't do much beyond tracking elements and components.
  */
-public class StandardFactoryNetwork<TSelf extends IFactoryNetwork<TSelf, TElement, TGrid>, TElement extends IFactoryElement<TElement, TSelf, TGrid>, TGrid extends IFactoryGrid<TGrid, TElement, TSelf>>
-        implements IFactoryNetwork<TSelf, TElement, TGrid> {
+public class StandardFactoryNetwork<TSelf extends StandardFactoryNetwork<TSelf, TElement, TNotableElement, TRoutingInfo, TGrid>, TElement extends IFactoryElement<TElement, TNotableElement, TRoutingInfo, TSelf, TGrid>, TNotableElement extends INotableFactoryElement<TNotableElement, TRoutingInfo, TElement, TSelf, TGrid>, TRoutingInfo extends IRoutingInfo<TRoutingInfo>, TGrid extends IFactoryGrid<TGrid, TElement, TNotableElement, TRoutingInfo, TSelf>>
+        implements IFactoryNetwork<TSelf, TElement, TNotableElement, TRoutingInfo, TGrid> {
 
     public final HashSet<TElement> elements = new HashSet<>();
     public final HashMap<Class<?>, Collection<Object>> components = new HashMap<>();

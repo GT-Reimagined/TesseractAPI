@@ -12,7 +12,7 @@ import java.util.List;
  * You should create a new interface that extends this one, then specify your network and grid in the IFactoryElement
  * generics.
  */
-public interface IFactoryElement<TSelf extends IFactoryElement<TSelf, TNetwork, TGrid>, TNetwork extends IFactoryNetwork<TNetwork, TSelf, TGrid>, TGrid extends IFactoryGrid<TGrid, TSelf, TNetwork>> {
+public interface IFactoryElement<TSelf extends IFactoryElement<TSelf, TNotableElement, TRoutingInfo, TNetwork, TGrid>, TNotableElement extends INotableFactoryElement<TNotableElement, TRoutingInfo, TSelf, TNetwork, TGrid>, TRoutingInfo extends IRoutingInfo<TRoutingInfo>, TNetwork extends IFactoryNetwork<TNetwork, TSelf, TNotableElement, TRoutingInfo, TGrid>, TGrid extends IFactoryGrid<TGrid, TSelf, TNotableElement, TRoutingInfo, TNetwork>> {
 
     /**
      * Detects all adjacent elements, regardless of what network they're on.

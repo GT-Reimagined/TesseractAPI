@@ -2,7 +2,7 @@ package tesseract.api.fe;
 
 import tesseract.factory.standard.StandardFactoryGrid;
 
-public class FEFactoryGrid extends StandardFactoryGrid<FEFactoryGrid, IFECable, FEFactoryNetwork> {
+public class FEFactoryGrid extends StandardFactoryGrid<FEFactoryGrid, IFECable, IFENodeBlock, FERoutingInfo, FEFactoryNetwork> {
     public static final FEFactoryGrid INSTANCE = new FEFactoryGrid();
 
     @Override

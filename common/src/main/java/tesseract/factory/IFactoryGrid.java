@@ -7,7 +7,7 @@ import tesseract.factory.standard.StandardFactoryGrid;
  * Grids will create and destroy networks as elements join or leave the world.
  * You usually want to extend {@link StandardFactoryGrid}, not this.
  */
-public interface IFactoryGrid<TSelf extends IFactoryGrid<TSelf, TElement, TNetwork>, TElement extends IFactoryElement<TElement, TNetwork, TSelf>, TNetwork extends IFactoryNetwork<TNetwork, TElement, TSelf>> {
+public interface IFactoryGrid<TSelf extends IFactoryGrid<TSelf, TElement, TNotableElement, TRoutingInfo, TNetwork>, TElement extends IFactoryElement<TElement, TNotableElement, TRoutingInfo, TNetwork, TSelf>, TNotableElement extends INotableFactoryElement<TNotableElement, TRoutingInfo, TElement, TNetwork, TSelf>, TRoutingInfo extends IRoutingInfo<TRoutingInfo>, TNetwork extends IFactoryNetwork<TNetwork, TElement, TNotableElement, TRoutingInfo, TSelf>> {
 
     /**
      * Adds an element and does potentially expensive network topology updates.

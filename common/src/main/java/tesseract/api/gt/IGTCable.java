@@ -5,7 +5,7 @@ import tesseract.api.IConnectable;
 /**
  * An electric cable is the unit of interaction with electric inventories.
  */
-public interface IGTCable extends IConnectable<IGTCable, GTFactoryNetwork, GTFactoryGrid> {
+public interface IGTCable extends IConnectable<IGTCable, IGTNodeBlock, GTRoutingInfo, GTFactoryNetwork, GTFactoryGrid> {
 
     /**
      * Returns the energy that this electrical component will permit to lost through or be received in a single tick.
