@@ -38,12 +38,15 @@ public abstract class StandardFactoryRouteTracker<TRoutingInfo extends IRoutingI
         paths.put(source, makePaths(source));
     }
 
-    public abstract IFactoryPath<TRoutingInfo, TNotableElement, TElement, TNetwork, TGrid> createPath(Pair<TNotableElement, TRoutingInfo> pair);
+    public abstract IFactoryPath<TRoutingInfo, TNotableElement, TElement, TNetwork, TGrid> createPath(Pair<TNotableElement, TRoutingInfo> pair, List<TElement> elements);
+
+    public abstract int sort(IFactoryPath<TRoutingInfo, TNotableElement, TElement, TNetwork, TGrid> a, IFactoryPath<TRoutingInfo, TNotableElement, TElement, TNetwork, TGrid> b);
 
     private List<IFactoryPath<TRoutingInfo, TNotableElement, TElement, TNetwork, TGrid>> makePaths(TNotableElement source) {
         List<IFactoryPath<TRoutingInfo, TNotableElement, TElement, TNetwork, TGrid>> paths = new ArrayList<>();
         List<Pair<TNotableElement, TRoutingInfo>> sourcePaths = source.getRoutedNeighbours();
-        sourcePaths.forEach(p -> paths.add(createPath(p)));
+        sourcePaths.forEach(p -> paths.add(createPath(p, new ArrayList<>())));
+        paths.sort(this::sort);
         return paths;
     }
 }
