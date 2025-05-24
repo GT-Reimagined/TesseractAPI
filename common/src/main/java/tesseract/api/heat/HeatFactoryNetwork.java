@@ -1,6 +1,11 @@
 package tesseract.api.heat;
 
+import tesseract.factory.IRouteTracker;
 import tesseract.factory.standard.StandardFactoryNetwork;
 
 public class HeatFactoryNetwork extends StandardFactoryNetwork<HeatFactoryNetwork, IHeatPipe, IHeatNodeBlock, HeatRoutingInfo, HeatFactoryGrid> {
+    @Override
+    protected IRouteTracker<HeatRoutingInfo, IHeatNodeBlock, IHeatPipe, HeatFactoryNetwork, HeatFactoryGrid> createRouteTracker() {
+        return new HeatFactoryRouteTracker();
+    }
 }

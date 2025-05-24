@@ -16,7 +16,7 @@ import java.util.HashSet;
  * A pretty basic factory network.
  * This doesn't do much beyond tracking elements and components.
  */
-public class StandardFactoryNetwork<TSelf extends StandardFactoryNetwork<TSelf, TElement, TNotableElement, TRoutingInfo, TGrid>, TElement extends IFactoryElement<TElement, TNotableElement, TRoutingInfo, TSelf, TGrid>, TNotableElement extends INotableFactoryElement<TNotableElement, TRoutingInfo, TElement, TSelf, TGrid>, TRoutingInfo extends IRoutingInfo<TRoutingInfo>, TGrid extends IFactoryGrid<TGrid, TElement, TNotableElement, TRoutingInfo, TSelf>>
+public abstract class StandardFactoryNetwork<TSelf extends StandardFactoryNetwork<TSelf, TElement, TNotableElement, TRoutingInfo, TGrid>, TElement extends IFactoryElement<TElement, TNotableElement, TRoutingInfo, TSelf, TGrid>, TNotableElement extends INotableFactoryElement<TNotableElement, TRoutingInfo, TElement, TSelf, TGrid>, TRoutingInfo extends IRoutingInfo<TRoutingInfo>, TGrid extends IFactoryGrid<TGrid, TElement, TNotableElement, TRoutingInfo, TSelf>>
         implements IFactoryNetwork<TSelf, TElement, TNotableElement, TRoutingInfo, TGrid> {
 
     public final HashSet<TElement> elements = new HashSet<>();
@@ -24,11 +24,17 @@ public class StandardFactoryNetwork<TSelf extends StandardFactoryNetwork<TSelf, 
 
     public IRouteTracker<TRoutingInfo, TNotableElement, TElement, TSelf, TGrid> routeTracker;
 
+    protected StandardFactoryNetwork() {
+        this.routeTracker = createRouteTracker();
+    }
+
+    protected abstract IRouteTracker<TRoutingInfo, TNotableElement, TElement, TSelf, TGrid> createRouteTracker();
+
     @Override
     public void addElement(TElement element) {
         elements.add(element);
 
-        if (element instanceof INotableFactoryElement<?,?,?,?,?> factoryElement){
+        if (element instanceof INotableFactoryElement<?,?,?,?,?>){
             routeTracker.createPaths((TNotableElement) element);
         }
         for (var component : element.getComponents()) {
