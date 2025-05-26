@@ -1,17 +1,17 @@
-package tesseract.api.rf;
+package tesseract.api.fe;
 
 import tesseract.api.Transaction;
 
 import java.util.function.Consumer;
 
-public class RFTransaction extends Transaction<Long> {
-    public long rf;
-    public RFTransaction(long rf, Consumer<Long> consumed) {
+public class FETransaction extends Transaction<Integer> {
+    public int rf;
+    public FETransaction(int rf, Consumer<Integer> consumed) {
         super(consumed);
         this.rf = rf;
     }
 
-    public void addData(long rf, Consumer<Long> consumer){
+    public void addData(int rf, Consumer<Integer> consumer){
         this.addData(rf);
         this.rf -= rf;
         this.onCommit(consumer);

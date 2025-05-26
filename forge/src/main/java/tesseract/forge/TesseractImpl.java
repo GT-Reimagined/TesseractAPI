@@ -9,26 +9,18 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.fml.common.Mod;
-import tesseract.FluidPlatformUtils;
 import tesseract.Tesseract;
 import tesseract.api.GraphWrapper;
 import tesseract.api.context.TesseractItemContext;
 import tesseract.api.forge.Provider;
 import tesseract.api.forge.TesseractCaps;
 import tesseract.api.wrapper.ItemStackWrapper;
-import tesseract.api.gt.GTTransaction;
 import tesseract.api.gt.IEnergyItem;
-import tesseract.api.gt.IGTCable;
-import tesseract.api.gt.IGTNode;
-import tesseract.controller.Energy;
 
 @Mod(Tesseract.API_ID)
 public class TesseractImpl extends Tesseract {
-    //public static GraphWrapper<Integer, IFECable, IFENode> FE_ENERGY = new GraphWrapper<>(FEController::new);
-    public static GraphWrapper<GTTransaction, IGTCable, IGTNode> GT_ENERGY = new GraphWrapper<>(Energy::new, IGTNode.GT_GETTER);
-
     public TesseractImpl() {
-        FluidPlatformUtils.INSTANCE = new FluidPlatformUtilsImpl();
+
         Tesseract.init();
         MinecraftForge.EVENT_BUS.addListener(this::serverStoppedEvent);
         MinecraftForge.EVENT_BUS.addListener(this::worldUnloadEvent);
@@ -41,10 +33,6 @@ public class TesseractImpl extends Tesseract {
             TesseractItemContext context = new ItemStackWrapper(event.getObject());
             event.addCapability(new ResourceLocation(Tesseract.API_ID, "energy_items"), new Provider<>(TesseractCaps.ENERGY_HANDLER_CAPABILITY_ITEM, energyItem.canCreate(context) ? () -> energyItem.createEnergyHandler(context) : null));
         }
-    }
-
-    public static GraphWrapper<GTTransaction, IGTCable, IGTNode> getGT_ENERGY(){
-        return GT_ENERGY;
     }
 
     public void serverStoppedEvent(ServerStoppedEvent e) {

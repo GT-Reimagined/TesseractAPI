@@ -1,7 +1,7 @@
 package tesseract.api.heat;
 
 
-import earth.terrarium.botarium.api.Serializable;
+import tesseract.api.Serializable;
 
 public interface IHeatHandler extends IHeatNode, Serializable {
 }

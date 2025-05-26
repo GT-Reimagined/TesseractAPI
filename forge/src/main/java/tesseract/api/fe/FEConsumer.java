@@ -1,4 +1,4 @@
-package tesseract.api.rf;
+package tesseract.api.fe;
 
 import tesseract.api.Consumer;
 import tesseract.graph.Path;
@@ -10,13 +10,13 @@ import static java.lang.Integer.compare;
 /**
  * A class that acts as a container for a item consumer.
  */
-public class RFConsumer extends Consumer<IRFCable, IRFNode> {
+public class FEConsumer extends Consumer<IFECable, IFENode> {
 
     private long minCapacity = Long.MAX_VALUE;
 
     // Way of the sorting by the distance to the node
     @SuppressWarnings("ComparatorCombinators")
-    public static final Comparator<RFConsumer> COMPARATOR = (t1, t2) -> compare(t1.getDistance(), t2.getDistance());
+    public static final Comparator<FEConsumer> COMPARATOR = (t1, t2) -> compare(t1.getDistance(), t2.getDistance());
 
     /**
      * Creates instance of the consumer.
@@ -24,7 +24,7 @@ public class RFConsumer extends Consumer<IRFCable, IRFNode> {
      * @param consumer The consumer node.
      * @param path     The path information.
      */
-    protected RFConsumer(IRFNode consumer, IRFNode producer, Path<IRFCable> path) {
+    protected FEConsumer(IFENode consumer, IFENode producer, Path<IFECable> path) {
         super(consumer, producer, path);
         init();
     }
@@ -36,8 +36,8 @@ public class RFConsumer extends Consumer<IRFCable, IRFNode> {
      * @param simulate   If true, the insertion will only be simulated.
      * @return Amount of energy that was (or would have been, if simulated) accepted by the storage.
      */
-    public long insert(long maxReceive, boolean simulate) {
-        return node.insertEnergy(maxReceive, simulate);
+    public int insert(int maxReceive, boolean simulate) {
+        return node.receiveEnergy(maxReceive, simulate);
     }
 
     /**
@@ -55,7 +55,7 @@ public class RFConsumer extends Consumer<IRFCable, IRFNode> {
     }
 
     @Override
-    protected void onConnectorCatch(long pos, IRFCable cable) {
+    protected void onConnectorCatch(long pos, IFECable cable) {
         minCapacity = Math.min(minCapacity, cable.getCapacity());
     }
 }

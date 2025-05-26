@@ -3,7 +3,6 @@ package tesseract.api.fabric.wrapper;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import team.reborn.energy.api.EnergyStorage;
 import tesseract.TesseractConfig;
-import tesseract.api.gt.GTTransaction;
 import tesseract.api.gt.IEnergyHandler;
 
 public interface IEnergyHandlerStorage extends EnergyStorage {
@@ -46,12 +45,12 @@ public interface IEnergyHandlerStorage extends EnergyStorage {
 
     @Override
     default boolean supportsInsertion() {
-        return TesseractConfig.ENABLE_FE_OR_TRE_INPUT.get() && getEnergyHandler().canInput();
+        return TesseractConfig.ENABLE_TRE_COMPAT.get() && getEnergyHandler().canInput();
     }
 
     @Override
     default boolean supportsExtraction() {
-        return getEnergyHandler().canOutput();
+        return TesseractConfig.ENABLE_TRE_COMPAT.get() && getEnergyHandler().canOutput();
     }
 
     IEnergyHandler getEnergyHandler();

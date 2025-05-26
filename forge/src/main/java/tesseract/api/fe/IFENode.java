@@ -1,11 +1,9 @@
-package tesseract.api.rf;
+package tesseract.api.fe;
 
-
-import earth.terrarium.botarium.api.Updatable;
-import earth.terrarium.botarium.api.energy.EnergyContainer;
 import net.minecraft.core.Direction;
-import tesseract.TesseractPlatformUtils;
+import net.minecraftforge.energy.IEnergyStorage;
 import tesseract.api.GraphWrapper;
+import tesseract.forge.TesseractPlatformUtilsImpl;
 
 /**
  * A flux node is the unit of interaction with flux inventories.
@@ -14,7 +12,7 @@ import tesseract.api.GraphWrapper;
  * Created with consent and permission of King Lemming and Team CoFH. Released with permission under LGPL 2.1 when bundled with Forge.
  * </p>
  */
-public interface IRFNode extends EnergyContainer, Updatable {
+public interface IFENode extends IEnergyStorage {
 
     /**
      * Used to determine if this storage can receive energy in the given direction.
@@ -22,7 +20,7 @@ public interface IRFNode extends EnergyContainer, Updatable {
      * @param direction the direction.
      * @return If this is false, then any calls to receiveEnergy will return 0.
      */
-    boolean canInput(Direction direction);
+    boolean canReceive(Direction direction);
 
     /**
      * Used to determine which sides can output energy (if any).
@@ -30,12 +28,11 @@ public interface IRFNode extends EnergyContainer, Updatable {
      * @param direction Direction to the output.
      * @return Returns true if the given direction is output side.
      */
-    boolean canOutput(Direction direction);
+    boolean canExtract(Direction direction);
 
-    @Override
-    default void update() {
+    int maxInsert();
 
-    }
+    int maxExtract();
 
-    GraphWrapper.ICapabilityGetter<IRFNode> GETTER = TesseractPlatformUtils.INSTANCE::getRFNode;
+    GraphWrapper.ICapabilityGetter<IFENode> GETTER = TesseractPlatformUtilsImpl::getRFNode;
 }
