@@ -1,7 +1,5 @@
 package tesseract.fabric;
 
-import aztech.modern_industrialization.api.energy.EnergyApi;
-import aztech.modern_industrialization.api.energy.EnergyMoveable;
 import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Direction;
