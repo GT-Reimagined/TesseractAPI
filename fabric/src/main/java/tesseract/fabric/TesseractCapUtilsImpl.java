@@ -19,18 +19,19 @@ import tesseract.api.heat.IHeatHandler;
 
 import java.util.Optional;
 
+@SuppressWarnings("UnstableApiUsage")
 public class TesseractCapUtilsImpl implements TesseractCapUtils {
     @Override
     public Optional<IEnergyHandlerItem> getEnergyHandlerItem(ItemStack stack){
-        IEnergyHandlerItem energyHandler = ContainerItemContext.withInitial(stack).find(TesseractLookups.ENERGY_HANDLER_ITEM);
+        IEnergyHandlerItem energyHandler = ContainerItemContext.withConstant(stack).find(TesseractLookups.ENERGY_HANDLER_ITEM);
         return Optional.ofNullable(energyHandler);
     }
 
     @Override
     public Optional<IEnergyHandlerItem> getWrappedEnergyHandlerItem(ItemStack stack){
-        IEnergyHandlerItem energyHandler = ContainerItemContext.withInitial(stack).find(TesseractLookups.ENERGY_HANDLER_ITEM);
+        IEnergyHandlerItem energyHandler = ContainerItemContext.withConstant(stack).find(TesseractLookups.ENERGY_HANDLER_ITEM);
         if (energyHandler == null){
-            EnergyStorage storage = ContainerItemContext.withInitial(stack).find(EnergyStorage.ITEM);
+            EnergyStorage storage = ContainerItemContext.withConstant(stack).find(EnergyStorage.ITEM);
             if (storage instanceof IEnergyHandlerItem e){
                 energyHandler = e;
             }
