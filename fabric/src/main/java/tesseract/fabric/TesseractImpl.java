@@ -1,12 +1,8 @@
 package tesseract.fabric;
 
-import earth.terrarium.botarium.common.energy.base.EnergyContainer;
-import earth.terrarium.botarium.fabric.energy.FabricBlockEnergyContainer;
-import earth.terrarium.botarium.util.Updatable;
-import fuzs.forgeconfigapiport.api.config.v2.ForgeConfigRegistry;
-import fuzs.forgeconfigapiport.api.config.v2.ModConfigEvents;
-import fuzs.forgeconfigapiport.impl.ForgeConfigAPIPort;
-import fuzs.forgeconfigapiport.impl.config.ForgeConfigApiPortConfig;
+import carbonconfiglib.CarbonConfig;
+import carbonconfiglib.config.Config;
+import carbonconfiglib.config.ConfigHandler;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -21,11 +17,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.fml.config.ModConfig;
 import team.reborn.energy.api.EnergyStorage;
 import tesseract.Tesseract;
 import tesseract.TesseractConfig;
 import tesseract.api.GraphWrapper;
+import tesseract.api.context.TesseractItemContext;
 import tesseract.api.fabric.TesseractLookups;
 import tesseract.api.fabric.wrapper.ContainerItemContextWrapper;
 import tesseract.api.gt.IEnergyHandler;
@@ -75,22 +71,21 @@ public class TesseractImpl extends Tesseract implements ModInitializer {
     @Override
     public void onInitialize() {
         Tesseract.init();
-        ForgeConfigRegistry.INSTANCE.register(Tesseract.API_ID, ModConfig.Type.COMMON, TesseractConfig.COMMON_SPEC);
+        TesseractConfig.createConfig();
         ServerLifecycleEvents.SERVER_STOPPING.register(TesseractImpl::onServerStopping);
         ServerTickEvents.START_WORLD_TICK.register(TesseractImpl::onStartTick);
         ServerTickEvents.END_WORLD_TICK.register(TesseractImpl::onEndTick);
         ServerWorldEvents.UNLOAD.register((TesseractImpl::onWorldUnload));
-        ModConfigEvents.loading(Tesseract.API_ID).register(TesseractConfig::onModConfigEvent);
-        ModConfigEvents.reloading(Tesseract.API_ID).register(TesseractConfig::onModConfigEvent);
         TesseractLookups.ENERGY_HANDLER_ITEM.registerFallback((s, c) -> {
-            if (s.getItem() instanceof IEnergyItem energyItem){
-                return energyItem.createEnergyHandler(new ContainerItemContextWrapper(c));
+            TesseractItemContext context = new ContainerItemContextWrapper(c);
+            if (s.getItem() instanceof IEnergyItem energyItem && energyItem.canCreate(context)){
+                return energyItem.createEnergyHandler(context);
             }
             return null;
         });
     }
 
-    public static <T extends BlockEntity> void registerTRETile(BiFunction<T, Direction, IEnergyHandler> euFunction, BiFunction<T, Direction, EnergyContainer> rfFunction, BlockEntityType<T> type){
+    /*public static <T extends BlockEntity> void registerTRETile(BiFunction<T, Direction, IEnergyHandler> euFunction, BiFunction<T, Direction, EnergyContainer> rfFunction, BlockEntityType<T> type){
         EnergyStorage.SIDED.registerForBlockEntity((blockEntity, direction) -> {
             IEnergyHandler handler = euFunction.apply(blockEntity, direction);
             if (handler != null) return (EnergyStorage) handler;
@@ -98,7 +93,7 @@ public class TesseractImpl extends Tesseract implements ModInitializer {
             if (node != null) return node instanceof EnergyStorage storage ? storage : new FabricBlockEnergyContainer(node, node instanceof Updatable<?> ? (Updatable<BlockEntity>) node : b -> {}, blockEntity);
             return null;
         }, type);
-    }
+    }*/
 
     public static void registerTREItem(BiFunction<ItemStack, ContainerItemContext, IEnergyHandler> function, Item type){
         EnergyStorage.ITEM.registerForItems((stack, context) -> (EnergyStorage) function.apply(stack, context), type);

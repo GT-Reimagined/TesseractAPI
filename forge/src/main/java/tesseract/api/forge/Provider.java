@@ -1,6 +1,5 @@
 package tesseract.api.forge;
 
-import earth.terrarium.botarium.util.Serializable;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
@@ -9,6 +8,7 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.common.util.NonNullSupplier;
+import tesseract.api.Serializable;
 
 public class Provider<T> implements ICapabilityProvider, INBTSerializable {
     private final LazyOptional<T> optional;

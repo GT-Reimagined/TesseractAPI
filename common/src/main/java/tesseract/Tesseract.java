@@ -1,14 +1,9 @@
 package tesseract;
 
-import dev.architectury.injectables.annotations.ExpectPlatform;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import net.minecraft.world.level.LevelAccessor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import tesseract.api.GraphWrapper;
-import tesseract.api.gt.GTTransaction;
-import tesseract.api.gt.IGTCable;
-import tesseract.api.gt.IGTNode;
 
 import java.util.Set;
 
@@ -18,9 +13,6 @@ public class Tesseract {
     protected final static Set<LevelAccessor> firstTick = new ObjectOpenHashSet<>();
 
     public static final String API_ID = "tesseractapi";
-    public static final String API_NAME = "Tesseract API";
-    public static final String VERSION = "0.0.1";
-    public static final String DEPENDS = "";
 
     public static boolean TEST = false;
 

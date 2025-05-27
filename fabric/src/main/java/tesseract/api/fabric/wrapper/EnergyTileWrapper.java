@@ -8,7 +8,6 @@ import team.reborn.energy.api.EnergyStorage;
 import team.reborn.energy.api.base.SimpleSidedEnergyContainer;
 import tesseract.TesseractConfig;
 import tesseract.api.gt.GTConsumer;
-import tesseract.api.gt.GTTransaction;
 import tesseract.api.gt.IEnergyHandler;
 
 public class EnergyTileWrapper implements IEnergyHandler {
@@ -24,35 +23,9 @@ public class EnergyTileWrapper implements IEnergyHandler {
     }
 
     @Override
-    public long insertAmps(long voltage, long amps, boolean simulate) {
-        try(Transaction transaction = Transaction.openOuter()) {
-            long inserted = storage.insert((long) (voltage * TesseractConfig.COMMON.EU_TO_TRE_RATIO), transaction);
-            if (inserted == voltage * TesseractConfig.COMMON.EU_TO_TRE_RATIO){
-                if (!simulate) transaction.commit();
-                return 1;
-            }
-            return 0;
-        }
-
-    }
-
-    @Override
-    public long extractAmps(long voltage, long amps, boolean simulate) {
-        try(Transaction transaction = Transaction.openOuter()) {
-            long inserted = storage.extract((long) (voltage * TesseractConfig.COMMON.EU_TO_TRE_RATIO), transaction);
-            if (inserted == voltage * TesseractConfig.COMMON.EU_TO_TRE_RATIO){
-                if (!simulate) transaction.commit();
-                return 1;
-            }
-            return 0;
-        }
-
-    }
-
-    @Override
     public long insertEu(long voltage, boolean simulate) {
         try(Transaction transaction = Transaction.openOuter()) {
-            long inserted = (long) (storage.insert((long) (voltage * TesseractConfig.COMMON.EU_TO_TRE_RATIO), transaction) / TesseractConfig.COMMON.EU_TO_TRE_RATIO);
+            long inserted = (long) (storage.insert((long) (voltage * TesseractConfig.EU_TO_TRE_RATIO.get()), transaction) / TesseractConfig.EU_TO_TRE_RATIO.get());
             if (!simulate) transaction.commit();
             return inserted;
         }
@@ -62,7 +35,7 @@ public class EnergyTileWrapper implements IEnergyHandler {
     @Override
     public long extractEu(long voltage, boolean simulate) {
         try(Transaction transaction = Transaction.openOuter()) {
-            long inserted = (long) (storage.extract((long) (voltage * TesseractConfig.COMMON.EU_TO_TRE_RATIO), transaction) / TesseractConfig.COMMON.EU_TO_TRE_RATIO);
+            long inserted = (long) (storage.extract((long) (voltage * TesseractConfig.EU_TO_TRE_RATIO.get()), transaction) / TesseractConfig.EU_TO_TRE_RATIO.get());
             if (!simulate) transaction.commit();
             return inserted;
         }
@@ -70,12 +43,12 @@ public class EnergyTileWrapper implements IEnergyHandler {
 
     @Override
     public long getEnergy() {
-        return (long) (storage.getAmount() / TesseractConfig.COMMON.EU_TO_TRE_RATIO);
+        return (long) (storage.getAmount() / TesseractConfig.EU_TO_TRE_RATIO.get());
     }
 
     @Override
     public long getCapacity() {
-        return (long) (storage.getCapacity() / TesseractConfig.COMMON.EU_TO_TRE_RATIO);
+        return (long) (storage.getCapacity() / TesseractConfig.EU_TO_TRE_RATIO.get());
     }
 
     @Override
@@ -108,20 +81,20 @@ public class EnergyTileWrapper implements IEnergyHandler {
     public long availableAmpsInput(long voltage) {
         long added = 0;
         try(Transaction transaction = Transaction.openOuter()) {
-            added = storage.insert((long) (voltage * TesseractConfig.COMMON.EU_TO_TRE_RATIO), transaction);
+            added = storage.insert((long) (voltage * TesseractConfig.EU_TO_TRE_RATIO.get()), transaction);
         }
-        if (added == voltage * TesseractConfig.COMMON.EU_TO_TRE_RATIO) return 1;
+        if (added == voltage * TesseractConfig.EU_TO_TRE_RATIO.get()) return 1;
         return 0;
     }
 
     @Override
     public boolean canOutput() {
-        return TesseractConfig.COMMON.ENABLE_FE_OR_TRE_INPUT && storage.supportsExtraction();
+        return TesseractConfig.ENABLE_TRE_COMPAT.get() && storage.supportsExtraction();
     }
 
     @Override
     public boolean canInput() {
-        return storage.supportsInsertion();
+        return TesseractConfig.ENABLE_TRE_COMPAT.get() && storage.supportsInsertion();
     }
 
     @Override

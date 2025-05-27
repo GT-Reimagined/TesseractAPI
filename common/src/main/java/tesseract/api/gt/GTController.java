@@ -1,5 +1,6 @@
 package tesseract.api.gt;
 
+import it.unimi.dsi.fastutil.Pair;
 import it.unimi.dsi.fastutil.longs.*;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.core.Direction;
@@ -18,16 +19,22 @@ import tesseract.graph.Path;
 import tesseract.util.Node;
 import tesseract.util.Pos;
 
+import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * Class acts as a controller in the group of an electrical components.
  */
 public class GTController extends Controller<GTTransaction, IGTCable, IGTNode> implements IGTEvent {
 
-    private long totalVoltage, totalAmperage, lastVoltage, lastAmperage, totalLoss, lastLoss;
+    private long totalVoltage, totalAmperage, lastVoltage, lastAmperage;
+    private double totalLoss, lastLoss;
     // Cable monitoring.
     private Long2LongMap frameHolders = new Long2LongLinkedOpenHashMap();
     private Long2LongMap previousFrameHolder = new Long2LongLinkedOpenHashMap();
@@ -122,7 +129,7 @@ public class GTController extends Controller<GTTransaction, IGTCable, IGTNode> i
 
         if (node != null && node.canInput(dir)) {
             GTConsumer consumer = new GTConsumer(node, producer, path);
-            long voltage = producer.getOutputVoltage() - consumer.getLoss();
+            long voltage = producer.getOutputVoltage() - Math.round(consumer.getLoss());
             if (voltage <= 0) {
                 return true;
             }
@@ -166,6 +173,7 @@ public class GTController extends Controller<GTTransaction, IGTCable, IGTNode> i
         IGTNode producer = node.value(side.getOpposite());
 
         long voltage_out = producer.getOutputVoltage();
+        if (stack.voltage > voltage_out) return;
 
         /*
          * if (amperage_in <= 0) { // just for sending the last piece of energy
@@ -174,29 +182,77 @@ public class GTController extends Controller<GTTransaction, IGTCable, IGTNode> i
          * }
          */
         inserted++;
+        List<Consumer<Long2ObjectMap<IGTCable>>> transferList = new ArrayList<>();
 
+        double previousLoss = 0;
         for (GTConsumer consumer : list) {
-            long amperage_in = stack.getAvailableAmps();
+            long remainingEu = stack.eu;
 
-            if (amperage_in <= 0) {
+            if (remainingEu <= 0) {
                 break;
             }
-            long loss = consumer.getLoss();
-            if (loss < 0 || loss > voltage_out) {
+            double loss = consumer.getLoss();
+            double appliedLoss = loss == 0 ? 0 : loss > previousLoss ? loss - previousLoss : previousLoss - loss;
+            previousLoss = loss;
+            long roundedAppliedLoss = Math.round(appliedLoss);
+            if (roundedAppliedLoss < 0 || roundedAppliedLoss > remainingEu) {
                 continue;
             }
 
-            long amperage = consumer.getRequiredAmperage(voltage_out - loss);
-            if (amperage <= 0) { // if this consumer received all the energy from the other producers
+            long lossyEu = remainingEu - roundedAppliedLoss;
+            long euInserted = consumer.getNode().insertEu(lossyEu, true);
+            if (euInserted <= 0) { // if this consumer received all the energy from the other producers
                 continue;
             }
-
-            // Remember amperes stored in this consumer
-            amperage = Math.min(amperage_in, amperage);
             // If we are here, then path had some invalid cables which not suits the limits
             // of amps/voltage
-            stack.addData(amperage, loss, a -> dataCommit(consumer, a));
+
+            GTTransaction.TransferData data1 = stack.addData(euInserted, euInserted + roundedAppliedLoss, appliedLoss, a -> {});
+            transferList.add((l) -> dataCommit(l, consumer, data1));
         }
+        if (!transferList.isEmpty()){
+            stack.addData(0, 0, 0, d-> dataCommit(transferList));
+        }
+    }
+
+    public void dataCommit(Long2ObjectMap<IGTCable> cableList, GTConsumer consumer, GTTransaction.TransferData data){
+        if (!consumer.canHandle(data.getVoltage())) {
+            for (Long2ObjectMap.Entry<IGTCable> c : consumer.getFull().long2ObjectEntrySet()) {
+                long pos = c.getLongKey();
+                IGTCable cable = c.getValue();
+                if (Objects.requireNonNull(cable.getHandler(data.getVoltage(), 0)) == GTStatus.FAIL_VOLTAGE) {
+                    onCableOverVoltage(getWorld(), pos, data.getVoltage());
+                    return;
+                }
+            }
+        } else {
+            for (Long2ObjectMap.Entry<IGTCable> c : consumer.getFull().long2ObjectEntrySet()) {
+                IGTCable cable = c.getValue();
+                if (!cableList.containsKey(c.getLongKey())) cableList.put(c.getLongKey(), cable);
+            }
+        }
+        cableIsActive.addAll(consumer.uninsulatedCables);
+
+        this.totalLoss += data.getLoss();
+        this.totalVoltage += data.getEu();
+        consumer.getNode().insertEu(data.getEu(), false);
+    }
+
+    public void dataCommit(List<Consumer<Long2ObjectMap<IGTCable>>> list){
+        Long2ObjectMap<IGTCable> cableList = new Long2ObjectOpenHashMap<>();
+        for (var pair : list) {
+            pair.accept(cableList);
+        }
+        for (Long2ObjectMap.Entry<IGTCable> c : cableList.long2ObjectEntrySet()) {
+            long pos = c.getLongKey();
+            IGTCable cable = c.getValue();
+            cable.setHolder(GTHolder.add(cable.getHolder(), 1));
+            if (GTHolder.isOverAmperage(cable.getHolder())) {
+                onCableOverAmperage(getWorld(), pos, GTHolder.getAmperage(cable.getHolder()));
+                return;
+            }
+        }
+        totalAmperage++;
     }
 
     /**
@@ -207,18 +263,18 @@ public class GTController extends Controller<GTTransaction, IGTCable, IGTNode> i
      * @param data     the transfer data.
      */
     public void dataCommit(GTConsumer consumer, GTTransaction.TransferData data) {
-        if (!consumer.canHandle(data.getVoltage()) || !consumer.canHandleAmp(data.getTotalAmperage()) || (consumer.getConnection() == ConnectionType.SINGLE
-                && !(consumer.canHandleAmp(data.getTotalAmperage())))) {
+        if (!consumer.canHandle(data.getVoltage()) || !consumer.canHandleAmp(1) || (consumer.getConnection() == ConnectionType.SINGLE
+                && !(consumer.canHandleAmp(1)))) {
             for (Long2ObjectMap.Entry<IGTCable> c : consumer.getFull().long2ObjectEntrySet()) {
                 long pos = c.getLongKey();
                 IGTCable cable = c.getValue();
-                switch (cable.getHandler(data.getVoltage(), data.getTotalAmperage())) {
+                switch (cable.getHandler(data.getVoltage(), 1)) {
                     case FAIL_VOLTAGE -> {
                         onCableOverVoltage(getWorld(), pos, data.getVoltage());
                         return;
                     }
                     case FAIL_AMPERAGE -> {
-                        onCableOverAmperage(getWorld(), pos, data.getTotalAmperage());
+                        onCableOverAmperage(getWorld(), pos, 1);
                         return;
                     }
                     default -> {
@@ -230,11 +286,7 @@ public class GTController extends Controller<GTTransaction, IGTCable, IGTNode> i
             for (Long2ObjectMap.Entry<IGTCable> c : consumer.getCross().long2ObjectEntrySet()) {
                 long pos = c.getLongKey();
                 IGTCable cable = c.getValue();
-                /*pipeMap.compute(c.getLongKey(), (l, i) ->{
-                    if (i == null) return Math.toIntExact(data.getTotalAmperage());
-                    return Math.toIntExact(i + data.getTotalAmperage());
-                });*/
-                cable.setHolder(GTHolder.add(cable.getHolder(), data.getTotalAmperage()));
+                cable.setHolder(GTHolder.add(cable.getHolder(), 1));
                 if (GTHolder.isOverAmperage(cable.getHolder())) {
                     onCableOverAmperage(getWorld(), pos, GTHolder.getAmperage(cable.getHolder()));
                     return;
@@ -245,9 +297,9 @@ public class GTController extends Controller<GTTransaction, IGTCable, IGTNode> i
         cableIsActive.addAll(consumer.uninsulatedCables);
 
         this.totalLoss += data.getLoss();
-        this.totalAmperage += data.getTotalAmperage();
-        this.totalVoltage += data.getTotalAmperage() * data.getVoltage();
-        consumer.getNode().insertAmps(data.getVoltage(), data.getAmps(true), false);
+        this.totalAmperage++;
+        this.totalVoltage += data.getEu();
+        consumer.getNode().insertEu(data.getEu(), false);
     }
 
     @Override
@@ -255,7 +307,8 @@ public class GTController extends Controller<GTTransaction, IGTCable, IGTNode> i
         lastVoltage = totalVoltage;
         lastAmperage = totalAmperage;
         lastLoss = totalLoss;
-        totalAmperage = totalVoltage = totalLoss = 0L;
+        totalAmperage = totalVoltage = 0L;
+        totalLoss = 0;
         previousFrameHolder = frameHolders;
         frameHolders = new Long2LongOpenHashMap();
         cableIsActive.clear();
@@ -294,7 +347,7 @@ public class GTController extends Controller<GTTransaction, IGTCable, IGTNode> i
         return GTHolder.getAmperage(previousFrameHolder.get(pos));
     }
 
-    public long totalLoss() {
+    public double totalLoss() {
         return lastLoss;
     }
 

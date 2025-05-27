@@ -1,11 +1,7 @@
 package tesseract.api.gt;
 
 
-import tesseract.api.rf.IEnergyHandlerRF;
+import tesseract.api.Serializable;
 
-public interface IEnergyHandler extends IGTNode, IEnergyHandlerRF {
-    @Override
-    default IEnergyHandler getEnergyHandler(){
-        return this;
-    }
+public interface IEnergyHandler extends IGTNode, Serializable {
 }
