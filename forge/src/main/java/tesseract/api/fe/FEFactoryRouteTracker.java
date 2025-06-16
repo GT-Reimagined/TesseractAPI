@@ -8,7 +8,7 @@ import java.util.List;
 
 public class FEFactoryRouteTracker extends StandardFactoryRouteTracker<FERoutingInfo, IFENodeBlock, IFECable, FEFactoryNetwork, FEFactoryGrid> {
     @Override
-    public IFactoryPath<FERoutingInfo, IFENodeBlock, IFECable, FEFactoryNetwork, FEFactoryGrid> createPath(Pair<IFENodeBlock, FERoutingInfo> pair, List<IFECable> ifeCables) {
+    public IFactoryPath<FERoutingInfo, IFENodeBlock, IFECable, FEFactoryNetwork, FEFactoryGrid> createPath(Pair<IFENodeBlock, FERoutingInfo> pair) {
         return new FEFactoryPath(pair.first(), pair.second());
     }
 

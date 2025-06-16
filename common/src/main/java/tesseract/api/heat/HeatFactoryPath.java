@@ -14,9 +14,4 @@ public record HeatFactoryPath(IHeatNodeBlock node, HeatRoutingInfo routingInfo) 
     public HeatRoutingInfo getRoutingInfo() {
         return routingInfo;
     }
-
-    @Override
-    public List<IHeatPipe> getPath() {
-        return List.of();
-    }
 }

@@ -8,7 +8,7 @@ import java.util.List;
 
 public class GTFactoryRouteTracker extends StandardFactoryRouteTracker<GTRoutingInfo, IGTNodeBlock, IGTCable, GTFactoryNetwork, GTFactoryGrid> {
     @Override
-    public IFactoryPath<GTRoutingInfo, IGTNodeBlock, IGTCable, GTFactoryNetwork, GTFactoryGrid> createPath(Pair<IGTNodeBlock, GTRoutingInfo> pair, List<IGTCable> igtCables) {
+    public IFactoryPath<GTRoutingInfo, IGTNodeBlock, IGTCable, GTFactoryNetwork, GTFactoryGrid> createPath(Pair<IGTNodeBlock, GTRoutingInfo> pair) {
         return new GTFactoryPath(pair.first(), pair.second());
     }
 

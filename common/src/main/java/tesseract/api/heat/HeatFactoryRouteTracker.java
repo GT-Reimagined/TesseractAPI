@@ -8,7 +8,7 @@ import java.util.List;
 
 public class HeatFactoryRouteTracker extends StandardFactoryRouteTracker<HeatRoutingInfo, IHeatNodeBlock, IHeatPipe, HeatFactoryNetwork, HeatFactoryGrid> {
     @Override
-    public IFactoryPath<HeatRoutingInfo, IHeatNodeBlock, IHeatPipe, HeatFactoryNetwork, HeatFactoryGrid> createPath(Pair<IHeatNodeBlock, HeatRoutingInfo> pair, List<IHeatPipe> iHeatPipes) {
+    public IFactoryPath<HeatRoutingInfo, IHeatNodeBlock, IHeatPipe, HeatFactoryNetwork, HeatFactoryGrid> createPath(Pair<IHeatNodeBlock, HeatRoutingInfo> pair) {
         return new HeatFactoryPath(pair.first(), pair.second());
     }
 

@@ -14,9 +14,4 @@ public record GTFactoryPath(IGTNodeBlock node, GTRoutingInfo routingInfo) implem
     public GTRoutingInfo getRoutingInfo() {
         return routingInfo;
     }
-
-    @Override
-    public List<IGTCable> getPath() {
-        return List.of();
-    }
 }

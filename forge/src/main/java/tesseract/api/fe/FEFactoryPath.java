@@ -14,9 +14,4 @@ public record FEFactoryPath(IFENodeBlock node, FERoutingInfo routingInfo) implem
     public FERoutingInfo getRoutingInfo() {
         return routingInfo;
     }
-
-    @Override
-    public List<IFECable> getPath() {
-        return List.of();
-    }
 }
