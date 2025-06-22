@@ -2,8 +2,6 @@ package tesseract.api.gt;
 
 
 import net.minecraft.core.Direction;
-import tesseract.TesseractPlatformUtils;
-import tesseract.api.GraphWrapper;
 import tesseract.api.Serializable;
 
 public interface IEnergyHandler extends Serializable {
@@ -114,6 +112,4 @@ public interface IEnergyHandler extends Serializable {
     default void tesseractTick() {
 
     }
-
-    GraphWrapper.ICapabilityGetter<IEnergyHandler> GT_GETTER = TesseractPlatformUtils.INSTANCE::getGTNode;
 }

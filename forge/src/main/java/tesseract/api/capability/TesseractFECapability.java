@@ -7,7 +7,6 @@ import net.minecraftforge.energy.CapabilityEnergy;
 import tesseract.api.fe.IFECable;
 import tesseract.api.fe.IExtendedEnergyStorage;
 import tesseract.api.fe.FETransaction;
-import tesseract.graph.Graph;
 import tesseract.util.Pos;
 
 public class TesseractFECapability<T extends BlockEntity & IFECable> extends TesseractBaseCapability<T> implements IExtendedEnergyStorage {
@@ -48,7 +47,7 @@ public class TesseractFECapability<T extends BlockEntity & IFECable> extends Tes
     }
 
     private void transferAroundPipe(FETransaction transaction, long pos) {
-        for (Direction dir : Graph.DIRECTIONS) {
+        for (Direction dir : Direction.values()) {
             if (dir == this.side || !this.tile.connects(dir)) continue;
             BlockEntity otherTile = tile.getLevel().getBlockEntity(BlockPos.of(Pos.offset(pos, dir)));
             if (otherTile != null) {

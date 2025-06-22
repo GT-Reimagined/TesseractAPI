@@ -6,7 +6,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import tesseract.TesseractCapUtils;
 import tesseract.api.gt.*;
-import tesseract.graph.Graph;
 import tesseract.util.Pos;
 
 public class TesseractGTCapability<T extends BlockEntity & IGTCable> extends TesseractBaseCapability<T> implements IEnergyHandler {
@@ -47,7 +46,7 @@ public class TesseractGTCapability<T extends BlockEntity & IGTCable> extends Tes
     private void transferAroundPipe(GTTransaction transaction, long pos) {
         boolean hasInserted = false;
         boolean lossAdded = false;
-        for (Direction dir : Graph.DIRECTIONS) {
+        for (Direction dir : Direction.values()) {
             if (dir == this.side || !this.tile.connects(dir)) continue;
             //First, perform cover modifications.
             BlockEntity otherTile = tile.getLevel().getBlockEntity(BlockPos.of(Pos.offset(pos, dir)));

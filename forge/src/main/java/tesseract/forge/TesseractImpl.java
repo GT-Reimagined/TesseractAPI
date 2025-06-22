@@ -10,7 +10,6 @@ import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.Mod;
 import tesseract.Tesseract;
-import tesseract.api.GraphWrapper;
 import tesseract.api.context.TesseractItemContext;
 import tesseract.api.forge.Provider;
 import tesseract.api.forge.TesseractCaps;
@@ -38,13 +37,13 @@ public class TesseractImpl extends Tesseract {
     public void serverStoppedEvent(ServerStoppedEvent e) {
         firstTick.clear();
         //FE_ENERGY.clear();
-        GraphWrapper.getWrappers().forEach(GraphWrapper::clear);
+        //GraphWrapper.getWrappers().forEach(GraphWrapper::clear);
     }
 
     public void worldUnloadEvent(WorldEvent.Unload e) {
         if (!(e.getWorld() instanceof Level) || ((Level) e.getWorld()).isClientSide) return;
         //FE_ENERGY.removeWorld((World) e.getWorld());
-        GraphWrapper.getWrappers().forEach(g -> g.removeWorld((Level)e.getWorld()));
+        //GraphWrapper.getWrappers().forEach(g -> g.removeWorld((Level)e.getWorld()));
         firstTick.remove(e.getWorld());
     }
 
@@ -53,13 +52,13 @@ public class TesseractImpl extends Tesseract {
         Level dim = event.world;
         if (!hadFirstTick(dim)) {
             firstTick.add(event.world);
-            GraphWrapper.getWrappers().forEach(t -> t.onFirstTick(dim));
+            //GraphWrapper.getWrappers().forEach(t -> t.onFirstTick(dim));
         }
         if (event.phase == TickEvent.Phase.START) {
-            GraphWrapper.getWrappers().forEach(t -> t.tick(dim));
+            //GraphWrapper.getWrappers().forEach(t -> t.tick(dim));
         }
         if (Tesseract.HEALTH_CHECK_TIME > 0 && event.world.getGameTime() % Tesseract.HEALTH_CHECK_TIME == 0) {
-            GraphWrapper.getWrappers().forEach(GraphWrapper::healthCheck);
+            //GraphWrapper.getWrappers().forEach(GraphWrapper::healthCheck);
         }
     }
 }

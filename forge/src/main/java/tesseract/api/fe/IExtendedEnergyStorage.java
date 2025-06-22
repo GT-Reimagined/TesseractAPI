@@ -2,8 +2,6 @@ package tesseract.api.fe;
 
 import net.minecraft.core.Direction;
 import net.minecraftforge.energy.IEnergyStorage;
-import tesseract.api.GraphWrapper;
-import tesseract.forge.TesseractPlatformUtilsImpl;
 
 /**
  * A flux node is the unit of interaction with flux inventories.
@@ -33,6 +31,4 @@ public interface IExtendedEnergyStorage extends IEnergyStorage {
     int maxInsert();
 
     int maxExtract();
-
-    GraphWrapper.ICapabilityGetter<IExtendedEnergyStorage> GETTER = TesseractPlatformUtilsImpl::getRFNode;
 }

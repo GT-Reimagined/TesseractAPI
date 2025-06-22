@@ -2,9 +2,6 @@ package tesseract.fabric;
 
 import aztech.modern_industrialization.api.energy.EnergyApi;
 import aztech.modern_industrialization.api.energy.EnergyMoveable;
-import carbonconfiglib.CarbonConfig;
-import carbonconfiglib.config.Config;
-import carbonconfiglib.config.ConfigHandler;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -20,7 +17,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import team.reborn.energy.api.EnergyStorage;
 import tesseract.Tesseract;
 import tesseract.TesseractConfig;
-import tesseract.api.GraphWrapper;
 import tesseract.api.context.TesseractItemContext;
 import tesseract.api.fabric.TesseractLookups;
 import tesseract.api.fabric.wrapper.ContainerItemContextWrapper;
@@ -37,35 +33,35 @@ public class TesseractImpl extends Tesseract implements ModInitializer {
     private static void onWorldUnload(MinecraftServer server, ServerLevel world) {
         if (world == null) return;
         //FE_ENERGY.removeWorld((World) e.getWorld());
-        GraphWrapper.getWrappers().forEach(g -> g.removeWorld(world));
+        //GraphWrapper.getWrappers().forEach(g -> g.removeWorld(world));
         firstTick.remove(world);
     }
 
     private static void onEndTick(ServerLevel l) {
         if (!hadFirstTick(l)) {
             firstTick.add(l);
-            GraphWrapper.getWrappers().forEach(t -> t.onFirstTick(l));
+            //GraphWrapper.getWrappers().forEach(t -> t.onFirstTick(l));
         }
         if (Tesseract.HEALTH_CHECK_TIME > 0 && l.getGameTime() % Tesseract.HEALTH_CHECK_TIME == 0) {
-            GraphWrapper.getWrappers().forEach(GraphWrapper::healthCheck);
+            //GraphWrapper.getWrappers().forEach(GraphWrapper::healthCheck);
         }
     }
 
     private static void onStartTick(ServerLevel l) {
         if (!hadFirstTick(l)) {
             firstTick.add(l);
-            GraphWrapper.getWrappers().forEach(t -> t.onFirstTick(l));
+            //GraphWrapper.getWrappers().forEach(t -> t.onFirstTick(l));
         }
-        GraphWrapper.getWrappers().forEach(t -> t.tick(l));
+        //GraphWrapper.getWrappers().forEach(t -> t.tick(l));
         if (Tesseract.HEALTH_CHECK_TIME > 0 && l.getGameTime() % Tesseract.HEALTH_CHECK_TIME == 0) {
-            GraphWrapper.getWrappers().forEach(GraphWrapper::healthCheck);
+            //GraphWrapper.getWrappers().forEach(GraphWrapper::healthCheck);
         }
     }
 
     private static void onServerStopping(MinecraftServer s) {
         firstTick.clear();
         //FE_ENERGY.clear();
-        GraphWrapper.getWrappers().forEach(GraphWrapper::clear);
+        //GraphWrapper.getWrappers().forEach(GraphWrapper::clear);
     }
 
     @Override
