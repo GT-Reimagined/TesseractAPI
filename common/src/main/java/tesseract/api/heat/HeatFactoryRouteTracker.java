@@ -14,4 +14,9 @@ public class HeatFactoryRouteTracker extends StandardFactoryRouteTracker<HeatRou
     public int sort(IFactoryPath<HeatRoutingInfo, IHeatNode, IHeatPipe, HeatFactoryNetwork, HeatFactoryGrid> a, IFactoryPath<HeatRoutingInfo, IHeatNode, IHeatPipe, HeatFactoryNetwork, HeatFactoryGrid> b) {
         return 0;
     }
+
+    @Override
+    public Class<IHeatNode> getNotableElementClass() {
+        return IHeatNode.class;
+    }
 }

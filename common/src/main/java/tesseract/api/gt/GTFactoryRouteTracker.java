@@ -45,4 +45,9 @@ public class GTFactoryRouteTracker extends StandardFactoryRouteTracker<GTRouting
     public int sort(IFactoryPath<GTRoutingInfo, IGTNode, IGTCable, GTFactoryNetwork, GTFactoryGrid> a, IFactoryPath<GTRoutingInfo, IGTNode, IGTCable, GTFactoryNetwork, GTFactoryGrid> b) {
         return a.getRoutingInfo().actualLoss() > b.getRoutingInfo().actualLoss() ? 1 : -1;
     }
+
+    @Override
+    public Class<IGTNode> getNotableElementClass() {
+        return IGTNode.class;
+    }
 }

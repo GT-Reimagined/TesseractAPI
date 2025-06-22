@@ -16,4 +16,9 @@ public class FEFactoryRouteTracker extends StandardFactoryRouteTracker<FERouting
     public int sort(IFactoryPath<FERoutingInfo, IFENodeBlock, IFECable, FEFactoryNetwork, FEFactoryGrid> a, IFactoryPath<FERoutingInfo, IFENodeBlock, IFECable, FEFactoryNetwork, FEFactoryGrid> b) {
         return 0;
     }
+
+    @Override
+    public Class<IFENodeBlock> getNotableElementClass() {
+        return IFENodeBlock.class;
+    }
 }

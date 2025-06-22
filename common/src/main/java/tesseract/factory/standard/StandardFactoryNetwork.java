@@ -34,9 +34,7 @@ public abstract class StandardFactoryNetwork<TSelf extends StandardFactoryNetwor
     public void addElement(TElement element) {
         elements.add(element);
 
-        if (element instanceof INotableFactoryElement<?,?,?,?,?>){
-            routeTracker.createPaths((TNotableElement) element);
-        }
+        routeTracker.onElementAdded(element);
         for (var component : element.getComponents()) {
             addComponentImpl(component.left(), component.right());
         }
@@ -45,10 +43,7 @@ public abstract class StandardFactoryNetwork<TSelf extends StandardFactoryNetwor
     @Override
     public void removeElement(TElement element) {
         elements.remove(element);
-
-        if (element instanceof INotableFactoryElement<?,?,?,?,?>){
-            routeTracker.removePaths((TNotableElement) element);
-        }
+        routeTracker.onElementRemoved(element);
         if (element != null && element.getNetwork() == this) {
             for (var component : element.getComponents()) {
                 removeComponentImpl(component.left(), component.right());

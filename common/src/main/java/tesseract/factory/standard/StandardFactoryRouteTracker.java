@@ -32,52 +32,51 @@ public abstract class StandardFactoryRouteTracker<TRoutingInfo extends IRoutingI
     }
 
     @Override
-    public void createPaths(TNotableElement source) {
-        var list = makePaths(source);
-        if (!list.isEmpty()) {
-            paths.put(source, list);
-        } else {
-            AtomicReference<TNotableElement> sourceToRemove = new AtomicReference<>();
-            paths.asMap().forEach((k, v) -> {
-                if (sourceToRemove.get() != null) return;
-                v.forEach(f -> {
+    public void onElementAdded(TElement source) {
+        if (getNotableElementClass().isInstance(source)){
+            TNotableElement notableElement = getNotableElementClass().cast(source);
+            var list = makePaths(notableElement);
+            if (!list.isEmpty()) {
+                paths.put(notableElement, list);
+            } else {
+                AtomicReference<TNotableElement> sourceToRemove = new AtomicReference<>();
+                paths.asMap().forEach((k, v) -> {
                     if (sourceToRemove.get() != null) return;
-                    if (f.getDestination().equals(source)) {
-                        sourceToRemove.set(f.getDestination());
-                    }
+                    v.forEach(f -> {
+                        if (sourceToRemove.get() != null) return;
+                        if (f.getDestination().equals(source)) {
+                            sourceToRemove.set(f.getDestination());
+                        }
+                    });
                 });
-            });
-            if (sourceToRemove.get() != null) {
-                createPaths(sourceToRemove.get());
+                if (sourceToRemove.get() != null) {
+                    onElementAdded((TElement) sourceToRemove.get());
+                } else {
+                    paths.invalidateAll();
+                }
             }
+        } else {
+            paths.invalidateAll();
         }
     }
 
     @Override
-    public void removePaths(TNotableElement source) {
-        if (paths.getIfPresent(source) == null) {
-            AtomicReference<TNotableElement> sourceToRemove = new AtomicReference<>();
-            paths.asMap().forEach((k, v) -> {
-                if (sourceToRemove.get() != null) return;
-                v.forEach(f -> {
-                    if (sourceToRemove.get() != null) return;
-                    if (f.getDestination().equals(source)) {
-                        sourceToRemove.set(f.getDestination());
-                    }
-                });
-            });
-            if (sourceToRemove.get() != null) {
-                paths.invalidate(sourceToRemove.get());
-                createPaths(sourceToRemove.get());
+    public void onElementRemoved(TElement element) {
+        if (getNotableElementClass().isInstance(element)){
+            TNotableElement notableElement = getNotableElementClass().cast(element);
+            if (paths.getIfPresent(notableElement) == null) {
+                paths.invalidateAll();
+            } else {
+                paths.invalidate(notableElement);
             }
-        } else {
-            paths.invalidate(source);
-        }
+        } else paths.invalidateAll();
     }
 
     public abstract IFactoryPath<TRoutingInfo, TNotableElement, TElement, TNetwork, TGrid> createPath(Pair<TNotableElement, TRoutingInfo> pair);
 
     public abstract int sort(IFactoryPath<TRoutingInfo, TNotableElement, TElement, TNetwork, TGrid> a, IFactoryPath<TRoutingInfo, TNotableElement, TElement, TNetwork, TGrid> b);
+
+    public abstract Class<TNotableElement> getNotableElementClass();
 
     private List<IFactoryPath<TRoutingInfo, TNotableElement, TElement, TNetwork, TGrid>> makePaths(TNotableElement source) {
         List<IFactoryPath<TRoutingInfo, TNotableElement, TElement, TNetwork, TGrid>> paths = new ArrayList<>();
