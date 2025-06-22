@@ -3,7 +3,7 @@ package tesseract;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import tesseract.api.gt.IEnergyHandler;
-import tesseract.api.heat.IHeatNode;
+import tesseract.api.heat.IHeatHandler;
 
 import java.util.ServiceLoader;
 
@@ -13,5 +13,5 @@ public interface TesseractPlatformUtils {
 
     IEnergyHandler getGTNode(Level level, long pos, Direction direction, Runnable invalidate);
 
-    IHeatNode getHeatNode(Level level, long pos, Direction direction, Runnable invalidate);
+    IHeatHandler getHeatNode(Level level, long pos, Direction direction, Runnable invalidate);
 }

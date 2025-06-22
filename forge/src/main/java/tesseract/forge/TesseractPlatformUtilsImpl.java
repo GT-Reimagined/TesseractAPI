@@ -14,7 +14,6 @@ import tesseract.api.forge.TesseractCaps;
 import tesseract.api.forge.wrapper.FEWrapper;
 import tesseract.api.gt.IEnergyHandler;
 import tesseract.api.heat.IHeatHandler;
-import tesseract.api.heat.IHeatNode;
 
 public class TesseractPlatformUtilsImpl implements TesseractPlatformUtils {
     @Override
@@ -45,7 +44,7 @@ public class TesseractPlatformUtilsImpl implements TesseractPlatformUtils {
     }
 
     @Override
-    public IHeatNode getHeatNode(Level level, long pos, Direction direction, Runnable invalidate){
+    public IHeatHandler getHeatNode(Level level, long pos, Direction direction, Runnable invalidate){
         BlockEntity tile = level.getBlockEntity(BlockPos.of(pos));
         if (tile == null) return null;
         LazyOptional<IHeatHandler> capability = tile.getCapability(TesseractCaps.HEAT_CAPABILITY, direction);

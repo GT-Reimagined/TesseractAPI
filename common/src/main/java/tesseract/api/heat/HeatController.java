@@ -17,7 +17,7 @@ import tesseract.util.Pos;
 
 import java.util.List;
 
-public class HeatController extends Controller<HeatTransaction,IHeatPipe,IHeatNode> {
+public class HeatController extends Controller<HeatTransaction,IHeatPipe,IHeatHandler> {
 
     private final Long2IntMap previousTemperature = new Long2IntOpenHashMap();
     private final Long2IntMap currentTemperature = new Long2IntOpenHashMap();
@@ -29,7 +29,7 @@ public class HeatController extends Controller<HeatTransaction,IHeatPipe,IHeatNo
      * @param supplier The world.
      * @param getter the getter for nodes.
      */
-    public HeatController(Level supplier, Graph.INodeGetter<IHeatNode> getter) {
+    public HeatController(Level supplier, Graph.INodeGetter<IHeatHandler> getter) {
         super(supplier, getter);
         previousTemperature.defaultReturnValue(-1);
         currentTemperature.defaultReturnValue(-1);
@@ -82,7 +82,7 @@ public class HeatController extends Controller<HeatTransaction,IHeatPipe,IHeatNo
     }
 
     @Override
-    public ITickingController<HeatTransaction, IHeatPipe, IHeatNode> clone(INode group) {
+    public ITickingController<HeatTransaction, IHeatPipe, IHeatHandler> clone(INode group) {
         return new HeatController(this.dim, this.getter).set(group);
     }
 
