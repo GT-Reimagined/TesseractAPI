@@ -3,9 +3,9 @@ package tesseract.api.fe;
 import tesseract.factory.IRouteTracker;
 import tesseract.factory.standard.StandardFactoryNetwork;
 
-public class FEFactoryNetwork extends StandardFactoryNetwork<FEFactoryNetwork, IFECable, IFENodeBlock, FERoutingInfo, FEFactoryGrid> {
+public class FEFactoryNetwork extends StandardFactoryNetwork<FEFactoryNetwork, IFECable, IFENode, FERoutingInfo, FEFactoryGrid> {
     @Override
-    protected IRouteTracker<FERoutingInfo, IFENodeBlock, IFECable, FEFactoryNetwork, FEFactoryGrid> createRouteTracker() {
+    protected IRouteTracker<FERoutingInfo, IFENode, IFECable, FEFactoryNetwork, FEFactoryGrid> createRouteTracker() {
         return new FEFactoryRouteTracker();
     }
 }

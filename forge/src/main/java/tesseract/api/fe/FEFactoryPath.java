@@ -2,11 +2,9 @@ package tesseract.api.fe;
 
 import tesseract.factory.IFactoryPath;
 
-import java.util.List;
-
-public record FEFactoryPath(IFENodeBlock node, FERoutingInfo routingInfo) implements IFactoryPath<FERoutingInfo, IFENodeBlock, IFECable, FEFactoryNetwork, FEFactoryGrid> {
+public record FEFactoryPath(IFENode node, FERoutingInfo routingInfo) implements IFactoryPath<FERoutingInfo, IFENode, IFECable, FEFactoryNetwork, FEFactoryGrid> {
     @Override
-    public IFENodeBlock getDestination() {
+    public IFENode getDestination() {
         return node;
     }
 
