@@ -1,6 +1,9 @@
 package tesseract.api.gt;
 
+import net.minecraft.core.Direction;
 import tesseract.api.INode;
+
+import java.util.List;
 
 public interface IGTNodeBlock extends INode<IGTNodeBlock, GTRoutingInfo, IGTCable, GTFactoryNetwork, GTFactoryGrid>, IGTCable {
     @Override
@@ -26,5 +29,23 @@ public interface IGTNodeBlock extends INode<IGTNodeBlock, GTRoutingInfo, IGTCabl
     @Override
     default void setHolder(long holder){
         //NOOP
+    }
+
+    @Override
+    default Class<IGTNodeBlock> getSelfClass(){
+        return IGTNodeBlock.class;
+    }
+
+    @Override
+    default Class<IGTCable> getElementClass(){
+        return IGTCable.class;
+    }
+
+    @Override
+    default GTRoutingInfo createRoutingInfo(List<IGTCable> pathSoFar, Direction side){
+        int amps = pathSoFar.stream().reduce((a, b) -> a.getAmps() < b.getAmps() ? a : b).map(IGTCable::getAmps).orElse(0);
+        long voltage = pathSoFar.stream().reduce((a, b) -> a.getVoltage() < b.getVoltage() ? a : b).map(IGTCable::getVoltage).orElse(0L);
+        double loss = pathSoFar.stream().mapToDouble(IGTCable::getLoss).sum();
+        return new GTRoutingInfo(amps, voltage, loss, side, pathSoFar);
     }
 }

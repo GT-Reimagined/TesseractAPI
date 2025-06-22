@@ -1,24 +1,22 @@
 package tesseract.api.gt;
 
+import com.google.common.collect.ImmutableSet;
+import net.minecraft.core.Direction;
 import tesseract.factory.IRoutingInfo;
 
-public record GTRoutingInfo(long maxAmps, long maxVoltage, double actualLoss, long roundedLoss) implements IRoutingInfo<GTRoutingInfo> {
+import java.util.List;
+
+public record GTRoutingInfo(long maxAmps, long maxVoltage, double actualLoss, long roundedLoss, Direction side, List<IGTCable> path) implements IRoutingInfo<GTRoutingInfo> {
+    public GTRoutingInfo(long maxAmps, long maxVoltage, double actualLoss, Direction side, List<IGTCable> path) {
+        this(maxAmps, maxVoltage, actualLoss, Math.round(actualLoss), side, path);
+    }
+
     @Override
     public GTRoutingInfo merge(GTRoutingInfo other) {
         long maxAmps = Math.min(this.maxAmps, other.maxAmps);
         long maxVoltage = Math.min(this.maxVoltage, other.maxVoltage);
         double actualLoss = this.actualLoss + other.actualLoss;
         long roundedLoss = Math.round(actualLoss);
-        return new GTRoutingInfo(maxAmps, maxVoltage, actualLoss, roundedLoss);
-    }
-
-    @Override
-    public boolean canSend() {
-        return false;
-    }
-
-    @Override
-    public boolean canReceive() {
-        return false;
+        return new GTRoutingInfo(maxAmps, maxVoltage, actualLoss, roundedLoss, other.side, ImmutableSet.<IGTCable>builder().addAll(path).addAll(other.path).build().stream().toList());
     }
 }
