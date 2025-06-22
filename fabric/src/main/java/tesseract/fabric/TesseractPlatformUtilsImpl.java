@@ -1,21 +1,14 @@
 package tesseract.fabric;
 
 
-import carbonconfiglib.CarbonConfig;
-import carbonconfiglib.config.Config;
-import carbonconfiglib.config.ConfigHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import team.reborn.energy.api.EnergyStorage;
-import tesseract.Tesseract;
 import tesseract.TesseractCapUtils;
 import tesseract.TesseractPlatformUtils;
 import tesseract.api.fabric.TileListeners;
 import tesseract.api.gt.IEnergyHandler;
-import tesseract.api.gt.IGTNode;
 import tesseract.api.heat.IHeatHandler;
 import tesseract.api.heat.IHeatNode;
 
@@ -24,7 +17,7 @@ import java.util.Optional;
 @SuppressWarnings("UnstableApiUsage")
 public class TesseractPlatformUtilsImpl implements TesseractPlatformUtils {
     @Override
-    public IGTNode getGTNode(Level level, long pos, Direction direction, Runnable invalidate){
+    public IEnergyHandler getGTNode(Level level, long pos, Direction direction, Runnable invalidate){
         BlockEntity tile = level.getBlockEntity(BlockPos.of(pos));
         if (tile == null) return null;
         Optional<IEnergyHandler> capability = TesseractCapUtils.INSTANCE.getEnergyHandler(tile, direction);

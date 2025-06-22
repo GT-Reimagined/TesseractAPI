@@ -31,14 +31,14 @@ import java.util.function.Function;
 /**
  * Class acts as a controller in the group of an electrical components.
  */
-public class GTController extends Controller<GTTransaction, IGTCable, IGTNode> implements IGTEvent {
+public class GTController extends Controller<GTTransaction, IGTCable, IEnergyHandler> implements IGTEvent {
 
     private long totalVoltage, totalAmperage, lastVoltage, lastAmperage;
     private double totalLoss, lastLoss;
     // Cable monitoring.
     private Long2LongMap frameHolders = new Long2LongLinkedOpenHashMap();
     private Long2LongMap previousFrameHolder = new Long2LongLinkedOpenHashMap();
-    // private final Object2IntMap<IGTNode> obtains = new Object2IntOpenHashMap<>();
+    // private final Object2IntMap<IEnergyHandler> obtains = new Object2IntOpenHashMap<>();
     private final Long2ObjectMap<Map<Direction, List<GTConsumer>>> data = new Long2ObjectLinkedOpenHashMap<>();
 
     public final LongSet cableIsActive = new LongOpenHashSet();
@@ -48,7 +48,7 @@ public class GTController extends Controller<GTTransaction, IGTCable, IGTNode> i
      *
      * @param dim The dimension id.
      */
-    public GTController(Level dim, Graph.INodeGetter<IGTNode> getter) {
+    public GTController(Level dim, Graph.INodeGetter<IEnergyHandler> getter) {
         super(dim, getter);
     }
 
@@ -75,10 +75,10 @@ public class GTController extends Controller<GTTransaction, IGTCable, IGTNode> i
 
     private boolean changeInternal() {
         data.clear();
-        for (Long2ObjectMap.Entry<NodeCache<IGTNode>> e : group.getNodes().long2ObjectEntrySet()) {
+        for (Long2ObjectMap.Entry<NodeCache<IEnergyHandler>> e : group.getNodes().long2ObjectEntrySet()) {
             long pos = e.getLongKey();
-            for (Map.Entry<Direction, IGTNode> tup : e.getValue().values()) {
-                IGTNode producer = tup.getValue();
+            for (Map.Entry<Direction, IEnergyHandler> tup : e.getValue().values()) {
+                IEnergyHandler producer = tup.getValue();
                 Direction direction = tup.getKey();
                 if (producer.canOutput(direction)) {
                     long side = Pos.offset(pos, direction);
@@ -121,11 +121,11 @@ public class GTController extends Controller<GTTransaction, IGTCable, IGTNode> i
      * @param consumerPos The position of the consumer.
      * @return whether or not an issue arose checking node.
      */
-    private boolean onCheck(IGTNode producer, List<GTConsumer> consumers, Path<IGTCable> path, long consumerPos,
+    private boolean onCheck(IEnergyHandler producer, List<GTConsumer> consumers, Path<IGTCable> path, long consumerPos,
                             Direction dir) {
-        NodeCache<IGTNode> nodee = group.getNodes().get(consumerPos);
+        NodeCache<IEnergyHandler> nodee = group.getNodes().get(consumerPos);
 
-        IGTNode node = nodee.value(dir);
+        IEnergyHandler node = nodee.value(dir);
 
         if (node != null && node.canInput(dir)) {
             GTConsumer consumer = new GTConsumer(node, producer, path);
@@ -149,7 +149,7 @@ public class GTController extends Controller<GTTransaction, IGTCable, IGTNode> i
             connector.value().setHolder(GTHolder.create(connector.value(), 0));
         }
         for (var node : this.group.getNodes().values()) {
-            for (Map.Entry<Direction, IGTNode> n : node.values()) {
+            for (Map.Entry<Direction, IEnergyHandler> n : node.values()) {
                 n.getValue().tesseractTick();
                 break;
             }
@@ -167,10 +167,10 @@ public class GTController extends Controller<GTTransaction, IGTCable, IGTNode> i
         List<GTConsumer> list = map.get(side);
         if (list == null)
             return;
-        NodeCache<IGTNode> node = this.group.getNodes().get(Pos.offset(pipePos, side));
+        NodeCache<IEnergyHandler> node = this.group.getNodes().get(Pos.offset(pipePos, side));
         if (node == null)
             return;
-        IGTNode producer = node.value(side.getOpposite());
+        IEnergyHandler producer = node.value(side.getOpposite());
 
         long voltage_out = producer.getOutputVoltage();
         if (stack.voltage > voltage_out) return;

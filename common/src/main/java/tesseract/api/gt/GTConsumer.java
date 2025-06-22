@@ -12,7 +12,7 @@ import static java.lang.Integer.compare;
 /**
  * A class that acts as a container for an electrical consumer.
  */
-public class GTConsumer extends Consumer<IGTCable, IGTNode> {
+public class GTConsumer extends Consumer<IGTCable, IEnergyHandler> {
 
     private double loss;
     private long minVoltage = Integer.MAX_VALUE;
@@ -29,7 +29,7 @@ public class GTConsumer extends Consumer<IGTCable, IGTNode> {
      * @param consumer The consumer node.
      * @param path     The path information.
      */
-    public GTConsumer(IGTNode consumer,IGTNode producer, Path<IGTCable> path) {
+    public GTConsumer(IEnergyHandler consumer,IEnergyHandler producer, Path<IGTCable> path) {
         super(consumer,producer, path);
         init();
     }
@@ -95,9 +95,9 @@ public class GTConsumer extends Consumer<IGTCable, IGTNode> {
         long ampsSent;
         long euReceived;
         long euSent;
-        public final IGTNode handler;
+        public final IEnergyHandler handler;
 
-        public State(IGTNode handler) {
+        public State(IEnergyHandler handler) {
             ampsReceived = 0;
             euReceived = 0;
             this.handler = handler;

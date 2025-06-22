@@ -1,9 +1,8 @@
 package tesseract;
 
 import net.minecraft.core.Direction;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import tesseract.api.gt.IGTNode;
+import tesseract.api.gt.IEnergyHandler;
 import tesseract.api.heat.IHeatNode;
 
 import java.util.ServiceLoader;
@@ -12,7 +11,7 @@ public interface TesseractPlatformUtils {
     TesseractPlatformUtils INSTANCE =  ServiceLoader.load(TesseractPlatformUtils.class).findFirst().orElseThrow(() -> new IllegalStateException("No implementation of TesseractPlatformUtils found"));
 
 
-    IGTNode getGTNode(Level level, long pos, Direction direction, Runnable invalidate);
+    IEnergyHandler getGTNode(Level level, long pos, Direction direction, Runnable invalidate);
 
     IHeatNode getHeatNode(Level level, long pos, Direction direction, Runnable invalidate);
 }

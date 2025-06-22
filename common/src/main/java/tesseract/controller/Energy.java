@@ -5,7 +5,7 @@ import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import tesseract.api.ITickingController;
 import tesseract.api.gt.GTController;
-import tesseract.api.gt.IGTNode;
+import tesseract.api.gt.IEnergyHandler;
 import tesseract.graph.Graph;
 import tesseract.graph.INode;
 
@@ -16,7 +16,7 @@ public class Energy extends GTController {
      *
      * @param dim The dimension id.
      */
-    public Energy(Level dim, Graph.INodeGetter<IGTNode> node) {
+    public Energy(Level dim, Graph.INodeGetter<IEnergyHandler> node) {
         super(dim, node);
     }
 

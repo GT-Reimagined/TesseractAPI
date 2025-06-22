@@ -13,13 +13,12 @@ import tesseract.api.fe.IFENode;
 import tesseract.api.forge.TesseractCaps;
 import tesseract.api.forge.wrapper.FEWrapper;
 import tesseract.api.gt.IEnergyHandler;
-import tesseract.api.gt.IGTNode;
 import tesseract.api.heat.IHeatHandler;
 import tesseract.api.heat.IHeatNode;
 
 public class TesseractPlatformUtilsImpl implements TesseractPlatformUtils {
     @Override
-    public IGTNode getGTNode(Level level, long pos, Direction direction, Runnable invalidate){
+    public IEnergyHandler getGTNode(Level level, long pos, Direction direction, Runnable invalidate){
         BlockEntity tile = level.getBlockEntity(BlockPos.of(pos));
         if (tile == null) return null;
         LazyOptional<IEnergyHandler> capability = TesseractCapUtils.INSTANCE.getEnergyHandler(tile, direction).map(e -> LazyOptional.of(() -> e)).orElse(LazyOptional.empty());
