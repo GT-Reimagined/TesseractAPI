@@ -2,17 +2,15 @@ package tesseract.api.capability;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.energy.CapabilityEnergy;
 import tesseract.api.fe.IFECable;
-import tesseract.api.fe.IFENode;
+import tesseract.api.fe.IExtendedEnergyStorage;
 import tesseract.api.fe.FETransaction;
-import tesseract.forge.TesseractForgeGraphWrappers;
 import tesseract.graph.Graph;
 import tesseract.util.Pos;
 
-public class TesseractFECapability<T extends BlockEntity & IFECable> extends TesseractBaseCapability<T> implements IFENode {
+public class TesseractFECapability<T extends BlockEntity & IFECable> extends TesseractBaseCapability<T> implements IExtendedEnergyStorage {
     private FETransaction old;
     public TesseractFECapability(T tile, Direction side, boolean isNode, ITransactionModifier callback) {
         super(tile, side, isNode, callback);
@@ -39,7 +37,7 @@ public class TesseractFECapability<T extends BlockEntity & IFECable> extends Tes
             long pos = tile.getBlockPos().asLong();
             FETransaction transaction = new FETransaction(maxAmount, a -> {});
             if (!this.isNode) {
-                TesseractForgeGraphWrappers.RF.getController(tile.getLevel(), pos).insert(pos, side, transaction, callback);
+                //TesseractForgeGraphWrappers.RF.getController(tile.getLevel(), pos).insert(pos, side, transaction, callback);
             } else {
                 transferAroundPipe(transaction, pos);
             }

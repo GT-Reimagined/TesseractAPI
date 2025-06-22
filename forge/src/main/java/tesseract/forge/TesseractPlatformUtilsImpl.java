@@ -9,7 +9,7 @@ import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import tesseract.TesseractCapUtils;
 import tesseract.TesseractPlatformUtils;
-import tesseract.api.fe.IFENode;
+import tesseract.api.fe.IExtendedEnergyStorage;
 import tesseract.api.forge.TesseractCaps;
 import tesseract.api.forge.wrapper.FEWrapper;
 import tesseract.api.gt.IEnergyHandler;
@@ -28,7 +28,7 @@ public class TesseractPlatformUtilsImpl implements TesseractPlatformUtils {
         return null;
     }
 
-    public static IFENode getRFNode(Level level, long pos, Direction capSide, Runnable capCallback){
+    public static IExtendedEnergyStorage getRFNode(Level level, long pos, Direction capSide, Runnable capCallback){
         BlockEntity tile = level.getBlockEntity(BlockPos.of(pos));
         if (tile == null) {
             return null;
@@ -37,7 +37,7 @@ public class TesseractPlatformUtilsImpl implements TesseractPlatformUtils {
         if (capability.isPresent()) {
             if (capCallback != null) capability.addListener(o -> capCallback.run());
             IEnergyStorage handler = capability.map(f -> f).orElse(null);
-            return handler instanceof IFENode node ? node : new FEWrapper(handler);
+            return handler instanceof IExtendedEnergyStorage node ? node : new FEWrapper(handler);
         } else {
             return null;
         }

@@ -2,9 +2,9 @@ package tesseract.api.forge.wrapper;
 
 import net.minecraft.core.Direction;
 import net.minecraftforge.energy.IEnergyStorage;
-import tesseract.api.fe.IFENode;
+import tesseract.api.fe.IExtendedEnergyStorage;
 
-public record FEWrapper(IEnergyStorage storage) implements IFENode {
+public record FEWrapper(IEnergyStorage storage) implements IExtendedEnergyStorage {
 
     @Override
     public int receiveEnergy(int maxAmount, boolean simulate) {

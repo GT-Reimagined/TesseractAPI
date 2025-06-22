@@ -12,7 +12,7 @@ import tesseract.forge.TesseractPlatformUtilsImpl;
  * Created with consent and permission of King Lemming and Team CoFH. Released with permission under LGPL 2.1 when bundled with Forge.
  * </p>
  */
-public interface IFENode extends IEnergyStorage {
+public interface IExtendedEnergyStorage extends IEnergyStorage {
 
     /**
      * Used to determine if this storage can receive energy in the given direction.
@@ -34,5 +34,5 @@ public interface IFENode extends IEnergyStorage {
 
     int maxExtract();
 
-    GraphWrapper.ICapabilityGetter<IFENode> GETTER = TesseractPlatformUtilsImpl::getRFNode;
+    GraphWrapper.ICapabilityGetter<IExtendedEnergyStorage> GETTER = TesseractPlatformUtilsImpl::getRFNode;
 }
