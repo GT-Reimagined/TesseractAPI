@@ -4,16 +4,14 @@ import it.unimi.dsi.fastutil.Pair;
 import tesseract.factory.IFactoryPath;
 import tesseract.factory.standard.StandardFactoryRouteTracker;
 
-import java.util.List;
-
-public class HeatFactoryRouteTracker extends StandardFactoryRouteTracker<HeatRoutingInfo, IHeatNodeBlock, IHeatPipe, HeatFactoryNetwork, HeatFactoryGrid> {
+public class HeatFactoryRouteTracker extends StandardFactoryRouteTracker<HeatRoutingInfo, IHeatNode, IHeatPipe, HeatFactoryNetwork, HeatFactoryGrid> {
     @Override
-    public IFactoryPath<HeatRoutingInfo, IHeatNodeBlock, IHeatPipe, HeatFactoryNetwork, HeatFactoryGrid> createPath(Pair<IHeatNodeBlock, HeatRoutingInfo> pair) {
+    public IFactoryPath<HeatRoutingInfo, IHeatNode, IHeatPipe, HeatFactoryNetwork, HeatFactoryGrid> createPath(Pair<IHeatNode, HeatRoutingInfo> pair) {
         return new HeatFactoryPath(pair.first(), pair.second());
     }
 
     @Override
-    public int sort(IFactoryPath<HeatRoutingInfo, IHeatNodeBlock, IHeatPipe, HeatFactoryNetwork, HeatFactoryGrid> a, IFactoryPath<HeatRoutingInfo, IHeatNodeBlock, IHeatPipe, HeatFactoryNetwork, HeatFactoryGrid> b) {
+    public int sort(IFactoryPath<HeatRoutingInfo, IHeatNode, IHeatPipe, HeatFactoryNetwork, HeatFactoryGrid> a, IFactoryPath<HeatRoutingInfo, IHeatNode, IHeatPipe, HeatFactoryNetwork, HeatFactoryGrid> b) {
         return 0;
     }
 }

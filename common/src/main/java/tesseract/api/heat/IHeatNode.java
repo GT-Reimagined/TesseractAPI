@@ -2,7 +2,7 @@ package tesseract.api.heat;
 
 import tesseract.api.INode;
 
-public interface IHeatNodeBlock extends INode<IHeatNodeBlock, HeatRoutingInfo, IHeatPipe, HeatFactoryNetwork, HeatFactoryGrid>, IHeatPipe {
+public interface IHeatNode extends INode<IHeatNode, HeatRoutingInfo, IHeatPipe, HeatFactoryNetwork, HeatFactoryGrid>, IHeatPipe {
 
     @Override
     default int temperatureCoefficient(){
