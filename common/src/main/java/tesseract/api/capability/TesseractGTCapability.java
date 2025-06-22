@@ -5,7 +5,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import tesseract.TesseractCapUtils;
-import tesseract.TesseractGraphWrappers;
 import tesseract.api.gt.*;
 import tesseract.graph.Graph;
 import tesseract.util.Pos;
@@ -30,7 +29,7 @@ public class TesseractGTCapability<T extends BlockEntity & IGTCable> extends Tes
             long pos = tile.getBlockPos().asLong();
             GTTransaction transaction = new GTTransaction(voltage, t -> {});
             if (!this.isNode) {
-                TesseractGraphWrappers.GT_ENERGY.getController(tile.getLevel(), pos).insert(pos, side, transaction, callback);
+                //TesseractGraphWrappers.GT_ENERGY.getController(tile.getLevel(), pos).insert(pos, side, transaction, callback);
             } else {
                 transferAroundPipe(transaction, pos);
             }
@@ -81,7 +80,7 @@ public class TesseractGTCapability<T extends BlockEntity & IGTCable> extends Tes
                         handler.insertEu(t.getEu(), false);
                     });
                     if (transaction.voltage > this.cable.getVoltage()){
-                        ((IGTEvent)TesseractGraphWrappers.GT_ENERGY.getController(tile.getLevel(), pos)).onCableOverVoltage(tile.getLevel(), pos, transaction.voltage);
+                        //((IGTEvent)TesseractGraphWrappers.GT_ENERGY.getController(tile.getLevel(), pos)).onCableOverVoltage(tile.getLevel(), pos, transaction.voltage);
                     }
                 }
                 if (transaction.eu == 0) break;
@@ -150,8 +149,8 @@ public class TesseractGTCapability<T extends BlockEntity & IGTCable> extends Tes
     }
 
     @Override
-    public GTConsumer.State getState() {
-        return new GTConsumer.State(this);
+    public GTState getState() {
+        return new GTState(this);
     }
 
     @Override

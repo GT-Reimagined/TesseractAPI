@@ -108,7 +108,7 @@ public interface IEnergyHandler extends Serializable {
      *
      * @return state.
      */
-    GTConsumer.State getState();
+    GTState getState();
 
     //Called by consumers that cannot tick themselves, such as FE wrappers.
     default void tesseractTick() {

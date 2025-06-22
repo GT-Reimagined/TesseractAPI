@@ -23,7 +23,6 @@ public class Tesseract {
     public static final int HEALTH_CHECK_TIME = 1000;
 
     public static void init() {
-        TesseractGraphWrappers.init();
     }
 
     public Tesseract() {

@@ -7,7 +7,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import team.reborn.energy.api.EnergyStorage;
 import team.reborn.energy.api.base.SimpleSidedEnergyContainer;
 import tesseract.TesseractConfig;
-import tesseract.api.gt.GTConsumer;
+import tesseract.api.gt.GTState;
 import tesseract.api.gt.IEnergyHandler;
 
 public class EnergyTileWrapper implements IEnergyHandler {
@@ -15,7 +15,7 @@ public class EnergyTileWrapper implements IEnergyHandler {
     private final BlockEntity tile;
     private final EnergyStorage storage;
 
-    private final GTConsumer.State state = new GTConsumer.State(this);
+    private final GTState state = new GTState(this);
 
     public EnergyTileWrapper(BlockEntity tile, EnergyStorage storage) {
         this.tile = tile;
@@ -108,7 +108,7 @@ public class EnergyTileWrapper implements IEnergyHandler {
     }
 
     @Override
-    public GTConsumer.State getState() {
+    public GTState getState() {
         return state;
     }
 
