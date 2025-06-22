@@ -2,7 +2,7 @@ package tesseract.api.gt;
 
 import tesseract.factory.standard.StandardFactoryGrid;
 
-public class GTFactoryGrid extends StandardFactoryGrid<GTFactoryGrid, IGTCable, IGTNodeBlock, GTRoutingInfo, GTFactoryNetwork> {
+public class GTFactoryGrid extends StandardFactoryGrid<GTFactoryGrid, IGTCable, IGTNode, GTRoutingInfo, GTFactoryNetwork> {
     public static final GTFactoryGrid INSTANCE = new GTFactoryGrid();
 
     @Override

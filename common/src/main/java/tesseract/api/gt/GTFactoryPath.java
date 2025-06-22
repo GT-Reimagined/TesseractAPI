@@ -2,11 +2,9 @@ package tesseract.api.gt;
 
 import tesseract.factory.IFactoryPath;
 
-import java.util.List;
-
-public record GTFactoryPath(IGTNodeBlock node, GTRoutingInfo routingInfo) implements IFactoryPath<GTRoutingInfo, IGTNodeBlock, IGTCable, GTFactoryNetwork, GTFactoryGrid> {
+public record GTFactoryPath(IGTNode node, GTRoutingInfo routingInfo) implements IFactoryPath<GTRoutingInfo, IGTNode, IGTCable, GTFactoryNetwork, GTFactoryGrid> {
     @Override
-    public IGTNodeBlock getDestination() {
+    public IGTNode getDestination() {
         return node;
     }
 

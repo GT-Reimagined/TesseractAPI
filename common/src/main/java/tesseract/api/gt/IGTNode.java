@@ -5,7 +5,7 @@ import tesseract.api.INode;
 
 import java.util.List;
 
-public interface IGTNodeBlock extends INode<IGTNodeBlock, GTRoutingInfo, IGTCable, GTFactoryNetwork, GTFactoryGrid>, IGTCable {
+public interface IGTNode extends INode<IGTNode, GTRoutingInfo, IGTCable, GTFactoryNetwork, GTFactoryGrid>, IGTCable {
     @Override
     default double getLoss(){
         return 0.0;
@@ -32,8 +32,8 @@ public interface IGTNodeBlock extends INode<IGTNodeBlock, GTRoutingInfo, IGTCabl
     }
 
     @Override
-    default Class<IGTNodeBlock> getSelfClass(){
-        return IGTNodeBlock.class;
+    default Class<IGTNode> getSelfClass(){
+        return IGTNode.class;
     }
 
     @Override
