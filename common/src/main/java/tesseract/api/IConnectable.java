@@ -1,6 +1,7 @@
 package tesseract.api;
 
 import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import tesseract.factory.IFactoryElement;
 import tesseract.factory.IFactoryGrid;
 import tesseract.factory.IFactoryNetwork;
@@ -19,4 +20,6 @@ public interface IConnectable<TSelf extends IConnectable<TSelf, TNotableElement,
     boolean connects(Direction direction);
 
     boolean validate(Direction dir);
+
+    BlockEntity getBlockEntity();
 }

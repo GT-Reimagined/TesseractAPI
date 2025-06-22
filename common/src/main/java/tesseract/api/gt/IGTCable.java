@@ -1,11 +1,15 @@
 package tesseract.api.gt;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.Level;
 import tesseract.api.IConnectable;
+import tesseract.controller.Utils;
 
 /**
  * An electric cable is the unit of interaction with electric inventories.
  */
-public interface IGTCable extends IConnectable<IGTCable, IGTNodeBlock, GTRoutingInfo, GTFactoryNetwork, GTFactoryGrid> {
+public interface IGTCable extends IConnectable<IGTCable, IGTNodeBlock, GTRoutingInfo, GTFactoryNetwork, GTFactoryGrid>, IGTEvent {
 
     /**
      * Returns the energy that this electrical component will permit to lost through or be received in a single tick.
@@ -48,5 +52,20 @@ public interface IGTCable extends IConnectable<IGTCable, IGTNodeBlock, GTRouting
     long getHolder();
 
     void setHolder(long holder);
+
+    @Override
+    default void onNodeOverVoltage(Level w, long pos, long voltage) {
+        Utils.createExplosion(w, BlockPos.of(pos), 4.0F, Explosion.BlockInteraction.BREAK);
+    }
+
+    @Override
+    default void onCableOverAmperage(Level w, long pos, long amperage) {
+        Utils.createFireAround(w, BlockPos.of(pos));
+    }
+
+    @Override
+    default void onCableOverVoltage(Level w, long pos, long voltage) {
+        Utils.createFireAround(w, BlockPos.of(pos));
+    }
 }
 

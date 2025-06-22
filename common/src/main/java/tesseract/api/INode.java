@@ -59,7 +59,7 @@ public interface INode<TSelf extends INode<TSelf, TRoutingInfo, TElement, TNetwo
 
     Class<TElement> getElementClass();
 
-    BlockEntity getBlockEntity();
+
 
     TRoutingInfo createRoutingInfo(List<TElement> pathSoFar, Direction side);
 }
