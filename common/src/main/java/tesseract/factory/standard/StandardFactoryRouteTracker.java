@@ -33,8 +33,8 @@ public abstract class StandardFactoryRouteTracker<TRoutingInfo extends IRoutingI
 
     @Override
     public void onElementAdded(TElement source) {
-        if (getNotableElementClass().isInstance(source)){
-            TNotableElement notableElement = getNotableElementClass().cast(source);
+        TNotableElement notableElement;
+        if (getNotableElementClass().isInstance(source) && (notableElement = getNotableElementClass().cast(source)).isActuallyNode()){
             var list = makePaths(notableElement);
             if (!list.isEmpty()) {
                 paths.put(notableElement, list);
@@ -62,8 +62,8 @@ public abstract class StandardFactoryRouteTracker<TRoutingInfo extends IRoutingI
 
     @Override
     public void onElementRemoved(TElement element) {
-        if (getNotableElementClass().isInstance(element)){
-            TNotableElement notableElement = getNotableElementClass().cast(element);
+        TNotableElement notableElement;
+        if (getNotableElementClass().isInstance(element) && (notableElement = getNotableElementClass().cast(element)).isActuallyNode()){
             if (paths.getIfPresent(notableElement) == null) {
                 paths.invalidateAll();
             } else {

@@ -17,6 +17,7 @@ public interface INode<TSelf extends INode<TSelf, TRoutingInfo, TElement, TNetwo
     @Override
     default List<Pair<TSelf, TRoutingInfo>> getRoutedNeighbours(){
         List<Pair<TSelf, TRoutingInfo>> list = new ArrayList<>();
+        if (!isActuallyNode()) return list;
         for (Direction direction : Direction.values()) {
             if (isOutput(direction)){
                 BlockEntity source = getBlockEntity();
@@ -34,8 +35,8 @@ public interface INode<TSelf extends INode<TSelf, TRoutingInfo, TElement, TNetwo
         BlockEntity neighbor = from.getLevel().getBlockEntity(from.getBlockPos().relative(side));
         if (neighbor != null && getElementClass().isInstance(from)) {
             TElement fromElement = getElementClass().cast(neighbor);
-            if(getSelfClass().isInstance(neighbor)){
-                TSelf self = getSelfClass().cast(neighbor);
+            TSelf self;
+            if(getSelfClass().isInstance(neighbor) && (self = getSelfClass().cast(fromElement)).isActuallyNode()){
                 if (pathSoFar.isEmpty()) {
                     return;
                 }
