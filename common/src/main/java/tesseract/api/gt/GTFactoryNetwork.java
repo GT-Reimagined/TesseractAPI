@@ -80,4 +80,9 @@ public class GTFactoryNetwork extends StandardFactoryNetwork<GTFactoryNetwork, I
         }
     }
 
+    public void tick(){
+        for (IGTCable cable : elements){
+            cable.setHolder(GTHolder.create(cable, 0));
+        }
+    }
 }

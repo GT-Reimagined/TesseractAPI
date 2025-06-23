@@ -9,4 +9,10 @@ public class GTFactoryGrid extends StandardFactoryGrid<GTFactoryGrid, IGTCable, 
     protected GTFactoryNetwork createNetwork() {
         return new GTFactoryNetwork();
     }
+
+    public void tick(){
+        for (GTFactoryNetwork network : networks ) {
+            network.tick();
+        }
+    }
 }
