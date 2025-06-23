@@ -1,12 +1,23 @@
 package tesseract.api.capability;
 
+import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
+import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import tesseract.TesseractCapUtils;
 import tesseract.api.gt.*;
+import tesseract.factory.IFactoryPath;
 import tesseract.util.Pos;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+import java.util.function.Consumer;
 
 public class TesseractGTCapability<T extends BlockEntity & IGTCable> extends TesseractBaseCapability<T> implements IEnergyHandler {
 
@@ -22,20 +33,79 @@ public class TesseractGTCapability<T extends BlockEntity & IGTCable> extends Tes
     public long insertEu(long voltage, boolean simulate) {
         if (this.isSending || (!simulate && old == null)) return 0;
         this.isSending = true;
-        if (!simulate) {
-            old.commit();
-        } else {
-            long pos = tile.getBlockPos().asLong();
-            GTTransaction transaction = new GTTransaction(voltage, t -> {});
-            if (!this.isNode) {
-                //TesseractGraphWrappers.GT_ENERGY.getController(tile.getLevel(), pos).insert(pos, side, transaction, callback);
+        BlockEntity neighbor = this.tile.getLevel().getBlockEntity(this.tile.getBlockPos().relative(this.side));
+        if (neighbor instanceof IGTNode node){
+            if (!simulate) {
+                old.commit();
             } else {
-                transferAroundPipe(transaction, pos);
+                long pos = tile.getBlockPos().asLong();
+                GTTransaction transaction = new GTTransaction(voltage, t -> {});
+                if (!this.isNode) {
+                    insert(transaction, node);
+                } else {
+                    transferAroundPipe(transaction, pos);
+                }
+                this.old = transaction;
             }
-            this.old = transaction;
+            this.isSending = false;
+            return voltage - old.eu;
         }
-        this.isSending = false;
-        return voltage - old.eu;
+        return 0;
+    }
+
+    private void insert(GTTransaction stack, IGTNode node){
+        double previousLoss = 0;
+        List<Consumer<Set<IGTCable>>> transferList = new ArrayList<>();
+        for (IFactoryPath<GTRoutingInfo, IGTNode, IGTCable, GTFactoryNetwork, GTFactoryGrid> path : tile.getNetwork().getTracker().getPaths(node)) {
+            if (path.getDestination().getBlockEntity() != null){
+                long remainingEu = stack.eu;
+                if (remainingEu <= 0) break;
+                double loss = path.getRoutingInfo().actualLoss();
+                double appliedLoss = loss == 0 ? 0 : loss > previousLoss ? loss - previousLoss : previousLoss - loss;
+                previousLoss = loss;
+                long roundedAppliedLoss = Math.round(appliedLoss);
+                if (roundedAppliedLoss < 0 || roundedAppliedLoss > remainingEu) {
+                    continue;
+                }
+                long lossyEu = remainingEu - roundedAppliedLoss;
+                Optional<IEnergyHandler> handler = TesseractCapUtils.INSTANCE.getEnergyHandler(path.getDestination().getBlockEntity(), path.getRoutingInfo().side());
+                long euInserted = handler.map(h -> h.insertEu(lossyEu, true)).orElse(0L);
+                if (euInserted <= 0) continue;
+                GTTransaction.TransferData data1 = stack.addData(euInserted, euInserted + roundedAppliedLoss, appliedLoss, a -> {});
+                transferList.add((l) -> dataCommit(l, path.getRoutingInfo(), handler.get(), data1));
+            }
+        }
+        if (!transferList.isEmpty()){
+            stack.addData(0, 0, 0, d-> dataCommit(transferList));
+        }
+    }
+
+    public void dataCommit(Set<IGTCable> cableList, GTRoutingInfo routingInfo, IEnergyHandler handler, GTTransaction.TransferData data){
+        if (routingInfo.maxVoltage() < data.getVoltage()) {
+            for (IGTCable c : routingInfo.path()) {
+                if (Objects.requireNonNull(c.getHandler(data.getVoltage(), 0)) == GTStatus.FAIL_VOLTAGE) {
+                    c.onCableOverVoltage(c.getBlockEntity().getLevel(), c.getBlockEntity().getBlockPos().asLong(), data.getVoltage());
+                    return;
+                }
+            }
+        } else {
+            cableList.addAll(routingInfo.path());
+        }
+        handler.insertEu(data.getEu(), false);
+    }
+
+    public void dataCommit(List<Consumer<Set<IGTCable>>> list){
+        Set<IGTCable> cableList = new HashSet<>();
+        for (var pair : list) {
+            pair.accept(cableList);
+        }
+        for (IGTCable c : cableList) {
+            c.setHolder(GTHolder.add(c.getHolder(), 1));
+            if (GTHolder.isOverAmperage(c.getHolder())) {
+                c.onCableOverAmperage(c.getBlockEntity().getLevel(), c.getBlockEntity().getBlockPos().asLong(), GTHolder.getAmperage(c.getHolder()));
+                return;
+            }
+        }
     }
 
     @Override
@@ -79,7 +149,7 @@ public class TesseractGTCapability<T extends BlockEntity & IGTCable> extends Tes
                         handler.insertEu(t.getEu(), false);
                     });
                     if (transaction.voltage > this.cable.getVoltage()){
-                        //((IGTEvent)TesseractGraphWrappers.GT_ENERGY.getController(tile.getLevel(), pos)).onCableOverVoltage(tile.getLevel(), pos, transaction.voltage);
+                        this.cable.onCableOverVoltage(tile.getLevel(), pos, transaction.voltage);
                     }
                 }
                 if (transaction.eu == 0) break;
