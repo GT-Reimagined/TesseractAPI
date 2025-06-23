@@ -11,7 +11,7 @@ import tesseract.factory.IRoutingInfo;
 /**
  * A simple interface for representing connectable objects.
  */
-public interface IConnectable<TSelf extends IConnectable<TSelf, TNotableElement, TRoutingInfo, TNetwork, TGrid>, TNotableElement extends INode<TNotableElement, TRoutingInfo, TSelf, TNetwork, TGrid>, TRoutingInfo extends IRoutingInfo<TRoutingInfo>, TNetwork extends IFactoryNetwork<TNetwork, TSelf, TNotableElement, TRoutingInfo, TGrid>, TGrid extends IFactoryGrid<TGrid, TSelf, TNotableElement, TRoutingInfo, TNetwork>> extends IFactoryElement<TSelf, TNotableElement, TRoutingInfo, TNetwork, TGrid> {
+public interface IConnectable {
 
     /**
      * @param direction The direction vector.

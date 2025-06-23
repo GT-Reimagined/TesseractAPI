@@ -13,7 +13,7 @@ import tesseract.factory.IRoutingInfo;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface INode<TSelf extends INode<TSelf, TRoutingInfo, TElement, TNetwork, TGrid>, TRoutingInfo extends IRoutingInfo<TRoutingInfo>, TElement extends IConnectable<TElement, TSelf, TRoutingInfo, TNetwork, TGrid>, TNetwork extends IFactoryNetwork<TNetwork, TElement, TSelf, TRoutingInfo, TGrid>, TGrid extends IFactoryGrid<TGrid, TElement, TSelf, TRoutingInfo, TNetwork>> extends IConnectable<TElement, TSelf, TRoutingInfo, TNetwork, TGrid>, INotableFactoryElement<TSelf, TRoutingInfo, TElement, TNetwork, TGrid> {
+public interface INode<TSelf extends INode<TSelf, TRoutingInfo, TElement, TNetwork, TGrid>, TRoutingInfo extends IRoutingInfo<TRoutingInfo>, TElement extends IFactoryElement<TElement, TSelf, TRoutingInfo, TNetwork, TGrid> & IConnectable, TNetwork extends IFactoryNetwork<TNetwork, TElement, TSelf, TRoutingInfo, TGrid>, TGrid extends IFactoryGrid<TGrid, TElement, TSelf, TRoutingInfo, TNetwork>> extends IFactoryElement<TElement, TSelf, TRoutingInfo, TNetwork, TGrid>, INotableFactoryElement<TSelf, TRoutingInfo, TElement, TNetwork, TGrid>, IConnectable {
     @Override
     default List<Pair<TSelf, TRoutingInfo>> getRoutedNeighbours(){
         List<Pair<TSelf, TRoutingInfo>> list = new ArrayList<>();
