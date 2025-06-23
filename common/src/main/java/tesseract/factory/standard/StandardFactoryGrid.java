@@ -11,6 +11,7 @@ import tesseract.factory.IFactoryNetwork;
 import tesseract.factory.INotableFactoryElement;
 import tesseract.factory.IRoutingInfo;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -54,7 +55,7 @@ public abstract class StandardFactoryGrid<TSelf extends StandardFactoryGrid<TSel
 
         LOGGER.info("Walked adjacent elements in " + (post - pre) / 1e3 + " us");
 
-        if (networks.size() == 0) {
+        if (networks.isEmpty()) {
             // there are no neighbours, or the neighbours didn't have a network somehow (which is an illegal state!
             // boo!)
             TNetwork network = createNetwork();
@@ -105,7 +106,7 @@ public abstract class StandardFactoryGrid<TSelf extends StandardFactoryGrid<TSel
             LOGGER.info("Subsumed " + (networks.size() - 1) + " networks in " + (post - pre) / 1e3 + " us");
 
             for (TElement e : discovered) {
-                if (e.getNetwork() == null) {
+                if (e.getNetwork() != biggestNetwork) {
                     e.setNetwork(biggestNetwork);
                     biggestNetwork.addElement(e);
                 }
@@ -233,23 +234,19 @@ public abstract class StandardFactoryGrid<TSelf extends StandardFactoryGrid<TSel
 
     private void walkAdjacency(TElement start, HashSet<TElement> discovered, HashSet<TNetwork> networks,
                                boolean recurseIntoNetworked) {
-        LinkedList<TElement> queue = new LinkedList<>();
+        ArrayDeque<TElement> queue = new ArrayDeque<>();
 
         queue.add(start);
 
-        while (queue.size() > 0) {
+        while (!queue.isEmpty()) {
             TElement current = queue.removeFirst();
 
-            discovered.add(current);
+            if(!discovered.add(current)) continue;
 
             if (networks != null) networks.add(current.getNetwork());
 
-            if (recurseIntoNetworked ? true : current.getNetwork() == null) {
-                for (TElement neighbour : edges.get(current)) {
-                    if (!discovered.contains(neighbour)) {
-                        queue.add(neighbour);
-                    }
-                }
+            if (current == start || (recurseIntoNetworked || current.getNetwork() == null)) {
+                queue.addAll(edges.get(current));
             }
         }
 
@@ -261,8 +258,7 @@ public abstract class StandardFactoryGrid<TSelf extends StandardFactoryGrid<TSel
     }
 
     private void updateNeighbours(TElement element, HashSet<TElement> updated) {
-        if (updated.contains(element)) return;
-        updated.add(element);
+        if (!updated.add(element)) return;
 
         HashSet<TElement> neighbours = new HashSet<>();
 
