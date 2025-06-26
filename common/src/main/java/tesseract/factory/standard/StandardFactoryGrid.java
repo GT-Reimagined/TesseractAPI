@@ -5,6 +5,7 @@ import com.google.common.collect.SetMultimap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import tesseract.Tesseract;
+import tesseract.factory.GraphUtils;
 import tesseract.factory.IFactoryElement;
 import tesseract.factory.IFactoryGrid;
 import tesseract.factory.IFactoryNetwork;
@@ -53,7 +54,9 @@ public abstract class StandardFactoryGrid<TSelf extends StandardFactoryGrid<TSel
 
         long post = System.nanoTime();
 
-        LOGGER.info("Walked adjacent elements in " + (post - pre) / 1e3 + " us");
+        if (GraphUtils.INSTANCE.isDevEnvironment()) {
+            LOGGER.info("Walked adjacent elements in " + (post - pre) / 1e3 + " us");
+        }
 
         if (networks.isEmpty()) {
             // there are no neighbours, or the neighbours didn't have a network somehow (which is an illegal state!
@@ -103,7 +106,9 @@ public abstract class StandardFactoryGrid<TSelf extends StandardFactoryGrid<TSel
             }
 
             post = System.nanoTime();
-            LOGGER.info("Subsumed " + (networks.size() - 1) + " networks in " + (post - pre) / 1e3 + " us");
+            if (GraphUtils.INSTANCE.isDevEnvironment()) {
+                LOGGER.info("Subsumed " + (networks.size() - 1) + " networks in " + (post - pre) / 1e3 + " us");
+            }
 
             for (TElement e : discovered) {
                 if (e.getNetwork() != biggestNetwork) {
@@ -199,11 +204,13 @@ public abstract class StandardFactoryGrid<TSelf extends StandardFactoryGrid<TSel
 
         long post = System.nanoTime();
 
-        LOGGER.info(
-                "Split network in " + (post - pre) / 1e3
-                        + " us (added "
-                        + (neighbouringClumps.size() - 1)
-                        + " new networks)");
+        if (GraphUtils.INSTANCE.isDevEnvironment()) {
+            LOGGER.info(
+                    "Split network in " + (post - pre) / 1e3
+                            + " us (added "
+                            + (neighbouringClumps.size() - 1)
+                            + " new networks)");
+        }
     }
 
     @Override
