@@ -13,8 +13,8 @@ import tesseract.TesseractCapUtils;
 import tesseract.TesseractConfig;
 import tesseract.api.fabric.TesseractLookups;
 import tesseract.api.fabric.wrapper.*;
-import tesseract.api.gt.IEnergyHandler;
-import tesseract.api.gt.IEnergyHandlerItem;
+import tesseract.api.eu.IEnergyHandler;
+import tesseract.api.eu.IEnergyHandlerItem;
 import tesseract.api.heat.IHeatHandler;
 
 import java.util.Optional;

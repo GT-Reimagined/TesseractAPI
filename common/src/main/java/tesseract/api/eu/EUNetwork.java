@@ -1,4 +1,4 @@
-package tesseract.api.gt;
+package tesseract.api.eu;
 
 import it.unimi.dsi.fastutil.longs.LongSet;
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
@@ -17,17 +17,17 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
 
-public class GTNetwork extends StandardNetwork<GTNetwork, IGTCable, IGTNode, GTRoutingInfo, GTGrid> {
+public class EUNetwork extends StandardNetwork<EUNetwork, IEUCable, IEUNode, EURoutingInfo, EUGrid> {
     public final Object2ObjectMap<ResourceLocation, LongSet> cableIsActive = new Object2ObjectLinkedOpenHashMap<>();
     @Override
-    protected IRouteTracker<GTRoutingInfo, IGTNode, IGTCable, GTNetwork, GTGrid> createRouteTracker() {
-        return new GTRouteTracker();
+    protected IRouteTracker<EURoutingInfo, IEUNode, IEUCable, EUNetwork, EUGrid> createRouteTracker() {
+        return new EURouteTracker();
     }
 
-    public void insert(GTTransaction stack, IGTNode node){
+    public void insert(EUTransaction stack, IEUNode node){
         double previousLoss = 0;
-        List<Consumer<Set<IGTCable>>> transferList = new ArrayList<>();
-        for (IPath<GTRoutingInfo, IGTNode, IGTCable, GTNetwork, GTGrid> path : this.getTracker().getPaths(node)) {
+        List<Consumer<Set<IEUCable>>> transferList = new ArrayList<>();
+        for (IPath<EURoutingInfo, IEUNode, IEUCable, EUNetwork, EUGrid> path : this.getTracker().getPaths(node)) {
             if (path.getDestination().getBlockEntity() != null){
                 long remainingEu = stack.eu;
                 if (remainingEu <= 0) break;
@@ -42,7 +42,7 @@ public class GTNetwork extends StandardNetwork<GTNetwork, IGTCable, IGTNode, GTR
                 Optional<IEnergyHandler> handler = TesseractCapUtils.INSTANCE.getEnergyHandler(path.getDestination().getBlockEntity(), path.getRoutingInfo().side());
                 long euInserted = handler.map(h -> h.insertEu(lossyEu, true)).orElse(0L);
                 if (euInserted <= 0) continue;
-                GTTransaction.TransferData data1 = stack.addData(euInserted, euInserted + roundedAppliedLoss, appliedLoss, a -> {});
+                EUTransaction.TransferData data1 = stack.addData(euInserted, euInserted + roundedAppliedLoss, appliedLoss, a -> {});
                 transferList.add((l) -> dataCommit(l, path.getRoutingInfo(), handler.get(), data1));
             }
         }
@@ -51,10 +51,10 @@ public class GTNetwork extends StandardNetwork<GTNetwork, IGTCable, IGTNode, GTR
         }
     }
 
-    public void dataCommit(Set<IGTCable> cableList, GTRoutingInfo routingInfo, IEnergyHandler handler, GTTransaction.TransferData data){
+    public void dataCommit(Set<IEUCable> cableList, EURoutingInfo routingInfo, IEnergyHandler handler, EUTransaction.TransferData data){
         if (routingInfo.maxVoltage() < data.getVoltage()) {
-            for (IGTCable c : routingInfo.path()) {
-                if (Objects.requireNonNull(c.getHandler(data.getVoltage(), 0)) == GTStatus.FAIL_VOLTAGE) {
+            for (IEUCable c : routingInfo.path()) {
+                if (Objects.requireNonNull(c.getHandler(data.getVoltage(), 0)) == EUStatus.FAIL_VOLTAGE) {
                     c.onCableOverVoltage(c.getBlockEntity().getLevel(), c.getBlockEntity().getBlockPos().asLong(), data.getVoltage());
                     return;
                 }
@@ -65,23 +65,23 @@ public class GTNetwork extends StandardNetwork<GTNetwork, IGTCable, IGTNode, GTR
         handler.insertEu(data.getEu(), false);
     }
 
-    public void dataCommit(List<Consumer<Set<IGTCable>>> list){
-        Set<IGTCable> cableList = new HashSet<>();
+    public void dataCommit(List<Consumer<Set<IEUCable>>> list){
+        Set<IEUCable> cableList = new HashSet<>();
         for (var pair : list) {
             pair.accept(cableList);
         }
-        for (IGTCable c : cableList) {
-            c.setHolder(GTHolder.add(c.getHolder(), 1));
-            if (GTHolder.isOverAmperage(c.getHolder())) {
-                c.onCableOverAmperage(c.getBlockEntity().getLevel(), c.getBlockEntity().getBlockPos().asLong(), GTHolder.getAmperage(c.getHolder()));
+        for (IEUCable c : cableList) {
+            c.setHolder(EUHolder.add(c.getHolder(), 1));
+            if (EUHolder.isOverAmperage(c.getHolder())) {
+                c.onCableOverAmperage(c.getBlockEntity().getLevel(), c.getBlockEntity().getBlockPos().asLong(), EUHolder.getAmperage(c.getHolder()));
                 return;
             }
         }
     }
 
     public void tick(){
-        for (IGTCable cable : elements){
-            cable.setHolder(GTHolder.create(cable, 0));
+        for (IEUCable cable : elements){
+            cable.setHolder(EUHolder.create(cable, 0));
         }
     }
 }

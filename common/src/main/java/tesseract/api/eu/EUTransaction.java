@@ -1,15 +1,15 @@
-package tesseract.api.gt;
+package tesseract.api.eu;
 
 import tesseract.api.Transaction;
 
 import java.util.function.Consumer;
 
-public class GTTransaction extends Transaction<GTTransaction.TransferData> {
+public class EUTransaction extends Transaction<EUTransaction.TransferData> {
 
     public final long voltage;
     public long eu;
 
-    public GTTransaction(long voltage, Consumer<TransferData> consumer) {
+    public EUTransaction(long voltage, Consumer<TransferData> consumer) {
         super(consumer);
         this.voltage = voltage;
         this.eu = voltage;
@@ -40,9 +40,9 @@ public class GTTransaction extends Transaction<GTTransaction.TransferData> {
         private final long voltage;
         private long eu;
         private double loss;
-        public final GTTransaction transaction;
+        public final EUTransaction transaction;
 
-        public TransferData(GTTransaction transaction, long eu, long voltage) {
+        public TransferData(EUTransaction transaction, long eu, long voltage) {
             this.voltage = voltage;
             this.loss = 0;
             this.eu = eu;
@@ -80,7 +80,7 @@ public class GTTransaction extends Transaction<GTTransaction.TransferData> {
             return voltage;
         }
 
-        public GTTransaction getTransaction() {
+        public EUTransaction getTransaction() {
             return transaction;
         }
     }

@@ -7,8 +7,8 @@ import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import tesseract.Tesseract;
-import tesseract.api.gt.IEnergyHandler;
-import tesseract.api.gt.IEnergyHandlerItem;
+import tesseract.api.eu.IEnergyHandler;
+import tesseract.api.eu.IEnergyHandlerItem;
 import tesseract.api.heat.IHeatHandler;
 
 @Mod.EventBusSubscriber(modid = Tesseract.API_ID)

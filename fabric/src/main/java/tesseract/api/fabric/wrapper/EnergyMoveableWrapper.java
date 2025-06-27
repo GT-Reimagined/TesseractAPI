@@ -9,14 +9,14 @@ import aztech.modern_industrialization.util.Simulation;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import tesseract.api.gt.GTState;
-import tesseract.api.gt.IEnergyHandler;
+import tesseract.api.eu.EUState;
+import tesseract.api.eu.IEnergyHandler;
 
 public class EnergyMoveableWrapper implements IEnergyHandler {
     private final BlockEntity blockEntity;
     private final EnergyMoveable storage;
 
-    private final GTState state = new GTState(this);
+    private final EUState state = new EUState(this);
 
     public EnergyMoveableWrapper(BlockEntity blockEntity, EnergyMoveable storage) {
         this.storage = storage;
@@ -111,7 +111,7 @@ public class EnergyMoveableWrapper implements IEnergyHandler {
     }
 
     @Override
-    public GTState getState() {
+    public EUState getState() {
         return state;
     }
 

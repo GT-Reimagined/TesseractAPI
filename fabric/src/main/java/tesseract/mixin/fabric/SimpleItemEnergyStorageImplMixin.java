@@ -15,8 +15,8 @@ import team.reborn.energy.api.base.SimpleBatteryItem;
 import team.reborn.energy.impl.SimpleItemEnergyStorageImpl;
 import tesseract.api.context.TesseractItemContext;
 import tesseract.api.fabric.wrapper.ContainerItemContextWrapper;
-import tesseract.api.gt.GTState;
-import tesseract.api.gt.IEnergyHandlerItem;
+import tesseract.api.eu.EUState;
+import tesseract.api.eu.IEnergyHandlerItem;
 
 @Mixin(SimpleItemEnergyStorageImpl.class)
 public abstract class SimpleItemEnergyStorageImplMixin implements IEnergyHandlerItem {
@@ -40,7 +40,7 @@ public abstract class SimpleItemEnergyStorageImplMixin implements IEnergyHandler
     @Shadow(remap = false) protected abstract boolean trySetEnergy(long energyAmountPerCount, long count, TransactionContext transaction);
 
     @Unique
-    protected GTState state = new GTState(this);
+    protected EUState state = new EUState(this);
 
     @Unique
     private TesseractItemContext tesseractContext;
@@ -136,7 +136,7 @@ public abstract class SimpleItemEnergyStorageImplMixin implements IEnergyHandler
     }
 
     @Override
-    public GTState getState() {
+    public EUState getState() {
         return state;
     }
 

@@ -1,4 +1,4 @@
-package tesseract.api.gt;
+package tesseract.api.eu;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Explosion;
@@ -10,7 +10,7 @@ import tesseract.graph.IElement;
 /**
  * An electric cable is the unit of interaction with electric inventories.
  */
-public interface IGTCable extends IElement<IGTCable, IGTNode, GTRoutingInfo, GTNetwork, GTGrid>, IConnectable, IGTEvent {
+public interface IEUCable extends IElement<IEUCable, IEUNode, EURoutingInfo, EUNetwork, EUGrid>, IConnectable, IEUEvent {
 
     /**
      * Returns the energy that this electrical component will permit to lost through or be received in a single tick.
@@ -44,10 +44,10 @@ public interface IGTCable extends IElement<IGTCable, IGTNode, GTRoutingInfo, GTN
      * @param amperage The current amperage.
      * @return Checks that the cable is able to handle single packet.
      */
-    default GTStatus getHandler(long voltage, long amperage) {
-        if (getVoltage() < voltage) return GTStatus.FAIL_VOLTAGE;
-        else if (getAmps() < amperage) return GTStatus.FAIL_AMPERAGE;
-        return GTStatus.SUCCESS;
+    default EUStatus getHandler(long voltage, long amperage) {
+        if (getVoltage() < voltage) return EUStatus.FAIL_VOLTAGE;
+        else if (getAmps() < amperage) return EUStatus.FAIL_AMPERAGE;
+        return EUStatus.SUCCESS;
     }
 
     long getHolder();

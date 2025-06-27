@@ -5,15 +5,20 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import tesseract.TesseractCapUtils;
+import tesseract.api.eu.EUState;
+import tesseract.api.eu.EUTransaction;
+import tesseract.api.eu.IEUNode;
+import tesseract.api.eu.IEnergyHandler;
+import tesseract.api.eu.IEUCable;
 import tesseract.api.gt.*;
 import tesseract.util.Pos;
 
-public class TesseractGTCapability<T extends BlockEntity & IGTCable> extends TesseractBaseCapability<T> implements IEnergyHandler {
+public class TesseractEUCapability<T extends BlockEntity & IEUCable> extends TesseractBaseCapability<T> implements IEnergyHandler {
 
-    private final IGTCable cable;
-    private GTTransaction old;
+    private final IEUCable cable;
+    private EUTransaction old;
 
-    public TesseractGTCapability(T tile, Direction dir, boolean isNode, ITransactionModifier modifier) {
+    public TesseractEUCapability(T tile, Direction dir, boolean isNode, ITransactionModifier modifier) {
         super(tile, dir, isNode, modifier);
         this.cable = tile;
     }
@@ -24,12 +29,12 @@ public class TesseractGTCapability<T extends BlockEntity & IGTCable> extends Tes
         if (tile.getNetwork() == null) return 0;
         this.isSending = true;
         BlockEntity neighbor = this.tile.getLevel().getBlockEntity(this.tile.getBlockPos().relative(this.side));
-        if (neighbor instanceof IGTNode node){
+        if (neighbor instanceof IEUNode node){
             if (!simulate) {
                 old.commit();
             } else {
                 long pos = tile.getBlockPos().asLong();
-                GTTransaction transaction = new GTTransaction(voltage, t -> {});
+                EUTransaction transaction = new EUTransaction(voltage, t -> {});
                 if (!this.isNode) {
                     tile.getNetwork().insert(transaction, node);
                 } else {
@@ -48,7 +53,7 @@ public class TesseractGTCapability<T extends BlockEntity & IGTCable> extends Tes
         return 0;
     }
 
-    private void transferAroundPipe(GTTransaction transaction, long pos) {
+    private void transferAroundPipe(EUTransaction transaction, long pos) {
         boolean hasInserted = false;
         boolean lossAdded = false;
         for (Direction dir : Direction.values()) {
@@ -68,7 +73,7 @@ public class TesseractGTCapability<T extends BlockEntity & IGTCable> extends Tes
                 }
 
                 long remainingEu = lossAdded ? transaction.eu : transaction.eu - loss;
-                GTTransaction.TransferData data = new GTTransaction.TransferData(transaction, remainingEu, transaction.voltage).setLoss(cable.getLoss());
+                EUTransaction.TransferData data = new EUTransaction.TransferData(transaction, remainingEu, transaction.voltage).setLoss(cable.getLoss());
                 if (this.callback.modify(data, dir, false, true) || this.callback.modify(data, side, true, true)){
                     continue;
                 }
@@ -153,8 +158,8 @@ public class TesseractGTCapability<T extends BlockEntity & IGTCable> extends Tes
     }
 
     @Override
-    public GTState getState() {
-        return new GTState(this);
+    public EUState getState() {
+        return new EUState(this);
     }
 
     @Override

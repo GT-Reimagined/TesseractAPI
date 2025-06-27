@@ -3,7 +3,7 @@ package tesseract.api.fabric.wrapper;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import team.reborn.energy.api.EnergyStorage;
 import tesseract.TesseractConfig;
-import tesseract.api.gt.IEnergyHandler;
+import tesseract.api.eu.IEnergyHandler;
 
 public interface IEnergyHandlerStorage extends EnergyStorage {
     /**

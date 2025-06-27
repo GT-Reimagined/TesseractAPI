@@ -1,4 +1,4 @@
-package tesseract.api.gt;
+package tesseract.api.eu;
 
 import net.minecraft.core.Direction;
 

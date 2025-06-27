@@ -1,4 +1,4 @@
-package tesseract.api.gt;
+package tesseract.api.eu;
 
 import org.jetbrains.annotations.NotNull;
 import tesseract.api.context.TesseractItemContext;

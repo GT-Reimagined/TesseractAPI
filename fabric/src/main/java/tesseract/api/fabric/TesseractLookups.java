@@ -6,8 +6,8 @@ import net.fabricmc.fabric.api.lookup.v1.item.ItemApiLookup;
 import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import tesseract.api.gt.IEnergyHandler;
-import tesseract.api.gt.IEnergyHandlerItem;
+import tesseract.api.eu.IEnergyHandler;
+import tesseract.api.eu.IEnergyHandlerItem;
 import tesseract.api.heat.IHeatHandler;
 
 public class TesseractLookups {

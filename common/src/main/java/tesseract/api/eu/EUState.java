@@ -1,13 +1,13 @@
-package tesseract.api.gt;
+package tesseract.api.eu;
 
-public class GTState {
+public class EUState {
     long ampsReceived;
     long ampsSent;
     long euReceived;
     long euSent;
     public final IEnergyHandler handler;
 
-    public GTState(IEnergyHandler handler) {
+    public EUState(IEnergyHandler handler) {
         ampsReceived = 0;
         euReceived = 0;
         this.handler = handler;

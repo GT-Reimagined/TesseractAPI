@@ -3,17 +3,12 @@ package tesseract.forge;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.energy.IEnergyStorage;
 import tesseract.TesseractCapUtils;
 import tesseract.api.forge.TesseractCaps;
-import tesseract.api.forge.wrapper.*;
-import tesseract.api.gt.IEnergyHandler;
-import tesseract.api.gt.IEnergyHandlerItem;
+import tesseract.api.eu.IEnergyHandler;
+import tesseract.api.eu.IEnergyHandlerItem;
 import tesseract.api.heat.IHeatHandler;
 
-import javax.annotation.Nullable;
 import java.util.Optional;
 
 public class TesseractCapUtilsImpl implements TesseractCapUtils {

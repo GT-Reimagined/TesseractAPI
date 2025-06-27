@@ -1,9 +1,9 @@
-package tesseract.api.gt;
+package tesseract.api.eu;
 
 /**
  * A class that imitates a holder of the packets that has passed thought cables.
  */
-public class GTHolder {
+public class EUHolder {
 
     /**
      * Creates long with the packed holder.
@@ -11,7 +11,7 @@ public class GTHolder {
      * @param cable    The cable connector.
      * @param amperage The initial amperage.
      */
-    public static long create(IGTCable cable, long amperage) {
+    public static long create(IEUCable cable, long amperage) {
         return (long) cable.getAmps() << 32 | amperage;
     }
 

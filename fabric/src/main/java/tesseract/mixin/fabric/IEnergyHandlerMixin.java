@@ -2,7 +2,7 @@ package tesseract.mixin.fabric;
 
 import org.spongepowered.asm.mixin.Mixin;
 import tesseract.api.fabric.wrapper.IEnergyHandlerStorage;
-import tesseract.api.gt.IEnergyHandler;
+import tesseract.api.eu.IEnergyHandler;
 
 @Mixin(IEnergyHandler.class)
 public interface IEnergyHandlerMixin extends IEnergyHandlerStorage {

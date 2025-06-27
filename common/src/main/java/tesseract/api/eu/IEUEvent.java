@@ -1,11 +1,11 @@
-package tesseract.api.gt;
+package tesseract.api.eu;
 
 import net.minecraft.world.level.Level;
 
 /**
  * Interface for handling an electric events. (Controller will handle them)
  */
-public interface IGTEvent {
+public interface IEUEvent {
 
     /**
      * Executes when the node trying to receive higher amount of voltage than can.

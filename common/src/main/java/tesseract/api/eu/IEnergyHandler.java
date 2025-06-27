@@ -1,4 +1,4 @@
-package tesseract.api.gt;
+package tesseract.api.eu;
 
 
 import net.minecraft.core.Direction;
@@ -106,7 +106,7 @@ public interface IEnergyHandler extends Serializable {
      *
      * @return state.
      */
-    GTState getState();
+    EUState getState();
 
     //Called by consumers that cannot tick themselves, such as FE wrappers.
     default void tesseractTick() {
