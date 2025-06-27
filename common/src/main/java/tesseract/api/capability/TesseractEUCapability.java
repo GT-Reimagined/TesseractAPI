@@ -10,7 +10,6 @@ import tesseract.api.eu.EUTransaction;
 import tesseract.api.eu.IEUNode;
 import tesseract.api.eu.IEnergyHandler;
 import tesseract.api.eu.IEUCable;
-import tesseract.api.gt.*;
 import tesseract.util.Pos;
 
 public class TesseractEUCapability<T extends BlockEntity & IEUCable> extends TesseractBaseCapability<T> implements IEnergyHandler {
