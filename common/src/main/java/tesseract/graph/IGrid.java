@@ -1,13 +1,13 @@
-package tesseract.factory;
+package tesseract.graph;
 
-import tesseract.factory.standard.StandardFactoryGrid;
+import tesseract.graph.standard.StandardGrid;
 
 /**
  * A factory grid is the global coordinator for your factory pipe system.
  * Grids will create and destroy networks as elements join or leave the world.
- * You usually want to extend {@link StandardFactoryGrid}, not this.
+ * You usually want to extend {@link StandardGrid}, not this.
  */
-public interface IFactoryGrid<TSelf extends IFactoryGrid<TSelf, TElement, TNotableElement, TRoutingInfo, TNetwork>, TElement extends IFactoryElement<TElement, TNotableElement, TRoutingInfo, TNetwork, TSelf>, TNotableElement extends INotableFactoryElement<TNotableElement, TRoutingInfo, TElement, TNetwork, TSelf>, TRoutingInfo extends IRoutingInfo<TRoutingInfo>, TNetwork extends IFactoryNetwork<TNetwork, TElement, TNotableElement, TRoutingInfo, TSelf>> {
+public interface IGrid<TSelf extends IGrid<TSelf, TElement, TNotableElement, TRoutingInfo, TNetwork>, TElement extends IElement<TElement, TNotableElement, TRoutingInfo, TNetwork, TSelf>, TNotableElement extends INotableElement<TNotableElement, TRoutingInfo, TElement, TNetwork, TSelf>, TRoutingInfo extends IRoutingInfo<TRoutingInfo>, TNetwork extends INetwork<TNetwork, TElement, TNotableElement, TRoutingInfo, TSelf>> {
 
     /**
      * Adds an element and does potentially expensive network topology updates.

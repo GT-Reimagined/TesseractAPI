@@ -5,7 +5,7 @@ import tesseract.api.INode;
 
 import java.util.List;
 
-public interface IGTNode extends INode<IGTNode, GTRoutingInfo, IGTCable, GTFactoryNetwork, GTFactoryGrid>, IGTCable {
+public interface IGTNode extends INode<IGTNode, GTRoutingInfo, IGTCable, GTNetwork, GTGrid>, IGTCable {
     @Override
     default double getLoss(){
         return 0.0;

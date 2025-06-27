@@ -20,7 +20,7 @@ import tesseract.TesseractConfig;
 import tesseract.api.context.TesseractItemContext;
 import tesseract.api.fabric.TesseractLookups;
 import tesseract.api.fabric.wrapper.ContainerItemContextWrapper;
-import tesseract.api.gt.GTFactoryGrid;
+import tesseract.api.gt.GTGrid;
 import tesseract.api.gt.IEnergyHandler;
 import tesseract.api.gt.IEnergyItem;
 
@@ -53,7 +53,7 @@ public class TesseractImpl extends Tesseract implements ModInitializer {
             firstTick.add(l);
             //GraphWrapper.getWrappers().forEach(t -> t.onFirstTick(l));
         }
-        GTFactoryGrid.INSTANCE.tick();
+        GTGrid.INSTANCE.tick();
         //GraphWrapper.getWrappers().forEach(t -> t.tick(l));
         if (Tesseract.HEALTH_CHECK_TIME > 0 && l.getGameTime() % Tesseract.HEALTH_CHECK_TIME == 0) {
             //GraphWrapper.getWrappers().forEach(GraphWrapper::healthCheck);

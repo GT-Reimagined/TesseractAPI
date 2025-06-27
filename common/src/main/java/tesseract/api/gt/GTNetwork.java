@@ -1,14 +1,13 @@
 package tesseract.api.gt;
 
-import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import it.unimi.dsi.fastutil.longs.LongSet;
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import net.minecraft.resources.ResourceLocation;
 import tesseract.TesseractCapUtils;
-import tesseract.factory.IFactoryPath;
-import tesseract.factory.IRouteTracker;
-import tesseract.factory.standard.StandardFactoryNetwork;
+import tesseract.graph.IPath;
+import tesseract.graph.IRouteTracker;
+import tesseract.graph.standard.StandardNetwork;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -18,17 +17,17 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
 
-public class GTFactoryNetwork extends StandardFactoryNetwork<GTFactoryNetwork, IGTCable, IGTNode, GTRoutingInfo, GTFactoryGrid> {
+public class GTNetwork extends StandardNetwork<GTNetwork, IGTCable, IGTNode, GTRoutingInfo, GTGrid> {
     public final Object2ObjectMap<ResourceLocation, LongSet> cableIsActive = new Object2ObjectLinkedOpenHashMap<>();
     @Override
-    protected IRouteTracker<GTRoutingInfo, IGTNode, IGTCable, GTFactoryNetwork, GTFactoryGrid> createRouteTracker() {
-        return new GTFactoryRouteTracker();
+    protected IRouteTracker<GTRoutingInfo, IGTNode, IGTCable, GTNetwork, GTGrid> createRouteTracker() {
+        return new GTRouteTracker();
     }
 
     public void insert(GTTransaction stack, IGTNode node){
         double previousLoss = 0;
         List<Consumer<Set<IGTCable>>> transferList = new ArrayList<>();
-        for (IFactoryPath<GTRoutingInfo, IGTNode, IGTCable, GTFactoryNetwork, GTFactoryGrid> path : this.getTracker().getPaths(node)) {
+        for (IPath<GTRoutingInfo, IGTNode, IGTCable, GTNetwork, GTGrid> path : this.getTracker().getPaths(node)) {
             if (path.getDestination().getBlockEntity() != null){
                 long remainingEu = stack.eu;
                 if (remainingEu <= 0) break;

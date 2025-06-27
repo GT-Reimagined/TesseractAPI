@@ -1,4 +1,4 @@
-package tesseract.factory;
+package tesseract.graph;
 
 import java.util.ServiceLoader;
 

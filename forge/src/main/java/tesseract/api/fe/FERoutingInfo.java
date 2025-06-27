@@ -1,6 +1,6 @@
 package tesseract.api.fe;
 
-import tesseract.factory.IRoutingInfo;
+import tesseract.graph.IRoutingInfo;
 
 public record FERoutingInfo() implements IRoutingInfo<FERoutingInfo> {
     @Override

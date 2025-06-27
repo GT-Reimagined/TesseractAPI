@@ -2,7 +2,7 @@ package tesseract.api.gt;
 
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.core.Direction;
-import tesseract.factory.IRoutingInfo;
+import tesseract.graph.IRoutingInfo;
 
 import java.util.List;
 

@@ -1,30 +1,29 @@
-package tesseract.factory.standard;
+package tesseract.graph.standard;
 
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import tesseract.Tesseract;
-import tesseract.factory.GraphUtils;
-import tesseract.factory.IFactoryElement;
-import tesseract.factory.IFactoryGrid;
-import tesseract.factory.IFactoryNetwork;
-import tesseract.factory.INotableFactoryElement;
-import tesseract.factory.IRoutingInfo;
+import tesseract.graph.GraphUtils;
+import tesseract.graph.IElement;
+import tesseract.graph.IGrid;
+import tesseract.graph.INetwork;
+import tesseract.graph.INotableElement;
+import tesseract.graph.IRoutingInfo;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.Set;
 
 /**
  * This handles all network topology updates, and should be compatible with most pipe systems.
  * A factory element should always register itself with this grid, even when it's not connected to anything.
  */
-public abstract class StandardFactoryGrid<TSelf extends StandardFactoryGrid<TSelf, TElement, TNotableElement, TRoutingInfo, TNetwork>, TElement extends IFactoryElement<TElement, TNotableElement, TRoutingInfo, TNetwork, TSelf>, TNotableElement extends INotableFactoryElement<TNotableElement, TRoutingInfo, TElement, TNetwork, TSelf>, TRoutingInfo extends IRoutingInfo<TRoutingInfo>, TNetwork extends IFactoryNetwork<TNetwork, TElement, TNotableElement, TRoutingInfo, TSelf>>
-        implements IFactoryGrid<TSelf, TElement, TNotableElement, TRoutingInfo, TNetwork> {
+public abstract class StandardGrid<TSelf extends StandardGrid<TSelf, TElement, TNotableElement, TRoutingInfo, TNetwork>, TElement extends IElement<TElement, TNotableElement, TRoutingInfo, TNetwork, TSelf>, TNotableElement extends INotableElement<TNotableElement, TRoutingInfo, TElement, TNetwork, TSelf>, TRoutingInfo extends IRoutingInfo<TRoutingInfo>, TNetwork extends INetwork<TNetwork, TElement, TNotableElement, TRoutingInfo, TSelf>>
+        implements IGrid<TSelf, TElement, TNotableElement, TRoutingInfo, TNetwork> {
 
     public static final Logger LOGGER = LogManager.getLogger("Standard Factory Network");
 
@@ -34,7 +33,7 @@ public abstract class StandardFactoryGrid<TSelf extends StandardFactoryGrid<TSel
             .hashSetValues()
             .build();
 
-    protected StandardFactoryGrid() {
+    protected StandardGrid() {
 
     }
 

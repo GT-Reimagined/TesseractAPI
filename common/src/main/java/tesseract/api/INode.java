@@ -4,16 +4,16 @@ import com.google.common.collect.ImmutableList;
 import it.unimi.dsi.fastutil.Pair;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import tesseract.factory.IFactoryElement;
-import tesseract.factory.IFactoryGrid;
-import tesseract.factory.IFactoryNetwork;
-import tesseract.factory.INotableFactoryElement;
-import tesseract.factory.IRoutingInfo;
+import tesseract.graph.IElement;
+import tesseract.graph.IGrid;
+import tesseract.graph.INetwork;
+import tesseract.graph.INotableElement;
+import tesseract.graph.IRoutingInfo;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public interface INode<TSelf extends INode<TSelf, TRoutingInfo, TElement, TNetwork, TGrid>, TRoutingInfo extends IRoutingInfo<TRoutingInfo>, TElement extends IFactoryElement<TElement, TSelf, TRoutingInfo, TNetwork, TGrid> & IConnectable, TNetwork extends IFactoryNetwork<TNetwork, TElement, TSelf, TRoutingInfo, TGrid>, TGrid extends IFactoryGrid<TGrid, TElement, TSelf, TRoutingInfo, TNetwork>> extends IFactoryElement<TElement, TSelf, TRoutingInfo, TNetwork, TGrid>, INotableFactoryElement<TSelf, TRoutingInfo, TElement, TNetwork, TGrid>, IConnectable {
+public interface INode<TSelf extends INode<TSelf, TRoutingInfo, TElement, TNetwork, TGrid>, TRoutingInfo extends IRoutingInfo<TRoutingInfo>, TElement extends IElement<TElement, TSelf, TRoutingInfo, TNetwork, TGrid> & IConnectable, TNetwork extends INetwork<TNetwork, TElement, TSelf, TRoutingInfo, TGrid>, TGrid extends IGrid<TGrid, TElement, TSelf, TRoutingInfo, TNetwork>> extends IElement<TElement, TSelf, TRoutingInfo, TNetwork, TGrid>, INotableElement<TSelf, TRoutingInfo, TElement, TNetwork, TGrid>, IConnectable {
     @Override
     default List<Pair<TSelf, TRoutingInfo>> getRoutedNeighbours(){
         List<Pair<TSelf, TRoutingInfo>> list = new ArrayList<>();

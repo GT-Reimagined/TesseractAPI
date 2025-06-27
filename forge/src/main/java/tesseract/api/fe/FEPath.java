@@ -1,8 +1,8 @@
 package tesseract.api.fe;
 
-import tesseract.factory.IFactoryPath;
+import tesseract.graph.IPath;
 
-public record FEFactoryPath(IFENode node, FERoutingInfo routingInfo) implements IFactoryPath<FERoutingInfo, IFENode, IFECable, FEFactoryNetwork, FEFactoryGrid> {
+public record FEPath(IFENode node, FERoutingInfo routingInfo) implements IPath<FERoutingInfo, IFENode, IFECable, FENetwork, FEGrid> {
     @Override
     public IFENode getDestination() {
         return node;

@@ -1,12 +1,12 @@
 package tesseract.api.fe;
 
 import tesseract.api.IConnectable;
-import tesseract.factory.IFactoryElement;
+import tesseract.graph.IElement;
 
 /**
  * A flux cable is the unit of interaction with electric inventories.
  */
-public interface IFECable extends IFactoryElement<IFECable, IFENode, FERoutingInfo, FEFactoryNetwork, FEFactoryGrid>, IConnectable {
+public interface IFECable extends IElement<IFECable, IFENode, FERoutingInfo, FENetwork, FEGrid>, IConnectable {
 
     /**
      * Returns the maximum amount of energy that this item component will permit to pass through or be received in a single tick.

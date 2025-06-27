@@ -1,7 +1,7 @@
-package tesseract.factory;
+package tesseract.graph;
 
 import it.unimi.dsi.fastutil.Pair;
-import tesseract.factory.standard.StandardFactoryNetwork;
+import tesseract.graph.standard.StandardNetwork;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -9,10 +9,10 @@ import java.util.List;
 
 /**
  * Represents a pipe, hatch, multi, or any other machine in a factory pipe system.
- * You should create a new interface that extends this one, then specify your network and grid in the IFactoryElement
+ * You should create a new interface that extends this one, then specify your network and grid in the IElement
  * generics.
  */
-public interface IFactoryElement<TSelf extends IFactoryElement<TSelf, TNotableElement, TRoutingInfo, TNetwork, TGrid>, TNotableElement extends INotableFactoryElement<TNotableElement, TRoutingInfo, TSelf, TNetwork, TGrid>, TRoutingInfo extends IRoutingInfo<TRoutingInfo>, TNetwork extends IFactoryNetwork<TNetwork, TSelf, TNotableElement, TRoutingInfo, TGrid>, TGrid extends IFactoryGrid<TGrid, TSelf, TNotableElement, TRoutingInfo, TNetwork>> {
+public interface IElement<TSelf extends IElement<TSelf, TNotableElement, TRoutingInfo, TNetwork, TGrid>, TNotableElement extends INotableElement<TNotableElement, TRoutingInfo, TSelf, TNetwork, TGrid>, TRoutingInfo extends IRoutingInfo<TRoutingInfo>, TNetwork extends INetwork<TNetwork, TSelf, TNotableElement, TRoutingInfo, TGrid>, TGrid extends IGrid<TGrid, TSelf, TNotableElement, TRoutingInfo, TNetwork>> {
 
     /**
      * Detects all adjacent elements, regardless of what network they're on.
@@ -38,7 +38,7 @@ public interface IFactoryElement<TSelf extends IFactoryElement<TSelf, TNotableEl
     /**
      * A component is an object provided by this element.
      * Generally the component implementation is just {@code this}, but it can be anything.
-     * In a {@link StandardFactoryNetwork}, components are grouped by their interface and can be queried by the same
+     * In a {@link StandardNetwork}, components are grouped by their interface and can be queried by the same
      * interface.
      * Components are useful if you want to expose something network-wide so that any element can find it.
      *

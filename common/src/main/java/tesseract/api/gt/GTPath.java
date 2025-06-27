@@ -1,8 +1,8 @@
 package tesseract.api.gt;
 
-import tesseract.factory.IFactoryPath;
+import tesseract.graph.IPath;
 
-public record GTFactoryPath(IGTNode node, GTRoutingInfo routingInfo) implements IFactoryPath<GTRoutingInfo, IGTNode, IGTCable, GTFactoryNetwork, GTFactoryGrid> {
+public record GTPath(IGTNode node, GTRoutingInfo routingInfo) implements IPath<GTRoutingInfo, IGTNode, IGTCable, GTNetwork, GTGrid> {
     @Override
     public IGTNode getDestination() {
         return node;

@@ -1,11 +1,11 @@
-package tesseract.factory.standard;
+package tesseract.graph.standard;
 
-import tesseract.factory.IFactoryElement;
-import tesseract.factory.IFactoryGrid;
-import tesseract.factory.IFactoryNetwork;
-import tesseract.factory.INotableFactoryElement;
-import tesseract.factory.IRouteTracker;
-import tesseract.factory.IRoutingInfo;
+import tesseract.graph.IElement;
+import tesseract.graph.IGrid;
+import tesseract.graph.INetwork;
+import tesseract.graph.INotableElement;
+import tesseract.graph.IRouteTracker;
+import tesseract.graph.IRoutingInfo;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -16,15 +16,15 @@ import java.util.HashSet;
  * A pretty basic factory network.
  * This doesn't do much beyond tracking elements and components.
  */
-public abstract class StandardFactoryNetwork<TSelf extends StandardFactoryNetwork<TSelf, TElement, TNotableElement, TRoutingInfo, TGrid>, TElement extends IFactoryElement<TElement, TNotableElement, TRoutingInfo, TSelf, TGrid>, TNotableElement extends INotableFactoryElement<TNotableElement, TRoutingInfo, TElement, TSelf, TGrid>, TRoutingInfo extends IRoutingInfo<TRoutingInfo>, TGrid extends IFactoryGrid<TGrid, TElement, TNotableElement, TRoutingInfo, TSelf>>
-        implements IFactoryNetwork<TSelf, TElement, TNotableElement, TRoutingInfo, TGrid> {
+public abstract class StandardNetwork<TSelf extends StandardNetwork<TSelf, TElement, TNotableElement, TRoutingInfo, TGrid>, TElement extends IElement<TElement, TNotableElement, TRoutingInfo, TSelf, TGrid>, TNotableElement extends INotableElement<TNotableElement, TRoutingInfo, TElement, TSelf, TGrid>, TRoutingInfo extends IRoutingInfo<TRoutingInfo>, TGrid extends IGrid<TGrid, TElement, TNotableElement, TRoutingInfo, TSelf>>
+        implements INetwork<TSelf, TElement, TNotableElement, TRoutingInfo, TGrid> {
 
     public final HashSet<TElement> elements = new HashSet<>();
     public final HashMap<Class<?>, Collection<Object>> components = new HashMap<>();
 
     public IRouteTracker<TRoutingInfo, TNotableElement, TElement, TSelf, TGrid> routeTracker;
 
-    protected StandardFactoryNetwork() {
+    protected StandardNetwork() {
         this.routeTracker = createRouteTracker();
     }
 

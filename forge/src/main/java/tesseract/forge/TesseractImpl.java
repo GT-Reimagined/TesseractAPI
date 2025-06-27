@@ -13,7 +13,7 @@ import tesseract.Tesseract;
 import tesseract.api.context.TesseractItemContext;
 import tesseract.api.forge.Provider;
 import tesseract.api.forge.TesseractCaps;
-import tesseract.api.gt.GTFactoryGrid;
+import tesseract.api.gt.GTGrid;
 import tesseract.api.wrapper.ItemStackWrapper;
 import tesseract.api.gt.IEnergyItem;
 
@@ -56,7 +56,7 @@ public class TesseractImpl extends Tesseract {
             //GraphWrapper.getWrappers().forEach(t -> t.onFirstTick(dim));
         }
         if (event.phase == TickEvent.Phase.START) {
-            GTFactoryGrid.INSTANCE.tick();
+            GTGrid.INSTANCE.tick();
             //GraphWrapper.getWrappers().forEach(t -> t.tick(dim));
         }
         if (Tesseract.HEALTH_CHECK_TIME > 0 && event.world.getGameTime() % Tesseract.HEALTH_CHECK_TIME == 0) {

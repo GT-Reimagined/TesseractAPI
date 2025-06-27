@@ -5,12 +5,12 @@ import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import tesseract.api.IConnectable;
 import tesseract.controller.Utils;
-import tesseract.factory.IFactoryElement;
+import tesseract.graph.IElement;
 
 /**
  * An electric cable is the unit of interaction with electric inventories.
  */
-public interface IGTCable extends IFactoryElement<IGTCable, IGTNode, GTRoutingInfo, GTFactoryNetwork, GTFactoryGrid>, IConnectable, IGTEvent {
+public interface IGTCable extends IElement<IGTCable, IGTNode, GTRoutingInfo, GTNetwork, GTGrid>, IConnectable, IGTEvent {
 
     /**
      * Returns the energy that this electrical component will permit to lost through or be received in a single tick.

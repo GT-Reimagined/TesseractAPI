@@ -1,7 +1,7 @@
 package tesseract.fabric;
 
 import net.fabricmc.loader.api.FabricLoader;
-import tesseract.factory.GraphUtils;
+import tesseract.graph.GraphUtils;
 
 public class TesseractFabricGraphUtils implements GraphUtils {
     @Override

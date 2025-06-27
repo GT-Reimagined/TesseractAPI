@@ -1,7 +1,7 @@
 package tesseract.forge;
 
 import net.minecraftforge.fml.loading.FMLEnvironment;
-import tesseract.factory.GraphUtils;
+import tesseract.graph.GraphUtils;
 
 public class TesseractForgeGraphUtils implements GraphUtils {
     @Override
