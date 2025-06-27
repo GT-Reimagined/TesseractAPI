@@ -1,16 +1,16 @@
-package tesseract.api.heat;
+package tesseract.api.hu;
 
 import tesseract.api.Transaction;
 
 import java.util.function.Consumer;
 
-public class HeatTransaction extends Transaction<Integer> {
+public class HUTransaction extends Transaction<Integer> {
 
     private int heatSize;
     private int temperature;
     private int usedHeat;
 
-    public HeatTransaction(int heatSize, int temperature, Consumer<Integer> con) {
+    public HUTransaction(int heatSize, int temperature, Consumer<Integer> con) {
         super(con);
         this.heatSize = heatSize;
         this.temperature = temperature;
@@ -25,7 +25,7 @@ public class HeatTransaction extends Transaction<Integer> {
         return temperature;
     }
 
-    public HeatTransaction ignoreTemperature() {
+    public HUTransaction ignoreTemperature() {
         this.temperature = -1;
         return this;
     }

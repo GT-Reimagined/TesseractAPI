@@ -15,7 +15,7 @@ import tesseract.api.fabric.TesseractLookups;
 import tesseract.api.fabric.wrapper.*;
 import tesseract.api.eu.IEnergyHandler;
 import tesseract.api.eu.IEnergyHandlerItem;
-import tesseract.api.heat.IHeatHandler;
+import tesseract.api.hu.IHeatHandler;
 
 import java.util.Optional;
 

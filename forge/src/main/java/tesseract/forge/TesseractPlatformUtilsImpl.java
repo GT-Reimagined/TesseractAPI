@@ -13,7 +13,7 @@ import tesseract.api.fe.IExtendedEnergyStorage;
 import tesseract.api.forge.TesseractCaps;
 import tesseract.api.forge.wrapper.FEWrapper;
 import tesseract.api.eu.IEnergyHandler;
-import tesseract.api.heat.IHeatHandler;
+import tesseract.api.hu.IHeatHandler;
 
 public class TesseractPlatformUtilsImpl implements TesseractPlatformUtils {
     @Override

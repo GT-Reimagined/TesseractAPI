@@ -1,4 +1,4 @@
-package tesseract.api.heat;
+package tesseract.api.hu;
 
 
 import net.minecraft.core.Direction;

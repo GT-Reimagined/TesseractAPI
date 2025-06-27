@@ -9,7 +9,7 @@ import tesseract.TesseractCapUtils;
 import tesseract.TesseractPlatformUtils;
 import tesseract.api.fabric.TileListeners;
 import tesseract.api.eu.IEnergyHandler;
-import tesseract.api.heat.IHeatHandler;
+import tesseract.api.hu.IHeatHandler;
 
 import java.util.Optional;
 

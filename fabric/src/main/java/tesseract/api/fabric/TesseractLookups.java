@@ -8,7 +8,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import tesseract.api.eu.IEnergyHandler;
 import tesseract.api.eu.IEnergyHandlerItem;
-import tesseract.api.heat.IHeatHandler;
+import tesseract.api.hu.IHeatHandler;
 
 public class TesseractLookups {
 

@@ -3,7 +3,7 @@ package tesseract;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import tesseract.api.eu.IEnergyHandler;
-import tesseract.api.heat.IHeatHandler;
+import tesseract.api.hu.IHeatHandler;
 
 import java.util.ServiceLoader;
 
