@@ -5,7 +5,6 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import net.minecraft.resources.ResourceLocation;
 import tesseract.TesseractCapUtils;
-import tesseract.graph.IPath;
 import tesseract.graph.IRouteTracker;
 import tesseract.graph.standard.StandardNetwork;
 
@@ -27,11 +26,11 @@ public class EUNetwork extends StandardNetwork<EUNetwork, IEUCable, IEUNode, EUR
     public void insert(EUTransaction stack, IEUNode node){
         double previousLoss = 0;
         List<Consumer<Set<IEUCable>>> transferList = new ArrayList<>();
-        for (IPath<EURoutingInfo, IEUNode, IEUCable, EUNetwork, EUGrid> path : this.getTracker().getPaths(node)) {
-            if (path.getDestination().getBlockEntity() != null){
+        for (var path : this.getTracker().getPaths(node)) {
+            if (path.element().getBlockEntity() != null){
                 long remainingEu = stack.eu;
                 if (remainingEu <= 0) break;
-                double loss = path.getRoutingInfo().actualLoss();
+                double loss = path.routeInfo().actualLoss();
                 double appliedLoss = loss == 0 ? 0 : loss > previousLoss ? loss - previousLoss : previousLoss - loss;
                 previousLoss = loss;
                 long roundedAppliedLoss = Math.round(appliedLoss);
@@ -39,11 +38,11 @@ public class EUNetwork extends StandardNetwork<EUNetwork, IEUCable, IEUNode, EUR
                     continue;
                 }
                 long lossyEu = remainingEu - roundedAppliedLoss;
-                Optional<IEnergyHandler> handler = TesseractCapUtils.INSTANCE.getEnergyHandler(path.getDestination().getBlockEntity(), path.getRoutingInfo().side());
+                Optional<IEnergyHandler> handler = TesseractCapUtils.INSTANCE.getEnergyHandler(path.element().getBlockEntity(), path.routeInfo().side());
                 long euInserted = handler.map(h -> h.insertEu(lossyEu, true)).orElse(0L);
                 if (euInserted <= 0) continue;
                 EUTransaction.TransferData data1 = stack.addData(euInserted, euInserted + roundedAppliedLoss, appliedLoss, a -> {});
-                transferList.add((l) -> dataCommit(l, path.getRoutingInfo(), handler.get(), data1));
+                transferList.add((l) -> dataCommit(l, path.routeInfo(), handler.get(), data1));
             }
         }
         if (!transferList.isEmpty()){

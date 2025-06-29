@@ -1,36 +1,30 @@
 package tesseract.graph.standard;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import it.unimi.dsi.fastutil.Pair;
-import tesseract.Tesseract;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import tesseract.graph.IElement;
 import tesseract.graph.IGrid;
 import tesseract.graph.INetwork;
-import tesseract.graph.IPath;
 import tesseract.graph.INotableElement;
 import tesseract.graph.IRouteTracker;
 import tesseract.graph.IRoutingInfo;
+import tesseract.graph.RoutedNode;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
+import java.util.Map;
 
 public abstract class StandardRouteTracker<TRoutingInfo extends IRoutingInfo<TRoutingInfo>, TNotableElement extends INotableElement<TNotableElement, TRoutingInfo, TElement, TNetwork, TGrid>, TElement extends IElement<TElement, TNotableElement, TRoutingInfo, TNetwork, TGrid>, TNetwork extends INetwork<TNetwork, TElement, TNotableElement, TRoutingInfo, TGrid>, TGrid extends IGrid<TGrid, TElement, TNotableElement, TRoutingInfo, TNetwork>> implements IRouteTracker<TRoutingInfo, TNotableElement, TElement, TNetwork, TGrid> {
-    Cache<TNotableElement, List<IPath<TRoutingInfo, TNotableElement, TElement, TNetwork, TGrid>>> paths = CacheBuilder.newBuilder().expireAfterAccess(60, TimeUnit.SECONDS).build();
+    Map<TNotableElement, List<RoutedNode<TNotableElement, TRoutingInfo>>> edges = new Object2ObjectOpenHashMap<>();
 
     public final HashSet<TNotableElement> notableElements = new HashSet<>();
 
     @Override
-    public List<IPath<TRoutingInfo, TNotableElement, TElement, TNetwork, TGrid>> getPaths(TNotableElement source) {
-        try {
-            return paths.get(source, () -> makePaths(source));
-        } catch (ExecutionException e) {
-            Tesseract.LOGGER.error(e);
-            return List.of();
+    public List<RoutedNode<TNotableElement, TRoutingInfo>> getPaths(TNotableElement source) {
+        if (edges.containsKey(source)) {
+            return edges.get(source);
         }
+        return List.of();
     }
 
     @Override
@@ -39,7 +33,6 @@ public abstract class StandardRouteTracker<TRoutingInfo extends IRoutingInfo<TRo
         if (getNotableElementClass().isInstance(source) && (notableElement = getNotableElementClass().cast(source)).isActuallyNode()){
             notableElements.add(notableElement);
         }
-        paths.invalidateAll();
     }
 
     @Override
@@ -48,20 +41,23 @@ public abstract class StandardRouteTracker<TRoutingInfo extends IRoutingInfo<TRo
         if (getNotableElementClass().isInstance(element) && (notableElement = getNotableElementClass().cast(element)).isActuallyNode()){
             notableElements.remove(notableElement);
         }
-        paths.invalidateAll();
     }
 
-    public abstract IPath<TRoutingInfo, TNotableElement, TElement, TNetwork, TGrid> createPath(Pair<TNotableElement, TRoutingInfo> pair);
+    public void updateEdges() {
+        edges.clear();
 
-    public abstract int sort(IPath<TRoutingInfo, TNotableElement, TElement, TNetwork, TGrid> a, IPath<TRoutingInfo, TNotableElement, TElement, TNetwork, TGrid> b);
+        for (TNotableElement notableElement : notableElements) {
+            edges.put(notableElement, makePaths(notableElement));
+        }
+    }
+
+    public abstract int sort(RoutedNode<TNotableElement, TRoutingInfo> a, RoutedNode<TNotableElement, TRoutingInfo> b);
 
     public abstract Class<TNotableElement> getNotableElementClass();
 
-    private List<IPath<TRoutingInfo, TNotableElement, TElement, TNetwork, TGrid>> makePaths(TNotableElement source) {
-        List<IPath<TRoutingInfo, TNotableElement, TElement, TNetwork, TGrid>> paths = new ArrayList<>();
-        List<Pair<TNotableElement, TRoutingInfo>> sourcePaths = source.getRoutedNeighbours();
-        sourcePaths.forEach(p -> paths.add(createPath(p)));
-        paths.sort(this::sort);
-        return paths;
+    private List<RoutedNode<TNotableElement, TRoutingInfo>> makePaths(TNotableElement source) {
+        List<RoutedNode<TNotableElement, TRoutingInfo>> sourcePaths = new ArrayList<>(source.getRoutedNeighbours());
+        sourcePaths.sort(this::sort);
+        return sourcePaths;
     }
 }

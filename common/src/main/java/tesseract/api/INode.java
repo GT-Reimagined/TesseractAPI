@@ -9,14 +9,15 @@ import tesseract.graph.IGrid;
 import tesseract.graph.INetwork;
 import tesseract.graph.INotableElement;
 import tesseract.graph.IRoutingInfo;
+import tesseract.graph.RoutedNode;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public interface INode<TSelf extends INode<TSelf, TRoutingInfo, TElement, TNetwork, TGrid>, TRoutingInfo extends IRoutingInfo<TRoutingInfo>, TElement extends IElement<TElement, TSelf, TRoutingInfo, TNetwork, TGrid> & IConnectable, TNetwork extends INetwork<TNetwork, TElement, TSelf, TRoutingInfo, TGrid>, TGrid extends IGrid<TGrid, TElement, TSelf, TRoutingInfo, TNetwork>> extends IElement<TElement, TSelf, TRoutingInfo, TNetwork, TGrid>, INotableElement<TSelf, TRoutingInfo, TElement, TNetwork, TGrid>, IConnectable {
     @Override
-    default List<Pair<TSelf, TRoutingInfo>> getRoutedNeighbours(){
-        List<Pair<TSelf, TRoutingInfo>> list = new ArrayList<>();
+    default List<RoutedNode<TSelf, TRoutingInfo>> getRoutedNeighbours(){
+        List<RoutedNode<TSelf, TRoutingInfo>> list = new ArrayList<>();
         if (!isActuallyNode()) return list;
         for (Direction direction : Direction.values()) {
             if (isOutput(direction)){
@@ -31,7 +32,7 @@ public interface INode<TSelf extends INode<TSelf, TRoutingInfo, TElement, TNetwo
 
     boolean isOutput(Direction direction);
 
-    default void addNeighbor(Direction side, BlockEntity from, List<Pair<TSelf, TRoutingInfo>> list, List<TElement> pathSoFar){
+    default void addNeighbor(Direction side, BlockEntity from, List<RoutedNode<TSelf, TRoutingInfo>> list, List<TElement> pathSoFar){
         BlockEntity neighbor = from.getLevel().getBlockEntity(from.getBlockPos().relative(side));
         if (neighbor != null && getElementClass().isInstance(from)) {
             TElement fromElement = getElementClass().cast(neighbor);
@@ -42,7 +43,7 @@ public interface INode<TSelf extends INode<TSelf, TRoutingInfo, TElement, TNetwo
                 }
                 if (self.isOutput(side.getOpposite())) return;
                 TRoutingInfo routingInfo = createRoutingInfo(pathSoFar, side.getOpposite());
-                list.add(Pair.of(self, routingInfo));
+                list.add(new RoutedNode<>(self, routingInfo));
             } else if (getElementClass().isInstance(neighbor)) {
                 TElement element = getElementClass().cast(neighbor);
                 if (fromElement.connects(side) && element.connects(side.getOpposite()) && !pathSoFar.contains(element)){
