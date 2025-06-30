@@ -10,9 +10,5 @@ public class EUGrid extends StandardGrid<EUGrid, IEUCable, IEUNode, EURoutingInf
         return new EUNetwork();
     }
 
-    public void tick(){
-        for (EUNetwork network : networks ) {
-            network.tick();
-        }
-    }
+
 }

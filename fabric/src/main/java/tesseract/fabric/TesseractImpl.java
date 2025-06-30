@@ -23,6 +23,7 @@ import tesseract.api.fabric.wrapper.ContainerItemContextWrapper;
 import tesseract.api.eu.EUGrid;
 import tesseract.api.eu.IEnergyHandler;
 import tesseract.api.eu.IEnergyItem;
+import tesseract.api.hu.HUGrid;
 
 import java.util.function.BiFunction;
 
@@ -54,6 +55,7 @@ public class TesseractImpl extends Tesseract implements ModInitializer {
             //GraphWrapper.getWrappers().forEach(t -> t.onFirstTick(l));
         }
         EUGrid.INSTANCE.tick();
+        HUGrid.INSTANCE.tick();
         //GraphWrapper.getWrappers().forEach(t -> t.tick(l));
         if (Tesseract.HEALTH_CHECK_TIME > 0 && l.getGameTime() % Tesseract.HEALTH_CHECK_TIME == 0) {
             //GraphWrapper.getWrappers().forEach(GraphWrapper::healthCheck);

@@ -24,6 +24,8 @@ public abstract class StandardNetwork<TSelf extends StandardNetwork<TSelf, TElem
 
     public IRouteTracker<TRoutingInfo, TNotableElement, TElement, TSelf, TGrid> routeTracker;
 
+    private boolean networkChanged = false;
+
     protected StandardNetwork() {
         this.routeTracker = createRouteTracker();
     }
@@ -35,6 +37,7 @@ public abstract class StandardNetwork<TSelf extends StandardNetwork<TSelf, TElem
         elements.add(element);
 
         routeTracker.onElementAdded(element);
+        networkChanged = true;
         for (var component : element.getComponents()) {
             addComponentImpl(component.left(), component.right());
         }
@@ -44,6 +47,7 @@ public abstract class StandardNetwork<TSelf extends StandardNetwork<TSelf, TElem
     public void removeElement(TElement element) {
         elements.remove(element);
         routeTracker.onElementRemoved(element);
+        networkChanged = true;
         if (element != null && element.getNetwork() == this) {
             for (var component : element.getComponents()) {
                 removeComponentImpl(component.left(), component.right());
@@ -58,6 +62,13 @@ public abstract class StandardNetwork<TSelf extends StandardNetwork<TSelf, TElem
 
     public <TIface, TImpl extends TIface> void addComponent(Class<TIface> iface, TImpl impl) {
         addComponentImpl(iface, impl);
+    }
+
+    public void tick(){
+        if (networkChanged) {
+            networkChanged = false;
+            routeTracker.updateEdges();
+        }
     }
 
     private void removeComponentImpl(Class<?> iface, Object impl) {

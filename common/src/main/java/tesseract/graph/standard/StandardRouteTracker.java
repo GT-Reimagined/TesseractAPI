@@ -43,6 +43,7 @@ public abstract class StandardRouteTracker<TRoutingInfo extends IRoutingInfo<TRo
         }
     }
 
+    @Override
     public void updateEdges() {
         edges.clear();
 

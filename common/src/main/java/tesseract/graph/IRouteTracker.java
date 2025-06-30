@@ -8,4 +8,6 @@ public interface IRouteTracker<TRoutingInfo extends IRoutingInfo<TRoutingInfo>, 
     void onElementAdded(TElement element);
 
     void onElementRemoved(TElement element);
+
+    void updateEdges();
 }

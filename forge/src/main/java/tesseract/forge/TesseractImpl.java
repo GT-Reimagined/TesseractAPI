@@ -11,9 +11,11 @@ import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.Mod;
 import tesseract.Tesseract;
 import tesseract.api.context.TesseractItemContext;
+import tesseract.api.fe.FEGrid;
 import tesseract.api.forge.Provider;
 import tesseract.api.forge.TesseractCaps;
 import tesseract.api.eu.EUGrid;
+import tesseract.api.hu.HUGrid;
 import tesseract.api.wrapper.ItemStackWrapper;
 import tesseract.api.eu.IEnergyItem;
 
@@ -57,6 +59,8 @@ public class TesseractImpl extends Tesseract {
         }
         if (event.phase == TickEvent.Phase.START) {
             EUGrid.INSTANCE.tick();
+            HUGrid.INSTANCE.tick();
+            FEGrid.INSTANCE.tick();
             //GraphWrapper.getWrappers().forEach(t -> t.tick(dim));
         }
         if (Tesseract.HEALTH_CHECK_TIME > 0 && event.world.getGameTime() % Tesseract.HEALTH_CHECK_TIME == 0) {

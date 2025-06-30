@@ -5,6 +5,7 @@ import com.google.common.collect.SetMultimap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import tesseract.Tesseract;
+import tesseract.api.eu.EUNetwork;
 import tesseract.graph.GraphUtils;
 import tesseract.graph.IElement;
 import tesseract.graph.IGrid;
@@ -22,7 +23,7 @@ import java.util.Set;
  * This handles all network topology updates, and should be compatible with most pipe systems.
  * A factory element should always register itself with this grid, even when it's not connected to anything.
  */
-public abstract class StandardGrid<TSelf extends StandardGrid<TSelf, TElement, TNotableElement, TRoutingInfo, TNetwork>, TElement extends IElement<TElement, TNotableElement, TRoutingInfo, TNetwork, TSelf>, TNotableElement extends INotableElement<TNotableElement, TRoutingInfo, TElement, TNetwork, TSelf>, TRoutingInfo extends IRoutingInfo<TRoutingInfo>, TNetwork extends INetwork<TNetwork, TElement, TNotableElement, TRoutingInfo, TSelf>>
+public abstract class StandardGrid<TSelf extends StandardGrid<TSelf, TElement, TNotableElement, TRoutingInfo, TNetwork>, TElement extends IElement<TElement, TNotableElement, TRoutingInfo, TNetwork, TSelf>, TNotableElement extends INotableElement<TNotableElement, TRoutingInfo, TElement, TNetwork, TSelf>, TRoutingInfo extends IRoutingInfo<TRoutingInfo>, TNetwork extends StandardNetwork<TNetwork, TElement, TNotableElement, TRoutingInfo, TSelf>>
         implements IGrid<TSelf, TElement, TNotableElement, TRoutingInfo, TNetwork> {
 
     public static final Logger LOGGER = LogManager.getLogger("Standard Factory Network");
@@ -123,6 +124,12 @@ public abstract class StandardGrid<TSelf extends StandardGrid<TSelf, TElement, T
         vertices.add(element);
         element.setNetwork(network);
         network.addElement(element);
+    }
+
+    public void tick(){
+        for (TNetwork network : networks ) {
+            network.tick();
+        }
     }
 
     protected abstract TNetwork createNetwork();
