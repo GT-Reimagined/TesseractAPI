@@ -26,6 +26,7 @@ public class TesseractImpl extends Tesseract {
         Tesseract.init();
         MinecraftForge.EVENT_BUS.addListener(this::serverStoppedEvent);
         MinecraftForge.EVENT_BUS.addListener(this::worldUnloadEvent);
+        MinecraftForge.EVENT_BUS.addListener(this::onServerLevelTick);
         MinecraftForge.EVENT_BUS.addListener(this::onServerTick);
         MinecraftForge.EVENT_BUS.addGenericListener(ItemStack.class, this::onAttachCapabilitiesEventItemStack);
     }
@@ -50,7 +51,13 @@ public class TesseractImpl extends Tesseract {
         firstTick.remove(e.getWorld());
     }
 
-    public void onServerTick(TickEvent.WorldTickEvent event) {
+    private void onServerTick(TickEvent.ServerTickEvent e) {
+        EUGrid.INSTANCE.tick();
+        HUGrid.INSTANCE.tick();
+        FEGrid.INSTANCE.tick();
+    }
+
+    public void onServerLevelTick(TickEvent.WorldTickEvent event) {
         if (event.side.isClient()) return;
         Level dim = event.world;
         if (!hadFirstTick(dim)) {
@@ -58,9 +65,6 @@ public class TesseractImpl extends Tesseract {
             //GraphWrapper.getWrappers().forEach(t -> t.onFirstTick(dim));
         }
         if (event.phase == TickEvent.Phase.START) {
-            EUGrid.INSTANCE.tick();
-            HUGrid.INSTANCE.tick();
-            FEGrid.INSTANCE.tick();
             //GraphWrapper.getWrappers().forEach(t -> t.tick(dim));
         }
         if (Tesseract.HEALTH_CHECK_TIME > 0 && event.world.getGameTime() % Tesseract.HEALTH_CHECK_TIME == 0) {

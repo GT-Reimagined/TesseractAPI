@@ -49,13 +49,16 @@ public class TesseractImpl extends Tesseract implements ModInitializer {
         }
     }
 
+    private static void onStartServerTick(){
+        EUGrid.INSTANCE.tick();
+        HUGrid.INSTANCE.tick();
+    }
+
     private static void onStartTick(ServerLevel l) {
         if (!hadFirstTick(l)) {
             firstTick.add(l);
             //GraphWrapper.getWrappers().forEach(t -> t.onFirstTick(l));
         }
-        EUGrid.INSTANCE.tick();
-        HUGrid.INSTANCE.tick();
         //GraphWrapper.getWrappers().forEach(t -> t.tick(l));
         if (Tesseract.HEALTH_CHECK_TIME > 0 && l.getGameTime() % Tesseract.HEALTH_CHECK_TIME == 0) {
             //GraphWrapper.getWrappers().forEach(GraphWrapper::healthCheck);
@@ -74,6 +77,7 @@ public class TesseractImpl extends Tesseract implements ModInitializer {
         TesseractConfig.createConfig();
         ServerLifecycleEvents.SERVER_STOPPING.register(TesseractImpl::onServerStopping);
         ServerTickEvents.START_WORLD_TICK.register(TesseractImpl::onStartTick);
+        ServerTickEvents.START_SERVER_TICK.register(server -> onStartServerTick());
         ServerTickEvents.END_WORLD_TICK.register(TesseractImpl::onEndTick);
         ServerWorldEvents.UNLOAD.register((TesseractImpl::onWorldUnload));
         TesseractLookups.ENERGY_HANDLER_ITEM.registerFallback((s, c) -> {
