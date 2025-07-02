@@ -6,8 +6,10 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
 import tesseract.Tesseract;
 import tesseract.api.context.TesseractItemContext;
@@ -52,9 +54,11 @@ public class TesseractImpl extends Tesseract {
     }
 
     private void onServerTick(TickEvent.ServerTickEvent e) {
-        EUGrid.INSTANCE.tick();
-        HUGrid.INSTANCE.tick();
-        FEGrid.INSTANCE.tick();
+        if (e.phase == Phase.START && e.side == LogicalSide.SERVER) {
+            EUGrid.INSTANCE.tick();
+            HUGrid.INSTANCE.tick();
+            FEGrid.INSTANCE.tick();
+        }
     }
 
     public void onServerLevelTick(TickEvent.WorldTickEvent event) {
