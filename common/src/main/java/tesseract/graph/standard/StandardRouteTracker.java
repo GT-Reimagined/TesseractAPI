@@ -50,7 +50,10 @@ public abstract class StandardRouteTracker<TRoutingInfo extends IRoutingInfo<TRo
         edges.clear();
 
         for (TNotableElement notableElement : notableElements) {
-            edges.put(notableElement, makePaths(notableElement));
+            List<RoutedNode<TNotableElement, TRoutingInfo>> paths = makePaths(notableElement);
+            if (!paths.isEmpty()) {
+                edges.put(notableElement, paths);
+            }
         }
         ObjectOpenHashSet<RoutedNode<TNotableElement, TRoutingInfo>> uniqueNodes = new ObjectOpenHashSet<>();
         for (TNotableElement notableElement : notableElements){
