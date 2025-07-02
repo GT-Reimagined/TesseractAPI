@@ -1,6 +1,7 @@
 package tesseract.graph.standard;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import tesseract.graph.IElement;
 import tesseract.graph.IGrid;
 import tesseract.graph.INetwork;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public abstract class StandardRouteTracker<TRoutingInfo extends IRoutingInfo<TRoutingInfo>, TNotableElement extends INotableElement<TNotableElement, TRoutingInfo, TElement, TNetwork, TGrid>, TElement extends IElement<TElement, TNotableElement, TRoutingInfo, TNetwork, TGrid>, TNetwork extends INetwork<TNetwork, TElement, TNotableElement, TRoutingInfo, TGrid>, TGrid extends IGrid<TGrid, TElement, TNotableElement, TRoutingInfo, TNetwork>> implements IRouteTracker<TRoutingInfo, TNotableElement, TElement, TNetwork, TGrid> {
     Map<TNotableElement, List<RoutedNode<TNotableElement, TRoutingInfo>>> edges = new Object2ObjectOpenHashMap<>();
@@ -49,6 +51,18 @@ public abstract class StandardRouteTracker<TRoutingInfo extends IRoutingInfo<TRo
 
         for (TNotableElement notableElement : notableElements) {
             edges.put(notableElement, makePaths(notableElement));
+        }
+        ObjectOpenHashSet<RoutedNode<TNotableElement, TRoutingInfo>> uniqueNodes = new ObjectOpenHashSet<>();
+        for (TNotableElement notableElement : notableElements){
+            if (edges.containsKey(notableElement)){
+                List<RoutedNode<TNotableElement, TRoutingInfo>> list = edges.get(notableElement);
+                for (int j = 0; j < list.size(); j++) {
+                    RoutedNode<TNotableElement, TRoutingInfo> node = list.get(j);
+                    if (!uniqueNodes.add(list.get(j))){
+                        list.set(j, uniqueNodes.get(node));
+                    }
+                }
+            }
         }
     }
 
