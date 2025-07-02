@@ -4,7 +4,6 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.gtreimagined.tesseract.Tesseract;
 import org.gtreimagined.tesseract.graph.GraphUtils;
 import org.gtreimagined.tesseract.graph.IElement;
 import org.gtreimagined.tesseract.graph.IGrid;
@@ -283,7 +282,7 @@ public abstract class StandardGrid<TSelf extends StandardGrid<TSelf, TElement, T
                 updateNeighbours(oldNeighbour, updated);
 
                 if (edges.containsEntry(oldNeighbour, element)) {
-                    Tesseract.LOGGER.error(
+                    LOGGER.error(
                             "A factory element isn't following the graph adjacency contract. Edge B -> A was kept when edge A -> B was removed. A = "
                                     + element
                                     + ", B = "
@@ -300,7 +299,7 @@ public abstract class StandardGrid<TSelf extends StandardGrid<TSelf, TElement, T
                 updateNeighbours(currentNeighbour, updated);
 
                 if (!edges.containsEntry(currentNeighbour, element)) {
-                    Tesseract.LOGGER.error(
+                    LOGGER.error(
                             "A factory element isn't following the graph adjacency contract. Edge B -> A was not added when edge A -> B was added. A = "
                                     + element
                                     + ", B = "
