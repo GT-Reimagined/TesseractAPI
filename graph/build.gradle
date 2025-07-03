@@ -6,3 +6,22 @@ dependencies {
     implementation("it.unimi.dsi:fastutil:8.5.6")
     implementation("com.google.guava:guava:31.0.1-jre")
 }
+
+publishing {
+    publications {
+        mavenJava(org.gradle.api.publish.maven.MavenPublication) {
+            from components.java
+        }
+    }
+
+    repositories {
+        def isCI = System.getenv("CI")
+        if (isCI) {
+            maven {
+                url System.getenv("local_maven_url")
+            }
+        } else {
+            mavenLocal()
+        }
+    }
+}
