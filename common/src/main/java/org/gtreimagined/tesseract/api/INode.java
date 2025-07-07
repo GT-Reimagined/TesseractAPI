@@ -33,7 +33,7 @@ public interface INode<TSelf extends INode<TSelf, TRoutingInfo, TElement, TNetwo
 
     default void addNeighbor(Direction side, BlockEntity from, List<RoutedNode<TSelf, TRoutingInfo>> list, List<TElement> pathSoFar){
         BlockEntity neighbor = from.getLevel().getBlockEntity(from.getBlockPos().relative(side));
-        if (neighbor != null && getElementClass().isInstance(from)) {
+        if (neighbor != null && getElementClass().isInstance(neighbor)) {
             TElement fromElement = getElementClass().cast(neighbor);
             TSelf self;
             if(getSelfClass().isInstance(neighbor) && (self = getSelfClass().cast(fromElement)).isActuallyNode()){
