@@ -202,6 +202,7 @@ public abstract class StandardGrid<TSelf extends StandardGrid<TSelf, TElement, T
                     e.setNetwork(newNetwork);
                     newNetwork.addElement(e);
                 }
+                this.networks.add(newNetwork);
             }
         }
 
