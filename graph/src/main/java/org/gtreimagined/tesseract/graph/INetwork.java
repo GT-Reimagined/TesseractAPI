@@ -21,4 +21,8 @@ public interface INetwork<TSelf extends INetwork<TSelf, TElement, TNotableElemen
     public Collection<TElement> getElements();
 
     IRouteTracker<TRoutingInfo, TNotableElement, TElement, TSelf, TGrid> getTracker();
+
+    Class<TElement> getElementClass();
+
+    Class<TNotableElement> getNotableElementClass();
 }

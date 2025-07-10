@@ -32,16 +32,6 @@ public interface IEUNode extends INode<IEUNode, EURoutingInfo, IEUCable, EUNetwo
     }
 
     @Override
-    default Class<IEUNode> getSelfClass(){
-        return IEUNode.class;
-    }
-
-    @Override
-    default Class<IEUCable> getElementClass(){
-        return IEUCable.class;
-    }
-
-    @Override
     default EURoutingInfo createRoutingInfo(List<IEUCable> pathSoFar, Direction side){
         int amps = pathSoFar.stream().reduce((a, b) -> a.getAmps() < b.getAmps() ? a : b).map(IEUCable::getAmps).orElse(0);
         long voltage = pathSoFar.stream().reduce((a, b) -> a.getVoltage() < b.getVoltage() ? a : b).map(IEUCable::getVoltage).orElse(0L);

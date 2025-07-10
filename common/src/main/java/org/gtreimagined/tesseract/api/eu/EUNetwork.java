@@ -18,6 +18,11 @@ import java.util.function.Consumer;
 
 public class EUNetwork extends StandardNetwork<EUNetwork, IEUCable, IEUNode, EURoutingInfo, EUGrid> {
     public final Object2ObjectMap<ResourceLocation, LongSet> cableIsActive = new Object2ObjectLinkedOpenHashMap<>();
+
+    protected EUNetwork() {
+        super(IEUCable.class, IEUNode.class);
+    }
+
     @Override
     protected IRouteTracker<EURoutingInfo, IEUNode, IEUCable, EUNetwork, EUGrid> createRouteTracker() {
         return new EURouteTracker();

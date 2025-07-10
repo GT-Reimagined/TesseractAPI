@@ -21,16 +21,30 @@ public abstract class StandardNetwork<TSelf extends StandardNetwork<TSelf, TElem
 
     public final HashSet<TElement> elements = new HashSet<>();
     public final HashMap<Class<?>, Collection<Object>> components = new HashMap<>();
+    private final Class<TElement> elementClass;
+    private final Class<TNotableElement> notableElementClass;
 
     public IRouteTracker<TRoutingInfo, TNotableElement, TElement, TSelf, TGrid> routeTracker;
 
     private boolean networkChanged = false;
 
-    protected StandardNetwork() {
+    protected StandardNetwork(Class<TElement> elementClass, Class<TNotableElement> notableElementClass) {
+        this.elementClass = elementClass;
+        this.notableElementClass = notableElementClass;
         this.routeTracker = createRouteTracker();
     }
 
     protected abstract IRouteTracker<TRoutingInfo, TNotableElement, TElement, TSelf, TGrid> createRouteTracker();
+
+    @Override
+    public Class<TElement> getElementClass() {
+        return elementClass;
+    }
+
+    @Override
+    public Class<TNotableElement> getNotableElementClass() {
+        return notableElementClass;
+    }
 
     @Override
     public void addElement(TElement element) {

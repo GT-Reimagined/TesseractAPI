@@ -17,7 +17,7 @@ public interface INode<TSelf extends INode<TSelf, TRoutingInfo, TElement, TNetwo
     @Override
     default List<RoutedNode<TSelf, TRoutingInfo>> getRoutedNeighbours(){
         List<RoutedNode<TSelf, TRoutingInfo>> list = new ArrayList<>();
-        if (!isActuallyNode()) return list;
+        if (!isActuallyNode() || getNetwork() == null) return list;
         for (Direction direction : Direction.values()) {
             if (isOutput(direction)){
                 BlockEntity source = getBlockEntity();
@@ -37,7 +37,7 @@ public interface INode<TSelf extends INode<TSelf, TRoutingInfo, TElement, TNetwo
         BlockEntity neighbor = fromBE.getLevel().getBlockEntity(fromBE.getBlockPos().relative(side));
         if (neighbor != null) {
             TSelf self;
-            if(getSelfClass().isInstance(neighbor) && (self = getSelfClass().cast(neighbor)).isActuallyNode()){
+            if(getNetwork().getNotableElementClass().isInstance(neighbor) && (self = getNetwork().getNotableElementClass().cast(neighbor)).isActuallyNode()){
                 if (pathSoFar.isEmpty()) {
                     return;
                 }
@@ -45,8 +45,8 @@ public interface INode<TSelf extends INode<TSelf, TRoutingInfo, TElement, TNetwo
                 if (!from.connects(side) || !self.connects(side.getOpposite())) return;
                 TRoutingInfo routingInfo = createRoutingInfo(pathSoFar, side.getOpposite());
                 list.add(new RoutedNode<>(self, routingInfo));
-            } else if (getElementClass().isInstance(neighbor)) {
-                TElement to = getElementClass().cast(neighbor);
+            } else if (getNetwork().getElementClass().isInstance(neighbor)) {
+                TElement to = getNetwork().getElementClass().cast(neighbor);
                 boolean fromConnects = from.connects(side);
                 boolean toConnects = to.connects(side.getOpposite());
                 if (fromConnects && toConnects && !pathSoFar.contains(to)){
@@ -59,12 +59,6 @@ public interface INode<TSelf extends INode<TSelf, TRoutingInfo, TElement, TNetwo
             }
         }
     }
-
-    Class<TSelf> getSelfClass();
-
-    Class<TElement> getElementClass();
-
-
 
     TRoutingInfo createRoutingInfo(List<TElement> pathSoFar, Direction side);
 }

@@ -4,6 +4,10 @@ import org.gtreimagined.tesseract.graph.IRouteTracker;
 import org.gtreimagined.tesseract.graph.standard.StandardNetwork;
 
 public class FENetwork extends StandardNetwork<FENetwork, IFECable, IFENode, FERoutingInfo, FEGrid> {
+    protected FENetwork() {
+        super(IFECable.class, IFENode.class);
+    }
+
     @Override
     protected IRouteTracker<FERoutingInfo, IFENode, IFECable, FENetwork, FEGrid> createRouteTracker() {
         return new FERouteTracker();
