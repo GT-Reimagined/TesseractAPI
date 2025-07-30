@@ -6,8 +6,10 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.server.ServerStoppedEvent;
+import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
 import org.gtreimagined.tesseract.Tesseract;
 import org.gtreimagined.tesseract.api.context.TesseractItemContext;
@@ -59,7 +61,7 @@ public class TesseractImpl extends Tesseract {
         }
     }
 
-    public void onServerTick(TickEvent.LevelTickEvent event) {
+    public void onServerLevelTick(TickEvent.LevelTickEvent event) {
         if (event.side.isClient()) return;
         Level dim = event.level;
         if (!hadFirstTick(dim)) {

@@ -1,18 +1,14 @@
 package org.gtreimagined.tesseract.fabric;
 
 import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import org.gtreimagined.tesseract.api.fabric.wrapper.EnergyMoveableWrapper;
 import org.gtreimagined.tesseract.api.fabric.wrapper.EnergyTileWrapper;
-import org.gtreimagined.tesseract.api.fabric.wrapper.IEnergyHandlerMoveable;
 import org.gtreimagined.tesseract.api.fabric.wrapper.IEnergyHandlerStorage;
 import org.jetbrains.annotations.NotNull;
 import team.reborn.energy.api.EnergyStorage;
 import org.gtreimagined.tesseract.TesseractCapUtils;
-import org.gtreimagined.tesseract.TesseractConfig;
 import org.gtreimagined.tesseract.api.fabric.TesseractLookups;
 import org.gtreimagined.tesseract.api.eu.IEnergyHandler;
 import org.gtreimagined.tesseract.api.eu.IEnergyHandlerItem;
