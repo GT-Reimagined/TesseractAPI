@@ -49,7 +49,7 @@ dependencies {
     modApi(include("teamreborn:energy:${project.energy_version}")) {
         transitive = false
     }
-    modImplementation(include("maven.modrinth:carbon-config:${project.carbon_config_fabric_version}"))
+    modImplementation(include("maven.modrinth:carbon-config:${project.carbon_config_version}"))
 }
 
 processResources {
