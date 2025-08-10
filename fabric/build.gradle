@@ -50,7 +50,7 @@ dependencies {
         transitive = false
     }
     modCompileOnly("curse.maven:modern_industrialization-405388:${project.modern_industrialization_file}")
-    modImplementation(include("maven.modrinth:carbon-config:${project.carbon_config_fabric_version}"))
+    modImplementation(include("maven.modrinth:carbon-config:${project.carbon_config_version}"))
 }
 
 processResources {
