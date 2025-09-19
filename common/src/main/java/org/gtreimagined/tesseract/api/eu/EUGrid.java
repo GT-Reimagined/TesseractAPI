@@ -9,12 +9,4 @@ public class EUGrid extends StandardGrid<EUGrid, IEUCable, IEUNode, EURoutingInf
     protected EUNetwork createNetwork() {
         return new EUNetwork();
     }
-
-    @Override
-    public void tick() {
-        super.tick();
-        for (IEUCable cable : vertices){
-            cable.setHolder(EUHolder.create(cable, 0));
-        }
-    }
 }
