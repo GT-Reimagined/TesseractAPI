@@ -82,11 +82,4 @@ public class EUNetwork extends StandardNetwork<EUNetwork, IEUCable, IEUNode, EUR
             }
         }
     }
-
-    public void tick(){
-        super.tick();
-        for (IEUCable cable : elements){
-            cable.setHolder(EUHolder.create(cable, 0));
-        }
-    }
 }
