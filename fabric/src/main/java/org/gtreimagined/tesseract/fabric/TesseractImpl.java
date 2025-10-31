@@ -1,22 +1,14 @@
 package org.gtreimagined.tesseract.fabric;
 
-import carbonconfiglib.CarbonConfig;
-import carbonconfiglib.config.Config;
-import carbonconfiglib.config.ConfigHandler;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
-import net.fabricmc.fabric.impl.client.model.loading.ModelLoadingPluginManager;
-import net.minecraft.core.Direction;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import team.reborn.energy.api.EnergyStorage;
 import org.gtreimagined.tesseract.Tesseract;
 import org.gtreimagined.tesseract.TesseractConfig;

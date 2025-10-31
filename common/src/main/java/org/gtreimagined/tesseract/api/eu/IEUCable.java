@@ -3,6 +3,7 @@ package org.gtreimagined.tesseract.api.eu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.Level.ExplosionInteraction;
 import org.gtreimagined.tesseract.api.IConnectable;
 import org.gtreimagined.tesseract.util.Utils;
 import org.gtreimagined.tesseract.graph.IElement;
@@ -56,7 +57,7 @@ public interface IEUCable extends IElement<IEUCable, IEUNode, EURoutingInfo, EUN
 
     @Override
     default void onNodeOverVoltage(Level w, long pos, long voltage) {
-        Utils.createExplosion(w, BlockPos.of(pos), 4.0F, Explosion.BlockInteraction.BREAK);
+        Utils.createExplosion(w, BlockPos.of(pos), 4.0F, ExplosionInteraction.BLOCK);
     }
 
     @Override
