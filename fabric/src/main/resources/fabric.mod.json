@@ -23,7 +23,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "tesseract.fabric.TesseractImpl"
+      "org.gtreimagined.tesseract.fabric.TesseractImpl"
     ]
   },
   "depends": {

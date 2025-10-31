@@ -11,6 +11,10 @@ legacyForge {
     }
 }
 
+dependencies {
+    compileOnly(project(":tesseract-graph"))
+}
+
 publishing {
     publications {
         mavenJava(org.gradle.api.publish.maven.MavenPublication) {

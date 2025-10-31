@@ -44,15 +44,17 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.fabric_loader_version}"
     modApi "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
     compileOnly(project(":tesseract-common"))
+    compileOnly(project(":tesseract-graph"))
 
     modApi(include("teamreborn:energy:${project.energy_version}")) {
         transitive = false
     }
-    modImplementation(include("maven.modrinth:carbon-config:${project.carbon_config_fabric_version}"))
+    modImplementation(include("maven.modrinth:carbon-config:${project.carbon_config_version}"))
 }
 
 processResources {
     from project(":tesseract-common").sourceSets.main.resources
+    from project(":tesseract-graph").sourceSets.main.resources
     inputs.property "version", project.mod_version
 
     filesMatching("fabric.mod.json") {
@@ -62,10 +64,12 @@ processResources {
 
 tasks.named('compileJava', JavaCompile) {
     source(project(":tesseract-common").sourceSets.main.allSource)
+    source(project(":tesseract-graph").sourceSets.main.allSource)
 }
 
 sourcesJar {
     from(project(':tesseract-common').sourceSets.main.allSource)
+    from(project(':tesseract-graph').sourceSets.main.allSource)
 }
 
 publishing {
