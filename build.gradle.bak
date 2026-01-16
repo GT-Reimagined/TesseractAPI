@@ -1,0 +1,35 @@
+plugins {
+    id "maven-publish"
+    id "idea"
+    id "net.neoforged.moddev.legacyforge" version "${mdg_version}" apply false
+}
+
+def isGITHU_ACTION = System.getenv("GITHUB_ACTION")
+def gitHash() {
+    String hash = System.getenv("GITHUB_SHA")
+    if (hash != null) return hash.substring(0,8)
+    return ""
+}
+
+subprojects {
+    apply plugin: "maven-publish"
+    apply plugin: "java"
+    apply plugin: "idea"
+    group = rootProject.maven_group
+    version = "${project.mod_version}-${rootProject.minecraft_version}"
+    java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+    apply from: 'https://raw.githubusercontent.com/GT-Reimagined/GradleScripts/main/repositories.gradle'
+
+    java {
+        withSourcesJar()
+    }
+
+    tasks.withType(JavaCompile).configureEach {
+        it.options.encoding = 'UTF-8'
+    }
+
+    if (isGITHU_ACTION) {
+        version = version + "-" + gitHash()
+        println("In CI mode")
+    }
+}
