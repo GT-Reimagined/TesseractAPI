@@ -1,7 +1,6 @@
 package org.gtreimagined.tesseract.api;
 
 import com.hypixel.hytale.server.core.universe.world.meta.BlockState;
-import net.minecraft.core.Direction;
 
 /**
  * A simple interface for representing connectable objects.

@@ -1,6 +1,6 @@
 package org.gtreimagined.tesseract.api.eu;
 
-import net.minecraft.core.Direction;
+import org.gtreimagined.tesseract.api.Direction;
 import org.gtreimagined.tesseract.api.INode;
 
 import java.util.List;

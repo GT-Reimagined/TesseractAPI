@@ -3,7 +3,6 @@ package org.gtreimagined.tesseract.api.eu;
 import it.unimi.dsi.fastutil.longs.LongSet;
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
-import org.gtreimagined.tesseract.TesseractCapUtils;
 import org.gtreimagined.tesseract.graph.IRouteTracker;
 import org.gtreimagined.tesseract.graph.standard.StandardNetwork;
 
@@ -16,7 +15,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 public class EUNetwork extends StandardNetwork<EUNetwork, IEUCable, IEUNode, EURoutingInfo, EUGrid> {
-    public final Object2ObjectMap<ResourceLocation, LongSet> cableIsActive = new Object2ObjectLinkedOpenHashMap<>();
+    public final Object2ObjectMap<String, LongSet> cableIsActive = new Object2ObjectLinkedOpenHashMap<>();
 
     protected EUNetwork() {
         super(IEUCable.class, IEUNode.class);

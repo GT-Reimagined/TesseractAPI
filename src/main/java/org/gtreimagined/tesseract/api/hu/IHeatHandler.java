@@ -1,7 +1,7 @@
 package org.gtreimagined.tesseract.api.hu;
 
 
-import net.minecraft.core.Direction;
+import org.gtreimagined.tesseract.api.Direction;
 import org.gtreimagined.tesseract.api.Serializable;
 
 public interface IHeatHandler extends Serializable {

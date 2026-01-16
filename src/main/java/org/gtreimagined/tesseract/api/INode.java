@@ -2,7 +2,6 @@ package org.gtreimagined.tesseract.api;
 
 import com.google.common.collect.ImmutableList;
 import com.hypixel.hytale.server.core.universe.world.meta.BlockState;
-import net.minecraft.core.Direction;
 import org.gtreimagined.tesseract.graph.IElement;
 import org.gtreimagined.tesseract.graph.IGrid;
 import org.gtreimagined.tesseract.graph.INetwork;

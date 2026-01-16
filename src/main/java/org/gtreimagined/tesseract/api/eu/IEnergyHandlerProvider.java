@@ -1,7 +1,8 @@
 package org.gtreimagined.tesseract.api.eu;
 
-import net.minecraft.core.Direction;
 
-public interface IEnergyHandlerTile {
+import org.gtreimagined.tesseract.api.Direction;
+
+public interface IEnergyHandlerProvider {
     IEnergyHandler getEnergyHandler(Direction side);
 }

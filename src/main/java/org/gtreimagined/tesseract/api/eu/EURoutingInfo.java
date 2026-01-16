@@ -1,7 +1,7 @@
 package org.gtreimagined.tesseract.api.eu;
 
 import com.google.common.collect.ImmutableSet;
-import net.minecraft.core.Direction;
+import org.gtreimagined.tesseract.api.Direction;
 import org.gtreimagined.tesseract.graph.IRoutingInfo;
 
 import java.util.List;
