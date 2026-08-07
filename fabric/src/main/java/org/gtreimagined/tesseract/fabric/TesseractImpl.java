@@ -79,7 +79,7 @@ public class TesseractImpl extends Tesseract implements ModInitializer {
         ServerTickEvents.START_WORLD_TICK.register(TesseractImpl::onStartTick);
         ServerTickEvents.START_SERVER_TICK.register(server -> onStartServerTick());
         ServerTickEvents.END_WORLD_TICK.register(TesseractImpl::onEndTick);
-        ServerWorldEvents.UNLOAD.register((TesseractImpl::onWorldUnload));
+        ServerWorldEvents.UNLOAD.register(TesseractImpl::onWorldUnload);
         TesseractLookups.ENERGY_HANDLER_ITEM.registerFallback((s, c) -> {
             TesseractItemContext context = new ContainerItemContextWrapper(c);
             if (s.getItem() instanceof IEnergyItem energyItem && energyItem.canCreate(context)){

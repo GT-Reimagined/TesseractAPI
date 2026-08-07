@@ -30,7 +30,7 @@ public class EUHolder {
      * @return Gets a current amperage.
      */
     public static int getAmperage(long holder) {
-        return (int) (holder);
+        return (int) holder;
     }
 
     /**

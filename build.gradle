@@ -1,7 +1,10 @@
+import net.ltgt.gradle.errorprone.CheckSeverity
+
 plugins {
     id "maven-publish"
     id "idea"
     id "net.neoforged.moddev.legacyforge" version "${mdg_version}" apply false
+    id "net.ltgt.errorprone" version "5.1.0" apply false
 }
 
 def isGITHU_ACTION = System.getenv("GITHUB_ACTION")
@@ -15,6 +18,7 @@ subprojects {
     apply plugin: "maven-publish"
     apply plugin: "java"
     apply plugin: "idea"
+    apply plugin: "net.ltgt.errorprone"
     group = rootProject.maven_group
     version = "${project.mod_version}-${rootProject.minecraft_version}"
     java.toolchain.languageVersion = JavaLanguageVersion.of(17)
@@ -24,8 +28,25 @@ subprojects {
         withSourcesJar()
     }
 
+    dependencies {
+        implementation("org.jspecify:jspecify:1.0.0")
+        errorprone "com.uber.nullaway:nullaway:0.13.8"
+        errorprone "com.google.errorprone:error_prone_core:2.42.0"
+    }
+
     tasks.withType(JavaCompile).configureEach {
         it.options.encoding = 'UTF-8'
+        options.errorprone {
+            check("NullAway", CheckSeverity.ERROR)
+            check("AlmostJavadoc", CheckSeverity.OFF)
+            option("NullAway:AnnotatedPackages", "org.gtreimagined.tesseract.graph")
+        }
+        // Include to disable NullAway on test code
+        if (name.toLowerCase().contains("test")) {
+            options.errorprone {
+                disable("NullAway")
+            }
+        }
     }
 
     if (isGITHU_ACTION) {
