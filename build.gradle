@@ -5,6 +5,7 @@ plugins {
     id "idea"
     id "net.neoforged.moddev.legacyforge" version "${mdg_version}" apply false
     id "net.ltgt.errorprone" version "5.1.0" apply false
+    id("net.ltgt.nullaway") version "3.1.0" apply false
 }
 
 def isGITHU_ACTION = System.getenv("GITHUB_ACTION")
@@ -19,6 +20,7 @@ subprojects {
     apply plugin: "java"
     apply plugin: "idea"
     apply plugin: "net.ltgt.errorprone"
+    apply plugin: "net.ltgt.nullaway"
     group = rootProject.maven_group
     version = "${project.mod_version}-${rootProject.minecraft_version}"
     java.toolchain.languageVersion = JavaLanguageVersion.of(17)
@@ -34,13 +36,20 @@ subprojects {
         errorprone "com.google.errorprone:error_prone_core:2.42.0"
     }
 
+    nullaway {
+        onlyNullMarked = true
+        jspecifyMode = true
+    }
+
     tasks.withType(JavaCompile).configureEach {
         it.options.encoding = 'UTF-8'
         options.errorprone {
-            check("NullAway", CheckSeverity.ERROR)
             check("AlmostJavadoc", CheckSeverity.OFF)
-            option("NullAway:AnnotatedPackages", "org.gtreimagined.tesseract.graph")
         }
+        options.errorprone.nullaway {
+            error()
+        }
+        options.compilerArgs << "-XDaddTypeAnnotationsToSymbol=true"
         // Include to disable NullAway on test code
         if (name.toLowerCase().contains("test")) {
             options.errorprone {
