@@ -11,7 +11,7 @@ import org.gtreimagined.tesseract.api.fabric.wrapper.EnergyMoveableWrapper;
 import org.gtreimagined.tesseract.api.fabric.wrapper.EnergyTileWrapper;
 import org.gtreimagined.tesseract.api.fabric.wrapper.IEnergyHandlerMoveable;
 import org.gtreimagined.tesseract.api.fabric.wrapper.IEnergyHandlerStorage;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 import team.reborn.energy.api.EnergyStorage;
 import org.gtreimagined.tesseract.TesseractCapUtils;
 import org.gtreimagined.tesseract.TesseractConfig;
@@ -42,7 +42,7 @@ public class TesseractCapUtilsImpl implements TesseractCapUtils {
     }
 
     @Override
-    public Optional<IEnergyHandler> getEnergyHandler(@NotNull BlockEntity entity, Direction side){
+    public Optional<IEnergyHandler> getEnergyHandler(BlockEntity entity, Direction side){
         IEnergyHandler energyHandler = TesseractLookups.ENERGY_HANDLER_SIDED.find(entity.getLevel(), entity.getBlockPos(), entity.getBlockState(), entity, side);
         if (energyHandler == null) {
             if (FabricLoader.getInstance().isModLoaded("modern_industrialization") && TesseractConfig.ENABLE_MI_COMPAT.get()){
@@ -60,7 +60,7 @@ public class TesseractCapUtilsImpl implements TesseractCapUtils {
         return Optional.ofNullable(heatHandler);
     }
 
-    private IEnergyHandler getEnergyStorage(BlockEntity be, Direction direction){
+    private @Nullable IEnergyHandler getEnergyStorage(BlockEntity be, Direction direction){
         EnergyStorage storage = EnergyStorage.SIDED.find(be.getLevel(), be.getBlockPos(), be.getBlockState(), be, direction);
         if (storage == null) return null;
         if (storage instanceof IEnergyHandler moveable1) return moveable1;
@@ -68,7 +68,7 @@ public class TesseractCapUtilsImpl implements TesseractCapUtils {
         return new EnergyTileWrapper(be, storage);
     }
 
-    private IEnergyHandler getEnergyMoveable(BlockEntity be, Direction direction){
+    private @Nullable IEnergyHandler getEnergyMoveable(BlockEntity be, Direction direction){
         EnergyMoveable moveable = EnergyApi.MOVEABLE.find(be.getLevel(), be.getBlockPos(), be.getBlockState(), be, direction);
         if (moveable == null) return null;
         if (moveable instanceof IEnergyHandler moveable1) return moveable1;

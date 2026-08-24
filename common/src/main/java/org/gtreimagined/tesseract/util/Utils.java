@@ -11,8 +11,7 @@ import net.minecraft.world.level.block.Blocks;
 public class Utils {
 
     public static void createExplosion(Level world, BlockPos pos, float explosionRadius, Explosion.BlockInteraction modeIn) {
-        if (world instanceof ServerLevel) {
-            ServerLevel w = (ServerLevel) world;
+        if (world instanceof ServerLevel w) {
             w.explode(null, pos.getX(), pos.getY() + 0.0625D, pos.getZ(), explosionRadius, true, modeIn);
             w.sendParticles(ParticleTypes.SMOKE, pos.getX(), pos.getY() + 0.5D, pos.getZ(), 1, 0, 0, 0, 0.0D);
         }

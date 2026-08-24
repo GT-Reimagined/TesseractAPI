@@ -3,12 +3,12 @@ package org.gtreimagined.tesseract.api.context;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NullMarked;
 
+@NullMarked
 public interface TesseractItemContext {
     Item getItem();
 
-    @NotNull
     CompoundTag getTag();
 
     int getCount();

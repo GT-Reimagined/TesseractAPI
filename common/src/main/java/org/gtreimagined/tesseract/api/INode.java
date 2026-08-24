@@ -33,7 +33,8 @@ public interface INode<TSelf extends INode<TSelf, TRoutingInfo, TElement, TNetwo
 
     default void addNeighbor(Direction side, TElement from, List<RoutedNode<TSelf, TRoutingInfo>> list, List<TElement> pathSoFar){
         BlockEntity fromBE = from.getBlockEntity();
-        if (fromBE == null) return;
+        if (fromBE.getLevel() == null) return;
+        if (getNetwork() == null) return;
         BlockEntity neighbor = fromBE.getLevel().getBlockEntity(fromBE.getBlockPos().relative(side));
         if (neighbor != null) {
             TSelf self;

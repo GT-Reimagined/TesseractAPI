@@ -6,7 +6,6 @@ import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import org.jetbrains.annotations.NotNull;
 import org.gtreimagined.tesseract.api.context.TesseractItemContext;
 
 public class ContainerItemContextWrapper implements TesseractItemContext {
@@ -17,15 +16,16 @@ public class ContainerItemContextWrapper implements TesseractItemContext {
     }
 
     @Override
-    public @NotNull CompoundTag getTag() {
+    public CompoundTag getTag() {
         if (context.getItemVariant().isBlank()) return new CompoundTag();
         CompoundTag tag = context.getItemVariant().getNbt();
         if (tag == null){
             ItemStack stack = context.getItemVariant().toStack((int) context.getAmount());
-            stack.setTag(new CompoundTag());
+            tag = new CompoundTag();
+            stack.setTag(tag);
             setItemStack(stack);
         }
-        return context.getItemVariant().getNbt();
+        return tag;
     }
 
     @Override

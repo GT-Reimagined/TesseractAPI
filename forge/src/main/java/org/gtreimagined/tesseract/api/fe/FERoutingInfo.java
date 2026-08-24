@@ -5,6 +5,6 @@ import org.gtreimagined.tesseract.graph.IRoutingInfo;
 public record FERoutingInfo() implements IRoutingInfo<FERoutingInfo> {
     @Override
     public FERoutingInfo merge(FERoutingInfo other) {
-        return null;
+        return new FERoutingInfo();
     }
 }

@@ -9,25 +9,26 @@ import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.common.util.NonNullSupplier;
 import org.gtreimagined.tesseract.api.Serializable;
+import org.jspecify.annotations.Nullable;
 
-public class Provider<T> implements ICapabilityProvider, INBTSerializable {
+public class Provider<T> implements ICapabilityProvider, INBTSerializable<Tag> {
     private final LazyOptional<T> optional;
     private final Capability<T> capability;
 
-    public Provider(Capability<T> capability, NonNullSupplier<T> supplier) {
+    public Provider(Capability<T> capability, @Nullable NonNullSupplier<T> supplier) {
         this.optional = LazyOptional.of(supplier);
         this.capability = capability;
     }
 
     @Override
-    public <C> LazyOptional<C> getCapability(Capability<C> cap, Direction side) {
+    public <C> LazyOptional<C> getCapability(Capability<C> cap, @Nullable Direction side) {
         return cap == capability ? optional.cast() : LazyOptional.empty();
     }
 
     @Override
     public Tag serializeNBT() {
         return optional.map(t -> {
-            if (t instanceof INBTSerializable it){
+            if (t instanceof INBTSerializable<?> it){
                 return it.serializeNBT();
             } else if (t instanceof Serializable it){
                 return it.serialize(new CompoundTag());

@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Objects;
 
@@ -28,7 +28,6 @@ public final class CauldronWrapper implements IFluidHandler {
         return 1;
     }
 
-    @NotNull
     @Override
     public FluidStack getFluidInTank(int i) {
         state = level.getBlockState(pos);
@@ -46,7 +45,7 @@ public final class CauldronWrapper implements IFluidHandler {
     }
 
     @Override
-    public boolean isFluidValid(int i, @NotNull FluidStack fluidStack) {
+    public boolean isFluidValid(int i, FluidStack fluidStack) {
         return fluidStack.getFluid() == Fluids.LAVA || fluidStack.getFluid() == Fluids.WATER;
     }
 
@@ -97,7 +96,6 @@ public final class CauldronWrapper implements IFluidHandler {
         return 0;
     }
 
-    @NotNull
     @Override
     public FluidStack drain(FluidStack fluidStack, FluidAction fluidAction) {
         if ((state.getBlock() == Blocks.LAVA_CAULDRON && fluidStack.getFluid() == Fluids.LAVA) || (state.getBlock() == Blocks.WATER_CAULDRON && fluidStack.getFluid() == Fluids.WATER)){
@@ -106,7 +104,6 @@ public final class CauldronWrapper implements IFluidHandler {
         return FluidStack.EMPTY;
     }
 
-    @NotNull
     @Override
     public FluidStack drain(int i, FluidAction fluidAction) {
         this.state = level.getBlockState(pos);
@@ -153,7 +150,7 @@ public final class CauldronWrapper implements IFluidHandler {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
         if (obj == this) return true;
         if (obj == null || obj.getClass() != this.getClass()) return false;
         var that = (CauldronWrapper) obj;

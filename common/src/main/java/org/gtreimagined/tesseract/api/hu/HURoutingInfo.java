@@ -5,6 +5,6 @@ import org.gtreimagined.tesseract.graph.IRoutingInfo;
 public record HURoutingInfo() implements IRoutingInfo<HURoutingInfo> {
     @Override
     public HURoutingInfo merge(HURoutingInfo other) {
-        return null;
+        return new HURoutingInfo();
     }
 }
