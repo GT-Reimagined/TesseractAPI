@@ -13,7 +13,10 @@ public class TesseractConfig {
 
     public static ConfigHandler CONFIG;
 
-    public static void createConfig(){
+    public static void init(){
+    }
+
+    static {
         Config config = new Config(Tesseract.API_ID);
         ConfigSection section = config.add("general");
         EU_TO_TRE_RATIO = section.addDouble("eu_to_tre_ratio", 1.0, "The ratio of the eu to the tre energy converting - Default: (1.0 EU = 1.0 TRE)").setMin(Double.MIN_VALUE);

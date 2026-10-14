@@ -1,6 +1,5 @@
 package org.gtreimagined.tesseract.api.eu;
 
-import org.jetbrains.annotations.NotNull;
 import org.gtreimagined.tesseract.api.context.TesseractItemContext;
 
 public interface IEnergyHandlerItem extends IEnergyHandler{
@@ -8,6 +7,5 @@ public interface IEnergyHandlerItem extends IEnergyHandler{
 
     void setEnergy(long energy);
 
-    @NotNull
     TesseractItemContext getContainer();
 }

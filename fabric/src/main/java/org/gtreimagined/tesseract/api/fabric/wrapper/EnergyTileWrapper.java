@@ -119,7 +119,7 @@ public class EnergyTileWrapper implements IEnergyHandler {
 
     @Override
     public CompoundTag serialize(CompoundTag tag) {
-        return null;
+        return tag;
     }
 
     @Override

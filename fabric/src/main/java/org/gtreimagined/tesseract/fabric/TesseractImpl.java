@@ -9,6 +9,9 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import org.jspecify.annotations.Nullable;
 import team.reborn.energy.api.EnergyStorage;
 import org.gtreimagined.tesseract.Tesseract;
 import org.gtreimagined.tesseract.TesseractConfig;
@@ -27,7 +30,7 @@ public class TesseractImpl extends Tesseract implements ModInitializer {
     public TesseractImpl(){
     }
 
-    private static void onWorldUnload(MinecraftServer server, ServerLevel world) {
+    private static void onWorldUnload(MinecraftServer server, @Nullable ServerLevel world) {
         if (world == null) return;
         //FE_ENERGY.removeWorld((World) e.getWorld());
         //GraphWrapper.getWrappers().forEach(g -> g.removeWorld(world));
@@ -69,12 +72,12 @@ public class TesseractImpl extends Tesseract implements ModInitializer {
     @Override
     public void onInitialize() {
         Tesseract.init();
-        TesseractConfig.createConfig();
+        TesseractConfig.init();
         ServerLifecycleEvents.SERVER_STOPPING.register(TesseractImpl::onServerStopping);
         ServerTickEvents.START_WORLD_TICK.register(TesseractImpl::onStartTick);
         ServerTickEvents.START_SERVER_TICK.register(server -> onStartServerTick());
         ServerTickEvents.END_WORLD_TICK.register(TesseractImpl::onEndTick);
-        ServerWorldEvents.UNLOAD.register((TesseractImpl::onWorldUnload));
+        ServerWorldEvents.UNLOAD.register(TesseractImpl::onWorldUnload);
         TesseractLookups.ENERGY_HANDLER_ITEM.registerFallback((s, c) -> {
             TesseractItemContext context = new ContainerItemContextWrapper(c);
             if (s.getItem() instanceof IEnergyItem energyItem && energyItem.canCreate(context)){

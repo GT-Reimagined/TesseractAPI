@@ -23,7 +23,7 @@ public class EUState {
     public long extract(boolean simulate, long amps) {
         if (handler.canOutput()) {
             if (simulate) {
-                return Math.min(amps, handler.getOutputAmperage() - (ampsSent));
+                return Math.min(amps, handler.getOutputAmperage() - ampsSent);
             }
             if (ampsSent + amps > handler.getOutputAmperage()) {
                 return 0;
@@ -39,14 +39,12 @@ public class EUState {
     public long receive(boolean simulate, long amps) {
         if (handler.canInput()) {
             if (simulate) {
-                return Math.min(amps, handler.getInputAmperage() - (ampsReceived));
+                return Math.min(amps, handler.getInputAmperage() - ampsReceived);
             }
             if (ampsReceived + amps > handler.getInputAmperage()) {
                 return 0;
             }
-            if (!simulate) {
-                ampsReceived += amps;
-            }
+            ampsReceived += amps;
             return amps;
         }
         return 0;

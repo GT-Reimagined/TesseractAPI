@@ -32,23 +32,22 @@ public class EUNetwork extends StandardNetwork<EUNetwork, IEUCable, IEUNode, EUR
         double previousLoss = 0;
         List<Consumer<Set<IEUCable>>> transferList = new ArrayList<>();
         for (var path : this.getTracker().getPaths(node)) {
-            if (path.element().getBlockEntity() != null){
-                long remainingEu = stack.eu;
-                if (remainingEu <= 0) break;
-                double loss = path.routeInfo().actualLoss();
-                double appliedLoss = loss == 0 ? 0 : loss > previousLoss ? loss - previousLoss : previousLoss - loss;
-                previousLoss = loss;
-                long roundedAppliedLoss = Math.round(appliedLoss);
-                if (roundedAppliedLoss < 0 || roundedAppliedLoss > remainingEu) {
-                    continue;
-                }
-                long lossyEu = remainingEu - roundedAppliedLoss;
-                Optional<IEnergyHandler> handler = TesseractCapUtils.INSTANCE.getEnergyHandler(path.element().getBlockEntity(), path.routeInfo().side());
-                long euInserted = handler.map(h -> h.insertEu(lossyEu, true)).orElse(0L);
-                if (euInserted <= 0) continue;
-                EUTransaction.TransferData data1 = stack.addData(euInserted, euInserted + roundedAppliedLoss, appliedLoss, a -> {});
-                transferList.add((l) -> dataCommit(l, path.routeInfo(), handler.get(), data1));
+            path.element().getBlockEntity();
+            long remainingEu = stack.eu;
+            if (remainingEu <= 0) break;
+            double loss = path.routeInfo().actualLoss();
+            double appliedLoss = loss == 0 ? 0 : loss > previousLoss ? loss - previousLoss : previousLoss - loss;
+            previousLoss = loss;
+            long roundedAppliedLoss = Math.round(appliedLoss);
+            if (roundedAppliedLoss < 0 || roundedAppliedLoss > remainingEu) {
+                continue;
             }
+            long lossyEu = remainingEu - roundedAppliedLoss;
+            Optional<IEnergyHandler> handler = TesseractCapUtils.INSTANCE.getEnergyHandler(path.element().getBlockEntity(), path.routeInfo().side());
+            long euInserted = handler.map(h -> h.insertEu(lossyEu, true)).orElse(0L);
+            if (euInserted <= 0) continue;
+            EUTransaction.TransferData data1 = stack.addData(euInserted, euInserted + roundedAppliedLoss, appliedLoss, a -> {});
+            transferList.add((l) -> dataCommit(l, path.routeInfo(), handler.get(), data1));
         }
         if (!transferList.isEmpty()){
             stack.addData(0, 0, 0, d-> dataCommit(transferList));
@@ -59,6 +58,7 @@ public class EUNetwork extends StandardNetwork<EUNetwork, IEUCable, IEUNode, EUR
         if (routingInfo.maxVoltage() < data.getVoltage()) {
             for (IEUCable c : routingInfo.path()) {
                 if (Objects.requireNonNull(c.getHandler(data.getVoltage(), 0)) == EUStatus.FAIL_VOLTAGE) {
+                    if (c.getBlockEntity().getLevel() == null) return;
                     c.onCableOverVoltage(c.getBlockEntity().getLevel(), c.getBlockEntity().getBlockPos().asLong(), data.getVoltage());
                     return;
                 }
@@ -77,6 +77,7 @@ public class EUNetwork extends StandardNetwork<EUNetwork, IEUCable, IEUNode, EUR
         for (IEUCable c : cableList) {
             c.setHolder(EUHolder.add(c.getHolder(), 1));
             if (EUHolder.isOverAmperage(c.getHolder())) {
+                if (c.getBlockEntity().getLevel() == null) return;
                 c.onCableOverAmperage(c.getBlockEntity().getLevel(), c.getBlockEntity().getBlockPos().asLong(), EUHolder.getAmperage(c.getHolder()));
                 return;
             }
