@@ -1,6 +1,6 @@
-package org.gtreimagined.tesseract.forge;
+package org.gtreimagined.tesseract.neoforge;
 
-import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.neoforged.fml.loading.FMLEnvironment;
 import org.gtreimagined.tesseract.graph.GraphUtils;
 
 public class TesseractForgeGraphUtils implements GraphUtils {

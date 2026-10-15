@@ -1,7 +1,7 @@
 package org.gtreimagined.tesseract.api.fe;
 
 import net.minecraft.core.Direction;
-import net.minecraftforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.energy.IEnergyStorage;
 
 /**
  * A flux node is the unit of interaction with flux inventories.

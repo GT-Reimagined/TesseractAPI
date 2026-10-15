@@ -1,13 +1,9 @@
-package org.gtreimagined.tesseract.api.forge;
+package org.gtreimagined.tesseract.api.neoforge;
 
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.util.INBTSerializable;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.common.util.NonNullSupplier;
+import net.neoforged.neoforge.common.util.INBTSerializable;
 import org.gtreimagined.tesseract.api.Serializable;
 import org.jspecify.annotations.Nullable;
 

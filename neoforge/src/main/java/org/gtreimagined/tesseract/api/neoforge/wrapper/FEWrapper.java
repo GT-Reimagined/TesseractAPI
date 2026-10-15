@@ -1,7 +1,7 @@
-package org.gtreimagined.tesseract.api.forge.wrapper;
+package org.gtreimagined.tesseract.api.neoforge.wrapper;
 
 import net.minecraft.core.Direction;
-import net.minecraftforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.energy.IEnergyStorage;
 import org.gtreimagined.tesseract.api.fe.IExtendedEnergyStorage;
 
 public record FEWrapper(IEnergyStorage storage) implements IExtendedEnergyStorage {

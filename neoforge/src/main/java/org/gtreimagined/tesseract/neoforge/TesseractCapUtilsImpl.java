@@ -1,10 +1,10 @@
-package org.gtreimagined.tesseract.forge;
+package org.gtreimagined.tesseract.neoforge;
 
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import org.gtreimagined.tesseract.TesseractCapUtils;
-import org.gtreimagined.tesseract.api.forge.TesseractCaps;
+import org.gtreimagined.tesseract.api.neoforge.TesseractCaps;
 import org.gtreimagined.tesseract.api.eu.IEnergyHandler;
 import org.gtreimagined.tesseract.api.eu.IEnergyHandlerItem;
 import org.gtreimagined.tesseract.api.hu.IHeatHandler;

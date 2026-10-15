@@ -1,4 +1,4 @@
-package org.gtreimagined.tesseract.api.forge;
+package org.gtreimagined.tesseract.api.neoforge;
 
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;

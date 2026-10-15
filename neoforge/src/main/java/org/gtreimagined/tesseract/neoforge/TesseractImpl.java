@@ -1,21 +1,17 @@
-package org.gtreimagined.tesseract.forge;
+package org.gtreimagined.tesseract.neoforge;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.TickEvent.Phase;
-import net.minecraftforge.event.level.LevelEvent;
-import net.minecraftforge.event.server.ServerStoppedEvent;
-import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.level.LevelEvent;
+import net.neoforged.neoforge.event.server.ServerStoppedEvent;
 import org.gtreimagined.tesseract.Tesseract;
 import org.gtreimagined.tesseract.api.context.TesseractItemContext;
 import org.gtreimagined.tesseract.api.fe.FEGrid;
-import org.gtreimagined.tesseract.api.forge.Provider;
-import org.gtreimagined.tesseract.api.forge.TesseractCaps;
+import org.gtreimagined.tesseract.api.neoforge.Provider;
+import org.gtreimagined.tesseract.api.neoforge.TesseractCaps;
 import org.gtreimagined.tesseract.api.eu.EUGrid;
 import org.gtreimagined.tesseract.api.hu.HUGrid;
 import org.gtreimagined.tesseract.api.wrapper.ItemStackWrapper;
@@ -26,17 +22,17 @@ public class TesseractImpl extends Tesseract {
     public TesseractImpl() {
 
         Tesseract.init();
-        MinecraftForge.EVENT_BUS.addListener(this::serverStoppedEvent);
-        MinecraftForge.EVENT_BUS.addListener(this::worldUnloadEvent);
-        MinecraftForge.EVENT_BUS.addListener(this::onServerLevelTick);
-        MinecraftForge.EVENT_BUS.addListener(this::onServerTick);
-        MinecraftForge.EVENT_BUS.addGenericListener(ItemStack.class, this::onAttachCapabilitiesEventItemStack);
+        NeoForge.EVENT_BUS.addListener(this::serverStoppedEvent);
+        NeoForge.EVENT_BUS.addListener(this::worldUnloadEvent);
+        NeoForge.EVENT_BUS.addListener(this::onServerLevelTick);
+        NeoForge.EVENT_BUS.addListener(this::onServerTick);
+        NeoForge.EVENT_BUS.addGenericListener(ItemStack.class, this::onAttachCapabilitiesEventItemStack);
     }
 
     public void onAttachCapabilitiesEventItemStack(AttachCapabilitiesEvent<ItemStack> event){
         if (event.getObject().getItem() instanceof IEnergyItem energyItem){
             TesseractItemContext context = new ItemStackWrapper(event.getObject());
-            event.addCapability(new ResourceLocation(Tesseract.API_ID, "energy_items"), new Provider<>(TesseractCaps.ENERGY_HANDLER_CAPABILITY_ITEM, energyItem.canCreate(context) ? () -> energyItem.createEnergyHandler(context) : null));
+            event.addCapability(ResourceLocation.fromNamespaceAndPath(Tesseract.API_ID, "energy_items"), new Provider<>(TesseractCaps.ENERGY_HANDLER_CAPABILITY_ITEM, energyItem.canCreate(context) ? () -> energyItem.createEnergyHandler(context) : null));
         }
     }
 

@@ -1,17 +1,15 @@
-package org.gtreimagined.tesseract.forge;
+package org.gtreimagined.tesseract.neoforge;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.energy.IEnergyStorage;
 import org.gtreimagined.tesseract.TesseractCapUtils;
 import org.gtreimagined.tesseract.TesseractPlatformUtils;
 import org.gtreimagined.tesseract.api.fe.IExtendedEnergyStorage;
-import org.gtreimagined.tesseract.api.forge.TesseractCaps;
-import org.gtreimagined.tesseract.api.forge.wrapper.FEWrapper;
+import org.gtreimagined.tesseract.api.neoforge.TesseractCaps;
+import org.gtreimagined.tesseract.api.neoforge.wrapper.FEWrapper;
 import org.gtreimagined.tesseract.api.eu.IEnergyHandler;
 import org.gtreimagined.tesseract.api.hu.IHeatHandler;
 import org.jspecify.annotations.Nullable;
