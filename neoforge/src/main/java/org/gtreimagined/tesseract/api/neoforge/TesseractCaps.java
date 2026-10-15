@@ -1,26 +1,30 @@
 package org.gtreimagined.tesseract.api.neoforge;
 
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.capabilities.CapabilityToken;
-import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.capabilities.BlockCapability;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.EntityCapability;
+import net.neoforged.neoforge.capabilities.ItemCapability;
+import net.neoforged.neoforge.energy.IEnergyStorage;
 import org.gtreimagined.tesseract.Tesseract;
 import org.gtreimagined.tesseract.api.eu.IEnergyHandler;
 import org.gtreimagined.tesseract.api.eu.IEnergyHandlerItem;
 import org.gtreimagined.tesseract.api.hu.IHeatHandler;
+import org.jetbrains.annotations.Nullable;
 
-@Mod.EventBusSubscriber(modid = Tesseract.API_ID)
 public class TesseractCaps {
-    public static final Capability<IEnergyHandler> ENERGY_HANDLER_CAPABILITY = CapabilityManager.get(new CapabilityToken<>(){});
-    public static final Capability<IEnergyHandlerItem> ENERGY_HANDLER_CAPABILITY_ITEM = CapabilityManager.get(new CapabilityToken<>(){});
-    public static final Capability<IHeatHandler> HEAT_CAPABILITY = CapabilityManager.get(new CapabilityToken<>(){});
+    public static class EnergyHandler {
+        public static final BlockCapability<IEnergyHandler, @Nullable Direction> BLOCK = BlockCapability.createSided(ResourceLocation.fromNamespaceAndPath(Tesseract.API_ID, "eu"), IEnergyHandler.class);
+        public static final EntityCapability<IEnergyHandler, @Nullable Direction> ENTITY = EntityCapability.createSided(ResourceLocation.fromNamespaceAndPath(Tesseract.API_ID, "eu"), IEnergyHandler.class);
+        public static final ItemCapability<IEnergyHandlerItem, @Nullable Void> ITEM = ItemCapability.createVoid(ResourceLocation.fromNamespaceAndPath(Tesseract.API_ID, "eu"), IEnergyHandlerItem.class);
+    }
 
-    @SubscribeEvent
-    public static void register(RegisterCapabilitiesEvent ev) {
-        ev.register(IEnergyHandler.class);
-        ev.register(IEnergyHandlerItem.class);
-        ev.register(IHeatHandler.class);
+    public static class HeatHandler {
+        public static final BlockCapability<IHeatHandler, @Nullable Direction> BLOCK = BlockCapability.createSided(ResourceLocation.fromNamespaceAndPath(Tesseract.API_ID, "hu"), IHeatHandler.class);
+        public static final EntityCapability<IHeatHandler, @Nullable Direction> ENTITY = EntityCapability.createSided(ResourceLocation.fromNamespaceAndPath(Tesseract.API_ID, "hu"), IHeatHandler.class);
+        public static final ItemCapability<IHeatHandler, @Nullable Void> ITEM = ItemCapability.createVoid(ResourceLocation.fromNamespaceAndPath(Tesseract.API_ID, "hu"), IHeatHandler.class);
     }
 }

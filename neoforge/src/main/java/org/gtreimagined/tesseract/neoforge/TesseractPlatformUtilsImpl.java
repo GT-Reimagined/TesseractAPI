@@ -19,10 +19,10 @@ public class TesseractPlatformUtilsImpl implements TesseractPlatformUtils {
     public @Nullable IEnergyHandler getGTNode(Level level, long pos, Direction direction, @Nullable Runnable invalidate){
         BlockEntity tile = level.getBlockEntity(BlockPos.of(pos));
         if (tile == null) return null;
-        LazyOptional<IEnergyHandler> capability = TesseractCapUtils.INSTANCE.getEnergyHandler(tile, direction).map(e -> LazyOptional.of(() -> e)).orElse(LazyOptional.empty());
-        if (capability.isPresent()) {
+        IEnergyHandler capability = TesseractCapUtils.INSTANCE.getEnergyHandler(tile, direction).orElse(null);
+        if (capability != null) {
             if (invalidate != null )capability.addListener(o -> invalidate.run());
-            return capability.resolve().get();
+            return capability;
         }
         return null;
     }
