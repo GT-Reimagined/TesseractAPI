@@ -1,8 +1,10 @@
 plugins {
-    id "fabric-loom" version "1.7-SNAPSHOT"
+    id "fabric-loom" version "1.15-SNAPSHOT"
 }
 
-archivesBaseName = "${project.tesseract_archive_base_name}-fabric"
+base {
+    archivesName = "${project.tesseract_archive_base_name}-fabric"
+}
 
 sourceSets {
     test {

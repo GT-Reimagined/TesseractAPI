@@ -1,10 +1,12 @@
 plugins {
-    id "net.neoforged.moddev.legacyforge"
+    id "net.neoforged.moddev"
 }
-archivesBaseName = "${project.tesseract_archive_base_name}-common"
+base {
+    archivesName = "${project.tesseract_archive_base_name}-common"
+}
 
-legacyForge {
-    mcpVersion = "${project.minecraft_version}"
+neoForge {
+    neoFormVersion = "${project.neoform_version}"
     parchment {
         minecraftVersion = project.minecraft_version
         mappingsVersion = project.mappings_version

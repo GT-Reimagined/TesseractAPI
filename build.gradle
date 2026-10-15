@@ -23,7 +23,7 @@ subprojects {
     apply plugin: "net.ltgt.nullaway"
     group = rootProject.maven_group
     version = "${project.mod_version}-${rootProject.minecraft_version}"
-    java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+    java.toolchain.languageVersion = JavaLanguageVersion.of(21)
     apply from: 'https://raw.githubusercontent.com/GT-Reimagined/GradleScripts/main/repositories.gradle'
 
     java {

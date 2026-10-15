@@ -1,0 +1,29 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+issueTrackerURL="https://github.com/GregTech-Intergalactical/TesseractAPI/issues"
+license="LGPL-v3"
+
+[[mods]]
+modId="tesseractapi"
+version="${version}"
+displayName="TesseractAPI"
+#updateJSONURL="http://myurl.me/"
+displayURL="https://github.com/GregTech-Intergalactical/TesseractAPI"
+#logoFile="icon.png"
+authors="coderbot16, qubka, repolainen, mitchej123, Muramasa, abbe, Trinsdar"
+credits="Rongmario - cheerleading from the side"
+description='''Powerful framework for energy, item, and fluid transport'''
+[custom.mc-publish]
+curseforge=462718
+[[dependencies.tesseractapi]]
+    modId="forge"
+    mandatory=true
+    versionRange="[47.1.0,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.tesseractapi]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.20.1,]"
+    ordering="NONE"
+    side="BOTH"
