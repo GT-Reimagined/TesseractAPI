@@ -3,6 +3,7 @@ package org.gtreimagined.tesseract.api.fabric.wrapper;
 import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
+import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -15,17 +16,10 @@ public class ContainerItemContextWrapper implements TesseractItemContext {
 
     }
 
+
     @Override
-    public CompoundTag getTag() {
-        if (context.getItemVariant().isBlank()) return new CompoundTag();
-        CompoundTag tag = context.getItemVariant().getNbt();
-        if (tag == null){
-            ItemStack stack = context.getItemVariant().toStack((int) context.getAmount());
-            tag = new CompoundTag();
-            stack.setTag(tag);
-            setItemStack(stack);
-        }
-        return tag;
+    public DataComponentMap getComponents() {
+        return context.getItemVariant().getComponentMap();
     }
 
     @Override

@@ -13,11 +13,11 @@ import org.gtreimagined.tesseract.api.hu.IHeatHandler;
 public class TesseractLookups {
 
     public static final BlockApiLookup<IEnergyHandler, Direction> ENERGY_HANDLER_SIDED =
-            BlockApiLookup.get(new ResourceLocation("tesseractapi:sided_gt_energy"), IEnergyHandler.class, Direction.class);
+            BlockApiLookup.get(ResourceLocation.parse("tesseractapi:sided_gt_energy"), IEnergyHandler.class, Direction.class);
 
     public static final ItemApiLookup<IEnergyHandlerItem, ContainerItemContext> ENERGY_HANDLER_ITEM =
-            ItemApiLookup.get(new ResourceLocation("tesseractapi:gt_energy"), IEnergyHandlerItem.class, ContainerItemContext.class);
+            ItemApiLookup.get(ResourceLocation.parse("tesseractapi:gt_energy"), IEnergyHandlerItem.class, ContainerItemContext.class);
 
     public static final BlockApiLookup<IHeatHandler, Direction> HEAT_HANDLER_SIDED =
-            BlockApiLookup.get(new ResourceLocation("tesseractapi:sided_heat"), IHeatHandler.class, Direction.class);
+            BlockApiLookup.get(ResourceLocation.parse("tesseractapi:sided_heat"), IHeatHandler.class, Direction.class);
 }

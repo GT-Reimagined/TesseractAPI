@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
-import team.reborn.energy.api.base.SimpleBatteryItem;
+import team.reborn.energy.api.base.SimpleEnergyItem;
 import team.reborn.energy.impl.SimpleItemEnergyStorageImpl;
 import org.gtreimagined.tesseract.api.context.TesseractItemContext;
 import org.gtreimagined.tesseract.api.fabric.wrapper.ContainerItemContextWrapper;
@@ -143,7 +143,7 @@ public abstract class SimpleItemEnergyStorageImplMixin implements IEnergyHandler
     public void setEnergy(long energy) {
         if (energy < 0) return;
         ItemStack newStack = ctx.getItemVariant().toStack((int) ctx.getAmount());
-        SimpleBatteryItem.setStoredEnergyUnchecked(newStack, energy);
+        SimpleEnergyItem.setStoredEnergyUnchecked(newStack, energy);
         getContainer().setItemStack(newStack);
     }
 

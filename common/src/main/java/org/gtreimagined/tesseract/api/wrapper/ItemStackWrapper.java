@@ -1,5 +1,6 @@
 package org.gtreimagined.tesseract.api.wrapper;
 
+import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -18,9 +19,10 @@ public class ItemStackWrapper implements TesseractItemContext {
         return stack.getItem();
     }
 
+
     @Override
-    public CompoundTag getTag() {
-        return stack.getOrCreateTag();
+    public DataComponentMap getComponents() {
+        return stack.getComponents();
     }
 
     @Override
