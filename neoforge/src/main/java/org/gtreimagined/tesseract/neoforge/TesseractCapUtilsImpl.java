@@ -10,6 +10,7 @@ import org.gtreimagined.tesseract.api.eu.IEnergyHandler;
 import org.gtreimagined.tesseract.api.eu.IEnergyHandlerItem;
 import org.gtreimagined.tesseract.api.hu.IHeatHandler;
 import org.gtreimagined.tesseract.api.neoforge.TesseractCaps.EnergyHandler;
+import org.gtreimagined.tesseract.api.neoforge.TesseractCaps.HeatHandler;
 
 import java.util.Optional;
 
@@ -27,11 +28,11 @@ public class TesseractCapUtilsImpl implements TesseractCapUtils {
 
     @Override
     public Optional<IEnergyHandler> getEnergyHandler(BlockEntity entity, Direction side){
-        return entity.getCapability(TesseractCaps.ENERGY_HANDLER_CAPABILITY, side).resolve();
+        return Optional.ofNullable(entity.getLevel().getCapability(EnergyHandler.BLOCK, entity.getBlockPos(), side));
     }
 
     @Override
     public Optional<IHeatHandler> getHeatHandler(BlockEntity entity, Direction side){
-        return entity.getCapability(TesseractCaps.HEAT_CAPABILITY, side).map(e -> e);
+        return Optional.ofNullable(entity.getLevel().getCapability(HeatHandler.BLOCK, entity.getBlockPos(), side));
     }
 }
