@@ -45,6 +45,7 @@ dependencies {
     modApi "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
     compileOnly(project(":tesseract-common"))
     compileOnly(project(":tesseract-graph"))
+    implementation("org.jspecify:jspecify:1.0.0")
 
     modApi(include("teamreborn:energy:${project.energy_version}")) {
         transitive = false

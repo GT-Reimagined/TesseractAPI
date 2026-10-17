@@ -13,6 +13,7 @@ legacyForge {
 
 dependencies {
     compileOnly(project(":tesseract-graph"))
+    implementation("org.jspecify:jspecify:1.0.0")
 }
 
 publishing {
