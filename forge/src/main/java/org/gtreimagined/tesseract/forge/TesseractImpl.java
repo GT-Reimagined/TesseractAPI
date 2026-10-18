@@ -36,7 +36,7 @@ public class TesseractImpl extends Tesseract {
     public void onAttachCapabilitiesEventItemStack(AttachCapabilitiesEvent<ItemStack> event){
         if (event.getObject().getItem() instanceof IEnergyItem energyItem){
             TesseractItemContext context = new ItemStackWrapper(event.getObject());
-            event.addCapability(new ResourceLocation(Tesseract.API_ID, "energy_items"), new Provider<>(TesseractCaps.ENERGY_HANDLER_CAPABILITY_ITEM, energyItem.canCreate(context) ? () -> energyItem.createEnergyHandler(context) : null));
+            event.addCapability(ResourceLocation.fromNamespaceAndPath(Tesseract.API_ID, "energy_items"), new Provider<>(TesseractCaps.ENERGY_HANDLER_CAPABILITY_ITEM, energyItem.canCreate(context) ? () -> energyItem.createEnergyHandler(context) : null));
         }
     }
 

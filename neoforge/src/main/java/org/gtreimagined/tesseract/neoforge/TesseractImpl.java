@@ -1,15 +1,10 @@
 package org.gtreimagined.tesseract.neoforge;
 
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.LogicalSide;
-import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.javafmlmod.FMLJavaModLanguageProvider;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.level.LevelEvent;
@@ -20,8 +15,6 @@ import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import org.gtreimagined.tesseract.Tesseract;
 import org.gtreimagined.tesseract.api.context.TesseractItemContext;
 import org.gtreimagined.tesseract.api.fe.FEGrid;
-import org.gtreimagined.tesseract.api.neoforge.Provider;
-import org.gtreimagined.tesseract.api.neoforge.TesseractCaps;
 import org.gtreimagined.tesseract.api.eu.EUGrid;
 import org.gtreimagined.tesseract.api.hu.HUGrid;
 import org.gtreimagined.tesseract.api.neoforge.TesseractCaps.EnergyHandler;

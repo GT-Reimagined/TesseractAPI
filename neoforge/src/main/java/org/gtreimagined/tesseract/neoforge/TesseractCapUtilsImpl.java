@@ -28,11 +28,11 @@ public class TesseractCapUtilsImpl implements TesseractCapUtils {
 
     @Override
     public Optional<IEnergyHandler> getEnergyHandler(BlockEntity entity, Direction side){
-        return Optional.ofNullable(entity.getLevel().getCapability(EnergyHandler.BLOCK, entity.getBlockPos(), side));
+        return Optional.ofNullable(entity.getLevel() == null ? null : entity.getLevel().getCapability(EnergyHandler.BLOCK, entity.getBlockPos(), side));
     }
 
     @Override
     public Optional<IHeatHandler> getHeatHandler(BlockEntity entity, Direction side){
-        return Optional.ofNullable(entity.getLevel().getCapability(HeatHandler.BLOCK, entity.getBlockPos(), side));
+        return Optional.ofNullable(entity.getLevel() == null ? null : entity.getLevel().getCapability(HeatHandler.BLOCK, entity.getBlockPos(), side));
     }
 }

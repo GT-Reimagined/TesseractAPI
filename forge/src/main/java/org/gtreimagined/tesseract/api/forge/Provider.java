@@ -1,6 +1,7 @@
 package org.gtreimagined.tesseract.api.forge;
 
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraftforge.common.capabilities.Capability;
@@ -26,10 +27,10 @@ public class Provider<T> implements ICapabilityProvider, INBTSerializable<Tag> {
     }
 
     @Override
-    public Tag serializeNBT() {
+    public Tag serializeNBT(HolderLookup.Provider registryAccess) {
         return optional.map(t -> {
             if (t instanceof INBTSerializable<?> it){
-                return it.serializeNBT();
+                return it.serializeNBT(registryAccess);
             } else if (t instanceof Serializable it){
                 return it.serialize(new CompoundTag());
             }
@@ -38,14 +39,14 @@ public class Provider<T> implements ICapabilityProvider, INBTSerializable<Tag> {
     }
 
     @Override
-    public void deserializeNBT(Tag nbt) {
+    public void deserializeNBT(HolderLookup.Provider registryAccess, Tag nbt) {
         optional.ifPresent(t -> {
             if (t instanceof INBTSerializable it){
-                it.deserializeNBT(nbt);
+                it.deserializeNBT(registryAccess, nbt);
             } else if (t instanceof Serializable it && nbt instanceof CompoundTag tag){
                 it.deserialize(tag);
             }
+
         });
     }
-
 }
